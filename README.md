@@ -57,3 +57,42 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Deploying to GitHub Pages
+
+You can deploy this project to GitHub Pages using a simple manual approach compatible with Angular 20+.
+
+### 1. Build the project
+
+Use the following command to build the application with a `base-href` matching your repository name. This example outputs the site to the `docs/` folder:
+
+```bash
+ng build --configuration production --output-path docs --base-href /Wii-UI/
+```
+
+### 2. Commit and push
+
+Ensure the `docs/` folder is committed and pushed to your repository:
+
+```bash
+git add docs
+git commit -m "Build for GitHub Pages"
+git push
+```
+
+### 3. Enable GitHub Pages
+
+1. Navigate to your repository on GitHub.
+2. Go to **Settings** → **Pages**.
+3. Under **Source**, choose:
+   - **Branch**: `main`
+   - **Folder**: `/docs`
+4. Click **Save**.
+
+Your site will be available at:
+
+```
+https://booper1.github.io/Wii-UI/
+```
+
+If you make further changes to the app, repeat the build and push steps to update the deployed version.

@@ -1,0 +1,33 @@
+.content {
+  flex: auto;
+  position: relative;
+
+  .channels {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -75%);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    width: 100%;
+    gap: calc(100vw * 12 / 2048);
+    overflow: hidden;
+  }
+}
+
+.footer {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100vw;
+  height: var(--relative-height);
+  background-image: url("assets/footer.svg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+}

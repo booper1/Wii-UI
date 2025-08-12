@@ -1,0 +1,83 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1000 550"
+  role="img"
+  [ngClass]="[title || 'emptyChannel', 'channel']"
+>
+  <defs>
+    <path
+      id="channel"
+      d="M 0,275
+         C 5,-20 -20,5 275,0
+         L 275,0 725,0
+         C 1020,5 995,-20 1000,275
+           995,570 1020,545 725,550
+         L 725,550 275,550
+         C -20,545 5,570 0,275
+           5,-20 -20,5 275,0"
+    />
+
+    <clipPath id="insideChannelOnly">
+      <use href="#channel" />
+    </clipPath>
+
+    <pattern
+      [attr.id]="title || 'emptyChannel'"
+      patternUnits="userSpaceOnUse"
+      width="1000"
+      height="550"
+    >
+      <image
+        x="0"
+        y="0"
+        width="1000"
+        height="550"
+        [attr.href]="resolvedImage"
+        [attr.preserveAspectRatio]="par"
+      />
+    </pattern>
+  </defs>
+
+  @if (link) {
+    <a [attr.href]="link" target="_blank" rel="noreferrer">
+      <title [textContent]="`Wii ${title} channel`"></title>
+      <use
+        href="#channel"
+        stroke="#b4b4b4"
+        stroke-width="24"
+        clip-path="url(#insideChannelOnly)"
+        [attr.fill]="bgColor"
+      />
+    </a>
+  } @else {
+    <use
+      href="#channel"
+      stroke="#b4b4b4"
+      stroke-width="24"
+      clip-path="url(#insideChannelOnly)"
+      [attr.fill]="bgColor"
+    />
+  }
+
+  @switch (innerContentType) {
+    @case ("icon") {
+      <image
+        x="50%"
+        y="50%"
+        width="300"
+        height="300"
+        transform="translate(-150,-150)"
+        [attr.href]="resolvedInnerContent"
+      />
+    }
+    @case ("text") {
+      <text
+        x="50%"
+        y="50%"
+        text-anchor="middle"
+        dominant-baseline="central"
+        [textContent]="innerContent"
+      />
+    }
+  }
+</svg>

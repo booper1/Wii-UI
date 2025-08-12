@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { Channel } from './components/channel/channel';
+import { Clock } from './components/clock/clock';
+
+// REFERENCE
+// https://www.youtube.com/watch?v=k4Za0tkFQq8
+// https://www.youtube.com/watch?v=UldvTh4BJc0
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Channel, Clock],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss'],
 })
-export class App {
-  protected readonly title = signal('wii-ui-angular');
-}
+export class App {}

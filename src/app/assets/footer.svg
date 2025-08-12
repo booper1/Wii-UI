@@ -1,0 +1,94 @@
+<!-- Created in: https://editsvgcode.com/ -->
+
+<svg width="1920" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- The downward-only blur effect -->
+    <filter id="notchGradientBlur" x="0" y="0" width="100%" height="150%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="72" />
+    </filter>
+
+    <!-- Clip path to prevent blur from appearing above the top curve -->
+    <clipPath id="notchGradientClip">
+      <path
+        d="
+          M 0 4
+          L 300 4
+          A 300 300 0 0 1 480 64
+          A 300 300 0 0 0 660 124
+          L 960 124
+          L 1260 124
+          A 300 300 0 0 0 1440 64
+          A 300 300 0 0 1 1620 4
+          L 1920 4
+          L 1920 300
+          L 0 300 Z
+        "
+      />
+    </clipPath>
+  </defs>
+
+  <!-- Light gray background -->
+  <path
+    d="
+      M 0 300
+      L 0 0
+      L 300 0
+      A 300 300 0 0 1 480 60
+      A 300 300 0 0 0 660 120
+      L 960 120
+      L 1260 120
+      A 300 300 0 0 0 1440 60
+      A 300 300 0 0 1 1620 0
+      L 1920 0
+      L 1920 300
+      L 0 300 Z
+    "
+    fill="#d8dade"
+  />
+
+  <!-- Blurred gradient following notch, extending deeper -->
+  <path
+    d="
+      M -100 -100
+      L 2020 -100
+      L 2020 54
+      L 1620 54
+      A 300 300 0 0 0 1440 114
+      A 300 300 0 0 1 1260 174
+      L 960 174
+      L 660 174
+      A 300 300 0 0 1 480 114
+      A 300 300 0 0 0 300 54
+      L -100 54
+      L -100 -100 Z
+    "
+    fill="#999999"
+    filter="url(#notchGradientBlur)"
+    clip-path="url(#notchGradientClip)"
+  />
+
+  <!-- Blue shape that masks off top of notch -->
+  <path
+    d="
+      M 0 0
+      L 300 0
+      A 300 300 0 0 1 480 60
+      A 300 300 0 0 0 660 120
+      L 960 120
+      L 1260 120
+      A 300 300 0 0 0 1440 60
+      A 300 300 0 0 1 1620 0
+      L 1920 0
+      L 1920 4
+      L 1620 4
+      A 300 300 0 0 0 1440 64
+      A 300 300 0 0 1 1260 124
+      L 960 124
+      L 660 124
+      A 300 300 0 0 1 480 64
+      A 300 300 0 0 0 300 4
+      L 0 4 Z
+    "
+    fill="#34beed"
+  />
+</svg>

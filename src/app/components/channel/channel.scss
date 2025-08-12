@@ -1,0 +1,50 @@
+$size: 365;
+
+.channel {
+  width: calc(100vw * $size / 2048);
+  height: auto;
+  vertical-align: bottom;
+  pointer-events: none;
+  transition: filter 0.2s ease;
+
+  &:hover {
+    filter: brightness(90%) drop-shadow(0 0 3px #34beed);
+
+    use {
+      stroke: #34beed;
+    }
+  }
+
+  use {
+    pointer-events: all;
+  }
+
+  a {
+    &:hover,
+    &:active {
+      cursor: inherit;
+    }
+  }
+
+  text {
+    font-size: 100px;
+    font-family: "ShinGoBold";
+    user-select: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .channel {
+    width: calc(100vw * $size * 1.2 / 2048);
+  }
+}
+
+@media (max-width: 600px) {
+  .channel {
+    width: calc(100vw * $size * 2 / 2048);
+  }
+
+  .emptyChannel.channel {
+    display: none;
+  }
+}

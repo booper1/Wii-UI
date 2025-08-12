@@ -1,0 +1,15 @@
+<div class="clockWrapper">
+  <div class="timeContainer">
+    <div class="timeCore">
+      <span [textContent]="displayHours"></span>
+      <span class="colon" [style.opacity]="showColon ? '1' : '0'">:</span>
+      <span [textContent]="minutes"></span>
+    </div>
+
+    @if (is12HourFormat) {
+      <div class="ampm" [textContent]="amPm"></div>
+    }
+  </div>
+
+  <div class="date" [textContent]="dateDisplay"></div>
+</div>
