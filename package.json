@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "publish:ghpages": "ng build --configuration production --base-href /Wii-UI/ && node tools/publish.js"
   },
   "prettier": {
     "overrides": [
@@ -42,6 +43,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "shx": "^0.4.0",
     "typescript": "~5.8.2"
   }
 }
