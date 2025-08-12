@@ -1,98 +1,53 @@
-# WiiUiAngular
+# Wii UI (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+A personal project recreating the look and feel of the Nintendo Wii's system menu using Angular.  
+Deployed live via GitHub Pages: **[View Live Demo](https://booper1.github.io/Wii-UI/)**
 
-## Development server
+This project was originally started in React and later migrated to Angular, maintaining the same UI and functionality.
 
-To start a local development server, run:
+## 🚀 Development
+
+Start a local development server:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Once running, open a browser at [http://localhost:4200/](http://localhost:4200/).  
+The application will auto-reload after modifying source files.
 
-## Code scaffolding
+## 🌐 Deploying to GitHub Pages
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+This project is deployed via GitHub Pages using the `/docs` folder on the `main` branch.
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 1. Build for GitHub Pages
 
 ```bash
-ng generate --help
+ng build --configuration production --base-href /Wii-UI/
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## Deploying to GitHub Pages
-
-You can deploy this project to GitHub Pages using a simple manual approach compatible with Angular 20+.
-
-### 1. Build the project
-
-Use the following command to build the application with a `base-href` matching your repository name. This example outputs the site to the `docs/` folder:
-
-```bash
-ng build --configuration production --output-path docs --base-href /Wii-UI/
-```
+> If using the included `publish:ghpages` script, it will also copy the build to `/docs` and create a `404.html` for SPA routing.
 
 ### 2. Commit and push
 
-Ensure the `docs/` folder is committed and pushed to your repository:
-
 ```bash
 git add docs
-git commit -m "Build for GitHub Pages"
+git commit -m "Publish to GitHub Pages"
 git push
 ```
 
-### 3. Enable GitHub Pages
+### 3. Enable Pages
 
-1. Navigate to your repository on GitHub.
-2. Go to **Settings** → **Pages**.
-3. Under **Source**, choose:
-   - **Branch**: `main`
-   - **Folder**: `/docs`
+1. Go to **Settings → Pages** in the repo.
+2. Set **Source** to `Deploy from a branch`.
+3. Set **Branch** to `main` and **Folder** to `/docs`.
 4. Click **Save**.
 
-Your site will be available at:
+The app will be available at:  
+**https://booper1.github.io/Wii-UI/**
 
-```
-https://booper1.github.io/Wii-UI/
-```
+## 📚 Additional Resources
 
-If you make further changes to the app, repeat the build and push steps to update the deployed version.
+- [Angular CLI Documentation](https://angular.dev/tools/cli)
+- [Angular Official Docs](https://angular.dev)
+- [GitHub Pages Documentation](https://docs.github.com/en/pages)
