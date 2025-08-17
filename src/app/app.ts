@@ -1,15 +1,87 @@
-import { Component } from '@angular/core';
-import { Channel } from './components/channel/channel';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ChannelComponent } from './components/channel/channel';
 import { Clock } from './components/clock/clock';
+import { CHANNELS, EMPTY_CHANNEL } from './data/channels.data';
+import { Channel } from './models/channel.model';
 
-// REFERENCE
-// https://www.youtube.com/watch?v=k4Za0tkFQq8
+// REFERENCES
+// https://www.youtube.com/watch?v=DTNYegBnFL0
 // https://www.youtube.com/watch?v=UldvTh4BJc0
 
 @Component({
   selector: 'app-root',
-  imports: [Channel, Clock],
+  imports: [CommonModule, ChannelComponent, Clock],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
-export class App {}
+export class App implements OnInit {
+  private readonly MIN_PAGES: number = 5;
+  private readonly PAGE_SIZE: number = 12;
+  private isAnimating: boolean = false;
+  private transitionDurationMs: number = 0;
+
+  protected pages: Channel[][] = [];
+  protected currentPageIndex: number = 0;
+
+  ngOnInit(): void {
+    // Populate page / channel data
+    this.pages = this.buildPages([...CHANNELS]);
+
+    // Prevent spamming through pages
+    const duration = getComputedStyle(document.documentElement)
+      .getPropertyValue('--pageTransitionDuration')
+      .trim();
+    this.transitionDurationMs = parseFloat(duration) * 1000;
+
+    // Change pages on arrow keys
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') this.nextPage();
+      if (event.key === 'ArrowLeft') this.prevPage();
+    });
+  }
+
+  private buildPages(channels: Channel[]): Channel[][] {
+    const result: Channel[][] = [];
+    const totalPages = Math.max(
+      Math.ceil(channels.length / this.PAGE_SIZE),
+      this.MIN_PAGES,
+    );
+
+    for (let i = 0; i < totalPages; i++) {
+      const start = i * this.PAGE_SIZE;
+      const end = start + this.PAGE_SIZE;
+      const slice = channels.slice(start, end);
+
+      // Fill the last page with empty channels
+      while (slice.length < this.PAGE_SIZE) {
+        slice.push(EMPTY_CHANNEL);
+      }
+
+      result.push(slice);
+    }
+
+    return result;
+  }
+
+  private nextPage() {
+    if (!this.isAnimating && this.currentPageIndex < this.pages.length - 1) {
+      this.isAnimating = true;
+      this.currentPageIndex++;
+      setTimeout(() => (this.isAnimating = false), this.transitionDurationMs);
+    }
+  }
+
+  private prevPage() {
+    if (!this.isAnimating && this.currentPageIndex > 0) {
+      this.isAnimating = true;
+      this.currentPageIndex--;
+      setTimeout(() => (this.isAnimating = false), this.transitionDurationMs);
+    }
+  }
+
+  protected getPageTransform(index: number): string {
+    const offset = index - this.currentPageIndex;
+    return `translateX(calc(${offset * 100}% + ${offset} * var(--channelGap))) translate(-50%, -75%)`;
+  }
+}

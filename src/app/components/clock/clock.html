@@ -3,13 +3,13 @@
     <div class="timeCore">
       <span [textContent]="displayHours"></span>
       <span class="colon" [style.opacity]="showColon ? '1' : '0'">:</span>
-      <span [textContent]="minutes"></span>
+      <span [textContent]="displayMinutes"></span>
     </div>
 
     @if (is12HourFormat) {
-      <div class="ampm" [textContent]="amPm"></div>
+      <div class="ampm" [textContent]="displayAmPm"></div>
     }
   </div>
 
-  <div class="date" [textContent]="dateDisplay"></div>
+  <div class="date" [textContent]="displayDate"></div>
 </div>

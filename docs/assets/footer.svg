@@ -1,5 +1,3 @@
-<!-- Created in: https://editsvgcode.com/ -->
-
 <svg width="1920" height="300" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- The downward-only blur effect -->
@@ -46,7 +44,7 @@
     fill="#d8dade"
   />
 
-  <!-- Blurred gradient following notch, extending deeper -->
+  <!-- Blurred gradient following notch -->
   <path
     d="
       M -100 -100
@@ -67,7 +65,7 @@
     clip-path="url(#notchGradientClip)"
   />
 
-  <!-- Blue shape that masks off top of notch -->
+  <!-- Blue top line -->
   <path
     d="
       M 0 0

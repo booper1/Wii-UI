@@ -1,14 +1,12 @@
-$size: 365;
-
 .channel {
-  width: calc(100vw * $size / 2048);
+  width: 365px;
   height: auto;
   vertical-align: bottom;
   pointer-events: none;
   transition: filter 0.2s ease;
 
   &:hover {
-    filter: brightness(90%) drop-shadow(0 0 3px #34beed);
+    filter: brightness(95%) drop-shadow(0 0 3px #34beed);
 
     use {
       stroke: #34beed;
@@ -31,20 +29,15 @@ $size: 365;
     font-family: "ShinGoBold";
     user-select: none;
   }
-}
 
-@media (max-width: 1200px) {
-  .channel {
-    width: calc(100vw * $size * 1.2 / 2048);
-  }
-}
+  // Override hover for inactive channels
+  &.inactive {
+    &:hover {
+      filter: none !important;
 
-@media (max-width: 600px) {
-  .channel {
-    width: calc(100vw * $size * 2 / 2048);
-  }
-
-  .emptyChannel.channel {
-    display: none;
+      use {
+        stroke: #b4b4b4 !important;
+      }
+    }
   }
 }

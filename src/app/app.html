@@ -1,47 +1,18 @@
 <div class="content">
-  <div class="channels">
-    <app-channel
-      title="Booper1_Website"
-      bgColor="#333"
-      link="https://booper1.github.io/"
-      innerContentType="icon"
-      innerContent="c_logo"
-    />
-    <app-channel
-      title="Mii_Channel"
-      image="https://tinyurl.com/y3wjcxks"
-      link="https://nintendo.fandom.com/wiki/Mii_Channel"
-    />
-    <app-channel
-      title="Wii_Photo_Channel"
-      image="https://tinyurl.com/yzkpyd7x"
-      par="xMidYMin slice"
-      link="https://nintendo.fandom.com/wiki/Photo_Channel"
-    />
-    <app-channel
-      title="Wii_Shop"
-      image="https://tinyurl.com/r454yswc"
-      link="https://www.nintendo.co.uk/Support/Wii/Wii-Channels/Wii-Shop-Channel/Wii-Shop-Channel/Wii-Shop-Channel-244563.html"
-    />
-    <app-channel
-      title="Homebrew_Channel"
-      image="https://tinyurl.com/nhhresxp"
-      link="https://wiibrew.org/wiki/Homebrew_Channel"
-    />
-    <app-channel
-      title="TFletch_Website"
-      bgColor="#eceae7"
-      link="https://tfletch.tech/"
-      innerContentType="text"
-      innerContent="TFletch"
-    />
-    <app-channel />
-    <app-channel />
-    <app-channel />
-    <app-channel />
-    <app-channel />
-    <app-channel />
-  </div>
+  @for (channels of pages; track $index; let i = $index) {
+    <div
+      class="page"
+      [ngClass]="{ inactivePage: i !== currentPageIndex }"
+      [style.transform]="getPageTransform(i)"
+    >
+      @for (channel of channels; track $index) {
+        <app-channel
+          [channel]="channel"
+          [isInactivePage]="i !== currentPageIndex"
+        />
+      }
+    </div>
+  }
 </div>
 
 <div class="footer">

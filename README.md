@@ -23,10 +23,8 @@ This project is deployed via GitHub Pages using the `/docs` folder on the `main`
 ### 1. Build for GitHub Pages
 
 ```bash
-ng build --configuration production --base-href /Wii-UI/
+npm run publish:ghpages
 ```
-
-> If using the included `publish:ghpages` script, it will also copy the build to `/docs` and create a `404.html` for SPA routing.
 
 ### 2. Commit and push
 

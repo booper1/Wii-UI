@@ -2,11 +2,18 @@
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 1000 550"
   role="img"
-  [ngClass]="[title || 'emptyChannel', 'channel']"
+  class="channel"
+  [class.inactive]="isInactivePage"
 >
+  <!-- Hover / accessibility label -->
+  @if (!isInactivePage) {
+    <title [textContent]="channel.title"></title>
+  }
+
   <defs>
+    <!-- Main channel shape path -->
     <path
-      id="channel"
+      id="channelPath"
       d="M 0,275
          C 5,-20 -20,5 275,0
          L 275,0 725,0
@@ -17,67 +24,73 @@
            5,-20 -20,5 275,0"
     />
 
+    <!-- Clipping mask to constrain all content inside the channel shape -->
     <clipPath id="insideChannelOnly">
-      <use href="#channel" />
+      <use href="#channelPath" />
     </clipPath>
 
-    <pattern
-      [attr.id]="title || 'emptyChannel'"
-      patternUnits="userSpaceOnUse"
-      width="1000"
-      height="550"
-    >
-      <image
-        x="0"
-        y="0"
+    <!-- Pattern fill definition (only used for Image previews) -->
+    @if (isImgPreview(channel.preview)) {
+      <pattern
+        [attr.id]="channel.id"
+        patternUnits="userSpaceOnUse"
         width="1000"
         height="550"
-        [attr.href]="resolvedImage"
-        [attr.preserveAspectRatio]="par"
-      />
-    </pattern>
+      >
+        <image
+          x="0"
+          y="0"
+          width="1000"
+          height="550"
+          [attr.href]="resolvedImg"
+          [attr.preserveAspectRatio]="resolvedPreserveAspectRatio"
+        />
+      </pattern>
+    }
   </defs>
 
-  @if (link) {
-    <a [attr.href]="link" target="_blank" rel="noreferrer">
-      <title [textContent]="`Wii ${title} channel`"></title>
+  <!-- Outer shell of the channel tile: clickable if URL is present -->
+  @if (channel.url && !isInactivePage) {
+    <a [attr.href]="channel.url" target="_blank" rel="noreferrer">
       <use
-        href="#channel"
+        href="#channelPath"
         stroke="#b4b4b4"
         stroke-width="24"
         clip-path="url(#insideChannelOnly)"
-        [attr.fill]="bgColor"
+        [attr.fill]="backgroundFill"
       />
     </a>
   } @else {
+    <!-- Fallback for non-clickable tiles -->
     <use
-      href="#channel"
+      href="#channelPath"
       stroke="#b4b4b4"
       stroke-width="24"
       clip-path="url(#insideChannelOnly)"
-      [attr.fill]="bgColor"
+      [attr.fill]="backgroundFill"
     />
   }
 
-  @switch (innerContentType) {
-    @case ("icon") {
-      <image
-        x="50%"
-        y="50%"
-        width="300"
-        height="300"
-        transform="translate(-150,-150)"
-        [attr.href]="resolvedInnerContent"
-      />
-    }
-    @case ("text") {
-      <text
-        x="50%"
-        y="50%"
-        text-anchor="middle"
-        dominant-baseline="central"
-        [textContent]="innerContent"
-      />
-    }
+  <!-- Preview: Centered SVG icon -->
+  @if (isSvgPreview(channel.preview)) {
+    <image
+      x="50%"
+      y="50%"
+      width="300"
+      height="300"
+      transform="translate(-150,-150)"
+      [attr.href]="resolvedSvg"
+    />
+  }
+
+  <!-- Preview: Centered text -->
+  @if (isTextPreview(channel.preview)) {
+    <text
+      x="50%"
+      y="50%"
+      text-anchor="middle"
+      dominant-baseline="central"
+      [textContent]="resolvedText"
+    />
   }
 </svg>

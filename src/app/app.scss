@@ -1,20 +1,16 @@
 .content {
   flex: auto;
   position: relative;
+  overflow: hidden;
 
-  .channels {
+  .page {
     position: absolute;
     top: 75%;
     left: 50%;
-    transform: translate(-50%, -75%);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    max-width: 90vw;
-    width: 100%;
-    gap: calc(100vw * 12 / 2048);
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--channelGap);
+    transition: transform var(--pageTransitionDuration) ease-in-out;
   }
 }
 

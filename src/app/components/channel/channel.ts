@@ -1,38 +1,63 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import {
+  AnyPreview,
+  Channel,
+  PreviewType,
+  ImgPreview,
+  SvgPreview,
+  TextPreview,
+} from '../../models/channel.model';
 
 @Component({
   selector: 'app-channel',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './channel.html',
   styleUrls: ['./channel.scss'],
 })
-export class Channel implements OnInit {
-  @Input() title: string = 'emptyChannel';
-  @Input() bgColor?: string;
-  @Input() image?: string;
-  @Input() par: string = 'xMidYMid slice';
-  @Input() link: string = '';
-  @Input() innerContentType?: 'icon' | 'text';
-  @Input() innerContent?: string;
+export class ChannelComponent {
+  @Input({ required: true }) channel!: Channel;
+  @Input({ required: true }) isInactivePage!: boolean;
 
-  private readonly imported: Record<string, string> = {
-    emptyChannel: 'assets/emptyChannel.png',
-    c_logo: 'assets/c_logo.svg',
-  };
-
-  get resolvedImage(): string {
-    return this.image ?? this.imported[this.title ?? 'emptyChannel'];
+  protected isSvgPreview(preview: AnyPreview): preview is SvgPreview {
+    return preview.type === PreviewType.Svg;
   }
 
-  get resolvedInnerContent(): string {
-    return this.imported[this.innerContent ?? 'emptyChannel'];
+  protected isImgPreview(preview: AnyPreview): preview is ImgPreview {
+    return preview.type === PreviewType.Img;
   }
 
-  ngOnInit(): void {
-    if (!this.bgColor) {
-      this.bgColor = `url(#${this.title})`;
-    }
+  protected isTextPreview(preview: AnyPreview): preview is TextPreview {
+    return preview.type === PreviewType.Text;
+  }
+
+  protected get backgroundFill(): string {
+    const preview = this.channel.preview;
+    return this.isSvgPreview(preview) || this.isTextPreview(preview)
+      ? preview.backgroundColor
+      : `url(#${this.channel.id})`; // pattern reference for images
+  }
+
+  protected get resolvedImg(): string {
+    const preview = this.channel.preview;
+    return this.isImgPreview(preview) ? preview.imgPath : '';
+  }
+
+  protected get resolvedPreserveAspectRatio(): string {
+    const preview = this.channel.preview;
+    const defaultValue = 'xMidYMid slice';
+    return this.isImgPreview(preview)
+      ? (preview.preserveAspectRatio ?? defaultValue)
+      : defaultValue;
+  }
+
+  protected get resolvedSvg(): string {
+    const preview = this.channel.preview;
+    return this.isSvgPreview(preview) ? preview.svgPath : '';
+  }
+
+  protected get resolvedText(): string {
+    const preview = this.channel.preview;
+    return this.isTextPreview(preview) ? preview.text : '';
   }
 }

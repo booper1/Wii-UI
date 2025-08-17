@@ -10,21 +10,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class Clock implements OnInit, OnDestroy {
   // `undefined` except when testing.
   // Example values: "en-GB", "de-DE", "fr-FR", "es-ES", "it-IT", "nl-NL"
-  locale?: string;
-
+  private locale?: string;
   // `undefined` except when testing.
   // Example value: new Date("2021-07-25T15:30:00")
-  testDate?: Date;
+  private testDate?: Date;
 
-  effectiveLocale: string = this.locale ?? navigator.language;
+  private effectiveLocale: string = this.locale ?? navigator.language;
+  private intervalId?: ReturnType<typeof setInterval>;
+  private time: Date = this.testDate ?? new Date();
 
-  time: Date = this.testDate ?? new Date();
-
-  showColon = true;
-
-  is12HourFormat = false;
-
-  intervalId?: ReturnType<typeof setInterval>;
+  protected is12HourFormat: boolean = false;
+  protected showColon: boolean = true;
 
   ngOnInit(): void {
     this.detect12HourFormat();
@@ -52,22 +48,22 @@ export class Clock implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  get rawHours(): number {
-    return this.time.getHours();
-  }
-
-  get displayHours(): string {
+  protected get displayHours(): string {
     const hours = this.is12HourFormat
-      ? this.rawHours % 12 || 12
-      : this.rawHours;
+      ? this.time.getHours() % 12 || 12
+      : this.time.getHours();
     return hours.toString().padStart(2, '0');
   }
 
-  get minutes(): string {
+  protected get displayMinutes(): string {
     return this.time.getMinutes().toString().padStart(2, '0');
   }
 
-  get dateDisplay(): string {
+  protected get displayAmPm(): string {
+    return this.time.getHours() >= 12 ? 'PM' : 'AM';
+  }
+
+  protected get displayDate(): string {
     return new Intl.DateTimeFormat(this.effectiveLocale, {
       weekday: 'short',
       day: '2-digit',
@@ -75,9 +71,5 @@ export class Clock implements OnInit, OnDestroy {
     })
       .format(this.time)
       .replace(/([A-Za-zÀ-ÿ])/, (c) => c.toUpperCase());
-  }
-
-  get amPm(): string {
-    return this.rawHours >= 12 ? 'PM' : 'AM';
   }
 }

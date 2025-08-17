@@ -70,6 +70,10 @@ app-root {
     #f4f4f4 50%,
     #f4f4f400 100%
   );
+}
 
+:root {
   --relative-height: 27vh;
+  --channelGap: 12px;
+  --pageTransitionDuration: 0.6s;
 }
