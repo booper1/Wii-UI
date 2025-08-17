@@ -31,7 +31,7 @@ export class ChannelComponent {
     return preview.type === PreviewType.Text;
   }
 
-  protected get backgroundFill(): string {
+  protected get resolvedBackgroundFill(): string {
     const preview = this.channel.preview;
     return this.isSvgPreview(preview) || this.isTextPreview(preview)
       ? preview.backgroundColor
@@ -56,8 +56,24 @@ export class ChannelComponent {
     return this.isSvgPreview(preview) ? preview.svgPath : '';
   }
 
+  protected get resolvedSvgScale(): number {
+    const preview = this.channel.preview;
+    const defaultValue = 1;
+    return this.isSvgPreview(preview)
+      ? (preview.scale ?? defaultValue)
+      : defaultValue;
+  }
+
   protected get resolvedText(): string {
     const preview = this.channel.preview;
     return this.isTextPreview(preview) ? preview.text : '';
+  }
+
+  protected get resolvedTextColor(): string {
+    const preview = this.channel.preview;
+    const defaultValue = '#000000';
+    return this.isTextPreview(preview)
+      ? (preview.textColor ?? defaultValue)
+      : defaultValue;
   }
 }

@@ -4,49 +4,44 @@ import { Channel, PreviewType } from '../models/channel.model';
 export const CHANNELS: Channel[] = [
   {
     id: 'booper1_website',
-    title: 'Booper1 Website',
-    url: 'https://booper1.github.io/',
+    title: 'Booper_1 Wii UI',
+    url: '',
     preview: {
       type: PreviewType.Svg,
-      svgPath: 'assets/c_logo.svg',
-      backgroundColor: '#333333',
+      svgPath: 'assets/wiiLogo.svg',
+      backgroundColor: '#ffffff',
     },
   },
   {
-    id: 'mii_channel',
-    title: 'Mii Channel',
-    url: 'https://nintendo.fandom.com/wiki/Mii_Channel',
+    id: 'booper1_resume',
+    title: 'Booper_1 Resume',
+    url: 'assets/cooperBaumgarthResume2025.pdf',
     preview: {
-      type: PreviewType.Img,
-      imgPath: 'https://tinyurl.com/y3wjcxks',
+      type: PreviewType.Svg,
+      svgPath: 'assets/documentIcon.svg',
+      backgroundColor: '#f5f5f5',
     },
   },
   {
-    id: 'wii_photo_channel',
-    title: 'Photo Channel',
-    url: 'https://nintendo.fandom.com/wiki/Photo_Channel',
+    id: 'booper1_linkedin',
+    title: 'Booper_1 LinkedIn',
+    url: 'https://www.linkedin.com/in/cooperbaumgarth/',
     preview: {
-      type: PreviewType.Img,
-      imgPath: 'https://tinyurl.com/yzkpyd7x',
-      preserveAspectRatio: 'xMidYMin slice',
+      type: PreviewType.Svg,
+      svgPath: 'assets/linkedinLogo.svg',
+      backgroundColor: '#0270ad',
+      scale: 1.1,
     },
   },
   {
-    id: 'wii_shop',
-    title: 'Wii Shop',
-    url: 'https://www.nintendo.co.uk/Support/Wii/Wii-Channels/Wii-Shop-Channel/Wii-Shop-Channel/Wii-Shop-Channel-244563.html',
+    id: 'booper1_github',
+    title: 'Booper_1 GitHub',
+    url: 'https://github.com/booper1',
     preview: {
-      type: PreviewType.Img,
-      imgPath: 'https://tinyurl.com/r454yswc',
-    },
-  },
-  {
-    id: 'homebrew_channel',
-    title: 'Homebrew Channel',
-    url: 'https://wiibrew.org/wiki/Homebrew_Channel',
-    preview: {
-      type: PreviewType.Img,
-      imgPath: 'https://tinyurl.com/nhhresxp',
+      type: PreviewType.Svg,
+      svgPath: 'assets/githubLogo.svg',
+      backgroundColor: '#1b1f24',
+      scale: 1.1,
     },
   },
   {
@@ -56,7 +51,68 @@ export const CHANNELS: Channel[] = [
     preview: {
       type: PreviewType.Text,
       text: 'TFletch',
-      backgroundColor: '#eceae7',
+      backgroundColor: '#d4d0c9',
+      textColor: '#333333',
+    },
+  },
+  {
+    id: 'quinnjam.es',
+    title: 'QJames Website',
+    url: 'https://quinnjam.es/',
+    preview: {
+      type: PreviewType.Text,
+      text: 'quinnjam',
+      backgroundColor: '#101110',
+      textColor: '#ffffff',
+    },
+  },
+  {
+    id: 'wii_shop',
+    title: 'Wii Shop',
+    url: 'https://www.youtube.com/watch?v=yyjUmv1gJEg',
+    preview: {
+      type: PreviewType.Img,
+      imgPath: 'assets/wiiShop.jpg',
+    },
+  },
+  {
+    id: 'homebrew_channel',
+    title: 'Homebrew Channel',
+    url: 'https://wiibrew.org/wiki/Homebrew_Channel',
+    preview: {
+      type: PreviewType.Img,
+      imgPath: 'assets/homebrew.png',
+    },
+  },
+  {
+    id: 'youtube',
+    title: 'YouTube',
+    url: 'https://youtube.com',
+    preview: {
+      type: PreviewType.Svg,
+      svgPath: 'assets/youtubeLogo.svg',
+      backgroundColor: '#ffffff',
+      scale: 1.7,
+    },
+  },
+  {
+    id: 'wordle',
+    title: 'Wordle',
+    url: 'https://www.nytimes.com/games/wordle/index.html',
+    preview: {
+      type: PreviewType.Svg,
+      svgPath: 'assets/wordleLogo.svg',
+      backgroundColor: '#e3e3e1',
+    },
+  },
+  {
+    id: 'nytSudoku',
+    title: 'New York Times Sudoku',
+    url: 'https://www.nytimes.com/puzzles/sudoku',
+    preview: {
+      type: PreviewType.Svg,
+      svgPath: 'assets/nytSudokuLogo.svg',
+      backgroundColor: '#fb9b00',
     },
   },
 ];

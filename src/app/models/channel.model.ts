@@ -23,10 +23,12 @@ export interface SvgPreview {
   type: PreviewType.Svg;
   svgPath: string;
   backgroundColor: string;
+  scale?: number;
 }
 
 export interface TextPreview {
   type: PreviewType.Text;
   text: string;
   backgroundColor: string;
+  textColor?: string;
 }

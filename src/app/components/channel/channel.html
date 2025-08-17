@@ -57,7 +57,7 @@
         stroke="#b4b4b4"
         stroke-width="24"
         clip-path="url(#insideChannelOnly)"
-        [attr.fill]="backgroundFill"
+        [attr.fill]="resolvedBackgroundFill"
       />
     </a>
   } @else {
@@ -67,7 +67,7 @@
       stroke="#b4b4b4"
       stroke-width="24"
       clip-path="url(#insideChannelOnly)"
-      [attr.fill]="backgroundFill"
+      [attr.fill]="resolvedBackgroundFill"
     />
   }
 
@@ -76,9 +76,11 @@
     <image
       x="50%"
       y="50%"
-      width="300"
-      height="300"
-      transform="translate(-150,-150)"
+      [attr.width]="300 * resolvedSvgScale"
+      [attr.height]="300 * resolvedSvgScale"
+      [attr.transform]="
+        `translate(${-150 * resolvedSvgScale},${-150 * resolvedSvgScale})`
+      "
       [attr.href]="resolvedSvg"
     />
   }
@@ -90,6 +92,7 @@
       y="50%"
       text-anchor="middle"
       dominant-baseline="central"
+      [attr.fill]="resolvedTextColor"
       [textContent]="resolvedText"
     />
   }
