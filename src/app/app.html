@@ -1,4 +1,21 @@
 <div class="content">
+  <div class="side-wrapper">
+    <img
+      src="assets/arrow.svg"
+      ngClass="side-img left"
+      alt="Left Arrow"
+      [class.visible]="canPageLeft"
+      (click)="prevPage()"
+    />
+    <img
+      src="assets/arrow.svg"
+      ngClass="side-img right"
+      alt="Right Arrow"
+      [class.visible]="canPageRight"
+      (click)="nextPage()"
+    />
+  </div>
+
   @for (channels of pages; track $index; let i = $index) {
     <div
       class="page"

@@ -24,28 +24,22 @@
   font-weight: normal;
 }
 
-html {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+:root {
+  --channelGap: 12px;
+  --pageTransitionDuration: 0.4s;
 }
 
+html,
 body {
   margin: 0;
-  flex-grow: 1;
-
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  padding: 0;
+  background: black;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  background: repeating-linear-gradient(
-    #f5f5f5,
-    #f5f5f5 3px,
-    #e4e4e4 3px,
-    #e4e4e4 9px
-  );
 
   cursor:
     url(./app/assets/wii_pointer.cur) 11 3,
@@ -58,22 +52,42 @@ body {
   }
 }
 
+.viewport-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Main content box: 16:9 aspect ratio
+.app-content {
+  width: 100vw;
+  height: calc(9 / 16 * 100vw);
+  max-height: 100vh;
+  max-width: calc(16 / 9 * 100vh);
+  aspect-ratio: 16 / 9;
+  background: repeating-linear-gradient(
+    #f5f5f5,
+    #f5f5f5 3px,
+    #e4e4e4 3px,
+    #e4e4e4 9px
+  );
+  overflow: hidden;
+}
+
 app-root {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
   user-select: none;
 
   background-image: linear-gradient(
     to right,
     #f4f4f400,
-    #f4f4f4 50%,
+    #f4f4f4 45%,
+    #f4f4f4 55%,
     #f4f4f400 100%
   );
-}
-
-:root {
-  --relative-height: 27vh;
-  --channelGap: 12px;
-  --pageTransitionDuration: 0.6s;
 }

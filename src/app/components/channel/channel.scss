@@ -1,6 +1,6 @@
 .channel {
-  width: 365px;
-  height: auto;
+  width: auto;
+  height: calc(230 / 1152 * 100vh); // relative scaling for smaller viewing
   vertical-align: bottom;
   pointer-events: none;
   transition: filter 0.2s ease;

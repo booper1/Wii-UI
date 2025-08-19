@@ -7,7 +7,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
   templateUrl: './clock.html',
   styleUrls: ['./clock.scss'],
 })
-export class Clock implements OnInit, OnDestroy {
+export class ClockComponent implements OnInit, OnDestroy {
   // `undefined` except when testing.
   // Example values: "en-GB", "de-DE", "fr-FR", "es-ES", "it-IT", "nl-NL"
   private locale?: string;
@@ -52,7 +52,7 @@ export class Clock implements OnInit, OnDestroy {
     const hours = this.is12HourFormat
       ? this.time.getHours() % 12 || 12
       : this.time.getHours();
-    return hours.toString().padStart(2, '0');
+    return hours.toString();
   }
 
   protected get displayMinutes(): string {
@@ -66,8 +66,8 @@ export class Clock implements OnInit, OnDestroy {
   protected get displayDate(): string {
     return new Intl.DateTimeFormat(this.effectiveLocale, {
       weekday: 'short',
-      day: '2-digit',
-      month: '2-digit',
+      day: 'numeric',
+      month: 'numeric',
     })
       .format(this.time)
       .replace(/([A-Za-zÀ-ÿ])/, (c) => c.toUpperCase());

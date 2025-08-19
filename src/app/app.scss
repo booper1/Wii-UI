@@ -20,10 +20,74 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 100vw;
-  height: var(--relative-height);
+  height: 27vh;
   background-image: url("assets/footer.svg");
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 100% 100%;
+}
+
+$arrowDistanceFromEdge: 3%;
+$animationLoopDuration: 0.9s;
+$animationLoopDistance: 10px;
+$slideInDelay: 0.4s; // Delay until after paging finishes
+$slideInDuration: 0.15s;
+$animationEasing: ease-in-out;
+
+.side-img {
+  position: absolute;
+  top: 53%;
+  width: auto;
+  height: calc(120 / 1152 * 100vh); // relative scaling for smaller viewing
+  z-index: 10;
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.15));
+  animation-play-state: paused;
+  transition:
+    left $slideInDuration ease-out $slideInDelay,
+    right $slideInDuration ease-out $slideInDelay;
+
+  &.left {
+    left: -100px;
+    transform: translateY(-50%) scaleX(-1);
+    animation: arrowLeft $animationLoopDuration $animationEasing infinite;
+
+    &.visible {
+      left: $arrowDistanceFromEdge;
+      animation-play-state: running;
+    }
+  }
+
+  &.right {
+    right: -100px;
+    animation: arrowRight $animationLoopDuration $animationEasing infinite;
+
+    &.visible {
+      right: $arrowDistanceFromEdge;
+      animation-play-state: running;
+    }
+  }
+}
+
+@keyframes arrowLeft {
+  0% {
+    transform: translateY(-50%) translateX(0) scaleX(-1);
+  }
+  30% {
+    transform: translateY(-50%) translateX(-$animationLoopDistance) scaleX(-1);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0) scaleX(-1);
+  }
+}
+
+@keyframes arrowRight {
+  0% {
+    transform: translateY(-50%) translateX(0);
+  }
+  30% {
+    transform: translateY(-50%) translateX($animationLoopDistance);
+  }
+  100% {
+    transform: translateY(-50%) translateX(0);
+  }
 }

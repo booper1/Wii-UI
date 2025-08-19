@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ChannelComponent } from './components/channel/channel';
-import { Clock } from './components/clock/clock';
+import { ClockComponent } from './components/clock/clock';
 import { CHANNELS, EMPTY_CHANNEL } from './data/channels.data';
 import { Channel } from './models/channel.model';
 
 // REFERENCES
 // https://www.youtube.com/watch?v=DTNYegBnFL0
 // https://www.youtube.com/watch?v=UldvTh4BJc0
+// https://www.youtube.com/watch?v=D4nQk0PiM90
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, ChannelComponent, Clock],
+  imports: [CommonModule, ChannelComponent, ClockComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
@@ -23,22 +24,14 @@ export class App implements OnInit {
 
   protected pages: Channel[][] = [];
   protected currentPageIndex: number = 0;
+  protected canPageLeft: boolean = false;
+  protected canPageRight: boolean = false;
 
   ngOnInit(): void {
     // Populate page / channel data
     this.pages = this.buildPages([...CHANNELS]);
 
-    // Prevent spamming through pages
-    const duration = getComputedStyle(document.documentElement)
-      .getPropertyValue('--pageTransitionDuration')
-      .trim();
-    this.transitionDurationMs = parseFloat(duration) * 1000;
-
-    // Change pages on arrow keys
-    window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') this.nextPage();
-      if (event.key === 'ArrowLeft') this.prevPage();
-    });
+    this.initializePaging();
   }
 
   private buildPages(channels: Channel[]): Channel[][] {
@@ -64,19 +57,44 @@ export class App implements OnInit {
     return result;
   }
 
-  private nextPage() {
-    if (!this.isAnimating && this.currentPageIndex < this.pages.length - 1) {
+  private initializePaging(): void {
+    // Configure initial navigation
+    this.updateNavigation(true);
+
+    // Prevent spamming through pages
+    const duration = getComputedStyle(document.documentElement)
+      .getPropertyValue('--pageTransitionDuration')
+      .trim();
+    this.transitionDurationMs = parseFloat(duration) * 1000;
+
+    // Change pages on arrow keys
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') this.nextPage();
+      if (event.key === 'ArrowLeft') this.prevPage();
+    });
+  }
+
+  private updateNavigation(initializing: boolean = false): void {
+    this.canPageRight = this.currentPageIndex < this.pages.length - 1;
+    this.canPageLeft = this.currentPageIndex > 0;
+
+    if (!initializing) {
       this.isAnimating = true;
-      this.currentPageIndex++;
       setTimeout(() => (this.isAnimating = false), this.transitionDurationMs);
     }
   }
 
-  private prevPage() {
-    if (!this.isAnimating && this.currentPageIndex > 0) {
-      this.isAnimating = true;
+  protected nextPage() {
+    if (!this.isAnimating && this.canPageRight) {
+      this.currentPageIndex++;
+      this.updateNavigation();
+    }
+  }
+
+  protected prevPage() {
+    if (!this.isAnimating && this.canPageLeft) {
       this.currentPageIndex--;
-      setTimeout(() => (this.isAnimating = false), this.transitionDurationMs);
+      this.updateNavigation();
     }
   }
 
