@@ -1,37 +1,3 @@
-<div class="content">
-  <div class="side-wrapper">
-    <img
-      src="assets/arrow.svg"
-      ngClass="side-img left"
-      alt="Left Arrow"
-      [class.visible]="canPageLeft"
-      (click)="prevPage()"
-    />
-    <img
-      src="assets/arrow.svg"
-      ngClass="side-img right"
-      alt="Right Arrow"
-      [class.visible]="canPageRight"
-      (click)="nextPage()"
-    />
-  </div>
+<app-top-deck />
 
-  @for (channels of pages; track $index; let i = $index) {
-    <div
-      class="page"
-      [ngClass]="{ inactivePage: i !== currentPageIndex }"
-      [style.transform]="getPageTransform(i)"
-    >
-      @for (channel of channels; track $index) {
-        <app-channel
-          [channel]="channel"
-          [isInactivePage]="i !== currentPageIndex"
-        />
-      }
-    </div>
-  }
-</div>
-
-<div class="footer">
-  <app-clock />
-</div>
+<app-bottom-deck />

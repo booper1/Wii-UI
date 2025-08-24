@@ -1,0 +1,53 @@
+<svg
+  [ngClass]="{ isRight }"
+  width="400"
+  height="312"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient
+      id="lightPathGradient"
+      gradientUnits="userSpaceOnUse"
+      x1="84"
+      y1="185"
+      x2="396"
+      y2="105"
+    >
+      <stop offset="0%" stop-color="#b4b6ba99" />
+      <stop offset="40%" stop-color="#b4b6ba99" />
+      <stop offset="60%" stop-color="#dEdee1" />
+      <stop offset="100%" stop-color="#dEdee1" />
+    </linearGradient>
+  </defs>
+
+  <path
+    class="darkPath"
+    d="M 0 28
+        L 274 28
+        A 141 141 0 0 1 274 306
+        L 0 306
+      "
+    stroke="#b4b6ba"
+    stroke-width="12"
+    fill="#00000005"
+  />
+
+  <path
+    d="M 0 6
+        L 255 6
+        A 141 141 0 0 1 255 284
+        L 0 284
+      "
+    stroke="url(#lightPathGradient)"
+    stroke-width="12"
+    fill="none"
+    opacity="0.7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
+
+<app-corner-action-button
+  [ngClass]="isRight ? 'right' : 'left'"
+  [isRight]="isRight"
+/>

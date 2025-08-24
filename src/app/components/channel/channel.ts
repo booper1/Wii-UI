@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import {
   AnyPreview,
   Channel,
-  PreviewType,
   ImgPreview,
+  PreviewType,
   SvgPreview,
   TextPreview,
 } from '../../models/channel.model';
@@ -17,7 +17,7 @@ import {
 })
 export class ChannelComponent {
   @Input({ required: true }) channel!: Channel;
-  @Input({ required: true }) isInactivePage!: boolean;
+  @Input({ required: true }) isInactiveSlide!: boolean;
 
   protected isSvgPreview(preview: AnyPreview): preview is SvgPreview {
     return preview.type === PreviewType.Svg;

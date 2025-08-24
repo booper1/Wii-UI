@@ -1,0 +1,22 @@
+.isRight {
+  transform: scaleX(-1);
+
+  .darkPath {
+    transform: translateX(-8%);
+  }
+}
+
+app-corner-action-button {
+  position: absolute;
+  top: 9%;
+
+  $shiftAmount: 12%;
+
+  &.left {
+    right: $shiftAmount;
+  }
+
+  &.right {
+    left: $shiftAmount;
+  }
+}

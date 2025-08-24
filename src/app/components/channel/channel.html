@@ -1,35 +1,29 @@
 <svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 1000 550"
-  role="img"
   class="channel"
-  [class.inactive]="isInactivePage"
+  [class.inactive]="isInactiveSlide"
+  viewBox="0 0 1000 550"
+  xmlns="http://www.w3.org/2000/svg"
 >
-  <!-- Hover / accessibility label -->
-  @if (!isInactivePage) {
+  @if (!isInactiveSlide) {
     <title [textContent]="channel.title"></title>
   }
 
   <defs>
-    <!-- Main channel shape path -->
     <path
       id="channelPath"
-      d="M 0,275
-         C 5,-20 -20,5 275,0
-         L 275,0 725,0
-         C 1020,5 995,-20 1000,275
-           995,570 1020,545 725,550
-         L 725,550 275,550
-         C -20,545 5,570 0,275
-           5,-20 -20,5 275,0"
+      d="M 0 275
+          C 5 -20 -20 5 275 0
+          L 275 0 725 0
+          C 1020 5 995 -20 1000 275 995 570 1020 545 725 550
+          L 725 550 275 550
+          C -20 545 5 570 0 275 5 -20 -20 5 275 0
+        "
     />
 
-    <!-- Clipping mask to constrain all content inside the channel shape -->
     <clipPath id="insideChannelOnly">
       <use href="#channelPath" />
     </clipPath>
 
-    <!-- Pattern fill definition (only used for Image previews) -->
     @if (isImgPreview(channel.preview)) {
       <pattern
         [attr.id]="channel.id"
@@ -49,29 +43,26 @@
     }
   </defs>
 
-  <!-- Outer shell of the channel tile: clickable if URL is present -->
-  @if (channel.url && !isInactivePage) {
+  @if (channel.url && !isInactiveSlide) {
     <a [attr.href]="channel.url" target="_blank" rel="noreferrer">
       <use
+        class="channelBorder"
         href="#channelPath"
-        stroke="#b4b4b4"
         stroke-width="24"
         clip-path="url(#insideChannelOnly)"
         [attr.fill]="resolvedBackgroundFill"
       />
     </a>
   } @else {
-    <!-- Fallback for non-clickable tiles -->
     <use
+      class="channelBorder"
       href="#channelPath"
-      stroke="#b4b4b4"
       stroke-width="24"
       clip-path="url(#insideChannelOnly)"
       [attr.fill]="resolvedBackgroundFill"
     />
   }
 
-  <!-- Preview: Centered SVG icon -->
   @if (isSvgPreview(channel.preview)) {
     <image
       x="50%"
@@ -85,7 +76,6 @@
     />
   }
 
-  <!-- Preview: Centered text -->
   @if (isTextPreview(channel.preview)) {
     <text
       x="50%"

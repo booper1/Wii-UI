@@ -1,0 +1,13 @@
+<div
+  class="bottomDeckWrapper"
+  [style.height]="`${displayService.totalHeight - displayService.blueStartY}px`"
+>
+  <div
+    class="date"
+    [textContent]="timeService.displayDate"
+    [style.top]="datePositionY"
+  ></div>
+</div>
+
+<app-corner-action-slot class="left" [isRight]="false" />
+<app-corner-action-slot class="right" [isRight]="true" />

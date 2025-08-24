@@ -1,20 +1,17 @@
 .channel {
-  width: auto;
-  height: calc(230 / 1152 * 100vh); // relative scaling for smaller viewing
+  width: calc(420 / 1152 * 100vh); // relative scaling for smaller viewing
+  height: auto;
   vertical-align: bottom;
   pointer-events: none;
   transition: filter 0.2s ease;
+  pointer-events: all;
 
   &:hover {
-    filter: brightness(95%) drop-shadow(0 0 3px #34beed);
+    filter: brightness(95%) drop-shadow(0 0 3px var(--wiiBlue));
 
     use {
-      stroke: #34beed;
+      stroke: var(--wiiBlue);
     }
-  }
-
-  use {
-    pointer-events: all;
   }
 
   a {
@@ -24,19 +21,25 @@
     }
   }
 
+  --borderColor: #b4b4b4;
+
+  .channelBorder {
+    stroke: var(--borderColor);
+  }
+
   text {
     font-size: 100px;
     font-family: "ShinGoBold";
     user-select: none;
   }
 
-  // Override hover for inactive channels
+  // Override hover for other page's channels
   &.inactive {
     &:hover {
       filter: none !important;
 
       use {
-        stroke: #b4b4b4 !important;
+        stroke: var(--borderColor) !important;
       }
     }
   }

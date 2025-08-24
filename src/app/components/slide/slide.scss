@@ -1,0 +1,49 @@
+.slideSvg {
+  --scanLineWhite: rgb(245, 245, 245);
+
+  .blueBorderLine {
+    stroke: var(--wiiBlue);
+    fill: none;
+    stroke-width: 4;
+  }
+
+  .borderShadow {
+    fill: black;
+    opacity: 12%;
+  }
+
+  .underShadow {
+    fill: black;
+    opacity: 12%;
+  }
+
+  .scanLineWhite {
+    fill: var(--scanLineWhite);
+  }
+
+  .scanLineGray {
+    fill: #e4e4e4;
+  }
+
+  .scanLineGradientEnd {
+    stop-color: rgba(245, 245, 245, 0);
+  }
+
+  .scanLineGradientCenter {
+    stop-color: var(--scanLineWhite);
+  }
+}
+
+.channelGrid {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  width: calc(100% - 12px);
+  grid-template-columns: repeat(4, max-content);
+  row-gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+}

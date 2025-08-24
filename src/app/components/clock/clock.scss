@@ -1,44 +1,53 @@
-.clockWrapper {
+.timeWrapper {
+  position: absolute;
+  // TODO: Clean up
+  top: calc(8% + 717px + 3%); // 717px = channelGrid height at F11
+  left: 50%;
+  transform: translateX(-50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  margin-bottom: 32px;
 
-  .timeContainer {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #919191;
-    margin-bottom: 8px;
+  color: #919191;
 
-    .timeCore {
-      padding-inline-start: 8px;
-      font-family: "DigitalDisplay";
-      font-size: 6.5rem;
+  .timeCore {
+    display: flex;
+    font-family: "DigitalDisplay";
+    font-size: 8.5rem;
+    padding-inline-start: 3.3%;
 
-      .colon {
-        display: inline-block;
-        opacity: 1;
-        transition: opacity 0.3s ease-in-out;
-      }
+    .hours,
+    .minutes {
+      width: 2ch;
+      text-align: end;
     }
 
-    .ampm {
-      position: absolute;
-      top: 1ch;
-      right: -4ch;
-      font-family: "RodinBokutohBold";
-      font-size: 2rem;
+    .colon {
+      display: inline-block;
+      width: 1ch;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
+
+      &.hideColon {
+        opacity: 0;
+      }
     }
   }
 
-  .date {
+  .amPm {
+    position: absolute;
+    bottom: 0;
+    right: -4ch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     font-family: "RodinBokutohBold";
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: #7a7a7a;
+    font-size: 2.5rem;
+    line-height: 2rem;
   }
 }

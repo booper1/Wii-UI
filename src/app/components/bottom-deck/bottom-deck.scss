@@ -1,0 +1,36 @@
+.bottomDeckWrapper {
+  top: -100%;
+  left: 0;
+  position: relative;
+  width: 100%;
+
+  .date {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "RodinBokutohBold";
+    font-size: 4.5rem;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-weight: bold;
+    color: #7a7a7a;
+    width: max-content;
+  }
+}
+
+app-corner-action-slot {
+  position: absolute;
+  bottom: 3%;
+
+  &.left {
+    transform: translate(-10%, 10%) scale(80%);
+    left: 0;
+  }
+
+  &.right {
+    transform: translate(10%, 10%) scale(80%);
+    right: 0;
+  }
+}

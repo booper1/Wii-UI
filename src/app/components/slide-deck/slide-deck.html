@@ -1,0 +1,28 @@
+<div class="slideDeck">
+  <div
+    class="slide"
+    [ngClass]="{ inactiveSlide: true }"
+    [style.transform]="getSlideTransform()"
+  >
+    <app-slide [channels]="[]" [isInactiveSlide]="true" />
+  </div>
+  @for (channels of slideService.slideDeck; track $index) {
+    <div
+      class="slide"
+      [ngClass]="{ inactiveSlide: $index !== slideService.currentSlideIndex }"
+      [style.transform]="getSlideTransform()"
+    >
+      <app-slide
+        [channels]="channels"
+        [isInactiveSlide]="$index !== slideService.currentSlideIndex"
+      />
+    </div>
+  }
+  <div
+    class="slide"
+    [ngClass]="{ inactiveSlide: true }"
+    [style.transform]="getSlideTransform()"
+  >
+    <app-slide [channels]="[]" [isInactiveSlide]="true" />
+  </div>
+</div>

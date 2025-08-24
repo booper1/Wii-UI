@@ -1,0 +1,14 @@
+<app-slide-deck />
+
+<img
+  src="assets/arrow.svg"
+  ngClass="arrow left"
+  [class.visible]="slideService.canSlideLeft"
+  (click)="slideService.prevSlide()"
+/>
+<img
+  src="assets/arrow.svg"
+  ngClass="arrow right"
+  [class.visible]="slideService.canSlideRight"
+  (click)="slideService.nextSlide()"
+/>
