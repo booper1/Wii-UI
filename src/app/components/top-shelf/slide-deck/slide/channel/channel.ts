@@ -7,7 +7,7 @@ import {
   PreviewType,
   SvgPreview,
   TextPreview,
-} from '../../models/channel.model';
+} from '../../../../../models/channel.model';
 
 @Component({
   selector: 'app-channel',
@@ -16,8 +16,8 @@ import {
   styleUrls: ['./channel.scss'],
 })
 export class ChannelComponent {
-  @Input({ required: true }) channel!: Channel;
-  @Input({ required: true }) isInactiveSlide!: boolean;
+  @Input({ required: true }) public channel!: Channel;
+  @Input({ required: true }) public isInactiveSlide!: boolean;
 
   protected isSvgPreview(preview: AnyPreview): preview is SvgPreview {
     return preview.type === PreviewType.Svg;

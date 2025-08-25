@@ -1,10 +1,13 @@
 <svg
-  class="slideSvg"
-  [attr.width]="displayService.totalWidth"
-  [attr.height]="displayService.totalHeight"
-  viewBox="0 0 1728 1152"
-  preserveAspectRatio="xMidYMid meet"
+  class="slideDeckSvg"
+  [ngClass]="{ transitionEnabled }"
+  [attr.width]="displayService.slideDeckWidth"
+  [attr.height]="displayService.slideDeckHeight"
+  [attr.viewBox]="
+    `0 0 ${displayService.slideDeckWidth} ${displayService.slideDeckHeight}`
+  "
   xmlns="http://www.w3.org/2000/svg"
+  [style.transform]="getSlideDeckTransform()"
 >
   <defs>
     <pattern id="scanLines" patternUnits="userSpaceOnUse" width="9" height="9">
@@ -12,12 +15,35 @@
       <rect class="scanLineGray" y="3" width="9" height="6" />
     </pattern>
 
-    <linearGradient id="scanLineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient
+      id="scanLineGradientTile"
+      gradientUnits="userSpaceOnUse"
+      x1="0"
+      y1="0"
+      [attr.x2]="displayService.slideWidth"
+      y2="0"
+    >
       <stop class="scanLineGradientEnd" offset="0%" />
       <stop class="scanLineGradientCenter" offset="45%" />
       <stop class="scanLineGradientCenter" offset="55%" />
       <stop class="scanLineGradientEnd" offset="100%" />
     </linearGradient>
+
+    <pattern
+      id="scanLineGradientRepeat"
+      patternUnits="userSpaceOnUse"
+      [attr.width]="displayService.slideWidth"
+      [attr.height]="displayService.slideWidth"
+      patternContentUnits="userSpaceOnUse"
+    >
+      <rect
+        x="0"
+        y="0"
+        [attr.width]="displayService.slideWidth"
+        [attr.height]="displayService.slideWidth"
+        fill="url(#scanLineGradientTile)"
+      />
+    </pattern>
 
     <clipPath id="aboveLineClip">
       <path [attr.d]="displayService.aboveLineClip" />
@@ -33,10 +59,10 @@
       [attr.x]="-displayService.shadowOutsideExcess"
       [attr.y]="displayService.blueStartY - displayService.shadowOutsideExcess"
       [attr.width]="
-        displayService.totalWidth + displayService.shadowOutsideExcess * 2
+        displayService.slideDeckWidth + displayService.shadowOutsideExcess * 2
       "
       [attr.height]="
-        displayService.totalHeight -
+        displayService.slideDeckHeight -
         displayService.blueStartY +
         displayService.shadowOutsideExcess * 2
       "
@@ -50,10 +76,10 @@
       [attr.x]="-displayService.shadowOutsideExcess"
       [attr.y]="displayService.blueStartY - displayService.shadowOutsideExcess"
       [attr.width]="
-        displayService.totalWidth + displayService.shadowOutsideExcess * 2
+        displayService.slideDeckWidth + displayService.shadowOutsideExcess * 2
       "
       [attr.height]="
-        displayService.totalHeight -
+        displayService.slideDeckHeight -
         displayService.blueStartY +
         displayService.shadowOutsideExcess * 2
       "
@@ -62,10 +88,9 @@
     </filter>
   </defs>
 
-  <!-- group the scan lines and clip them -->
   <g clip-path="url(#aboveLineClip)">
     <rect width="100%" height="100%" fill="url(#scanLines)" />
-    <rect width="100%" height="100%" fill="url(#scanLineGradient)" />
+    <rect width="100%" height="100%" fill="url(#scanLineGradientRepeat)" />
   </g>
 
   <path
@@ -82,18 +107,27 @@
     clip-path="url(#belowLineClip)"
   />
 
-  <path
-    class="blueBorderLine"
-    [attr.d]="displayService.blueBorderLine"
-    fill="none"
-    stroke-width="4"
-  />
+  <path class="blueBorderLine" [attr.d]="displayService.blueBorderLine" />
 </svg>
 
-<div class="channelGrid">
-  @for (channel of channels; track $index) {
-    <app-channel [channel]="channel" [isInactiveSlide]="isInactiveSlide" />
+<div
+  class="slideDeck"
+  [ngClass]="{ transitionEnabled }"
+  [style.width]="`${displayService.slideDeckWidth}px`"
+  [style.height]="`${displayService.slideDeckHeight}px`"
+  [style.transform]="getSlideDeckTransform()"
+>
+  @for (channels of slideService.slideDeck; track $index) {
+    <div
+      class="slide"
+      [ngClass]="{ inactiveSlide: $index !== slideService.currentSlideIndex }"
+      [style.width]="`${displayService.slideWidth}px`"
+      [style.height]="`${displayService.slideDeckHeight}px`"
+    >
+      <app-slide
+        [channels]="channels"
+        [isInactiveSlide]="$index !== slideService.currentSlideIndex"
+      />
+    </div>
   }
 </div>
-
-<app-clock></app-clock>

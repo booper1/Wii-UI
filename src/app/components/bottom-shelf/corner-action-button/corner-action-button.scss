@@ -1,0 +1,29 @@
+@use "styles.scss" as *;
+
+.actionButton {
+  --pressDistance: 3px;
+  --shadowDistance: 15;
+  --shadowBlur: 3;
+  --shadowColor: rgba(0, 0, 0, 0.15);
+
+  width: relativePx(235);
+  height: auto;
+
+  filter: drop-shadow(
+    relativePx(var(--shadowDistance)) relativePx(var(--shadowDistance))
+      relativePx(var(--shadowBlur)) var(--shadowColor)
+  );
+
+  &.pressed {
+    transform: translate(var(--pressDistance), var(--pressDistance));
+    filter: drop-shadow(
+      calc(relativePx(var(--shadowDistance)) - var(--pressDistance))
+        calc(relativePx(var(--shadowDistance)) - var(--pressDistance))
+        relativePx(var(--shadowBlur)) var(--shadowColor)
+    );
+  }
+
+  .actionButtonCircle {
+    stroke: var(--wiiBlue);
+  }
+}

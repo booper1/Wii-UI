@@ -1,0 +1,6 @@
+<div class="slideWrapper" [style.width]="getSlideWidth()">
+  @for (channel of channels; track $index) {
+    <app-channel [channel]="channel" [isInactiveSlide]="isInactiveSlide" />
+  }
+  <app-clock />
+</div>

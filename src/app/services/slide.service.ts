@@ -12,7 +12,7 @@ export class SlideService {
   private transitionDurationMs: number = 0;
 
   public slideDeck: Channel[][] = [];
-  public currentSlideIndex: number = 0;
+  public currentSlideIndex: number = 1;
   public canSlideLeft: boolean = false;
   public canSlideRight: boolean = false;
 
@@ -30,6 +30,9 @@ export class SlideService {
       this.MIN_SLIDES,
     );
 
+    // 1 empty slide to pad the start
+    result.push([]);
+
     for (let i = 0; i < totalSlides; i++) {
       const start = i * this.CHANNELS_PER_SLIDE;
       const end = start + this.CHANNELS_PER_SLIDE;
@@ -42,6 +45,9 @@ export class SlideService {
 
       result.push(slice);
     }
+
+    // 1 more empty slide to pad the end
+    result.push([]);
 
     return result;
   }
@@ -64,8 +70,8 @@ export class SlideService {
   }
 
   private updateNavigation(initializing: boolean = false): void {
-    this.canSlideRight = this.currentSlideIndex < this.slideDeck.length - 1;
-    this.canSlideLeft = this.currentSlideIndex > 0;
+    this.canSlideRight = this.currentSlideIndex < this.slideDeck.length - 2;
+    this.canSlideLeft = this.currentSlideIndex > 1;
 
     if (!initializing) {
       this.isAnimating = true;

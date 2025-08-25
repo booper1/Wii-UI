@@ -6,8 +6,115 @@
     <base href="/Wii-UI/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="assets/cLogo.svg">
-  <style>:root{--channelGap:12px;--slideTransitionDuration:.4s;--wiiBlue:#31c1ed}html,body{margin:0;padding:0;background:#000;overflow:hidden;display:flex;justify-content:center;align-items:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;cursor:url("./media/wii_pointer-SM7NMZVH.cur") 11 3,auto}body:active{cursor:url("./media/wii_click-UQY5DVIK.cur") 11 3,auto}app-root{width:100vw;height:100vh;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none;background-color:#dddfe3}</style><link rel="stylesheet" href="styles-6MMQDRQB.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-6MMQDRQB.css"></noscript></head>
+  <style>:root{--slideTransitionDuration:.4s;--wiiBlue:#31c1ed;--originalHeight:1152;--stageWidth:min(100vw, calc(100vh * 16 / 9))}html,body{margin:0;padding:0;background:#000;overflow:hidden;display:flex;justify-content:center;align-items:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;cursor:url("./media/wii_pointer-SM7NMZVH.cur") 11 3,auto}body:active{cursor:url("./media/wii_click-UQY5DVIK.cur") 11 3,auto}#stage{position:relative;width:min(100vw,177.7777777778vh);height:100vh;aspect-ratio:16/9;z-index:0;display:flex;flex-direction:column}app-root{width:100%;height:100%;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none;background-color:#dddfe3}</style><link rel="stylesheet" href="styles-5RLBSD45.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-5RLBSD45.css"></noscript></head>
   <body>
-    <app-root></app-root>
-  <script src="polyfills-B6TNHZQ6.js" type="module"></script><script src="main-GZXYOW67.js" type="module"></script></body>
+    <div id="stage">
+      <app-root></app-root>
+    </div>
+
+    <!-- Alignment Overlay (drop-in) -->
+    <ng-container>
+      <style>
+        :root {
+          --grid-minor: 8px; /* small squares */
+          --grid-major: 64px; /* bold grid every N minor squares */
+          --line-minor: rgba(0, 0, 0, 0.08);
+          --line-major: rgba(0, 0, 0, 0.18);
+        }
+        #alignment-overlay {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 999999999;
+          pointer-events: none;
+          width: 2048px;
+          height: 1152px;
+        }
+        #alignment-overlay[data-show] {
+          display: none;
+        }
+
+        /* Base grid (minor + major) */
+        #alignment-overlay {
+          background-image:
+            /* minor horizontal */
+            repeating-linear-gradient(
+              to bottom,
+              var(--line-minor) 0 1px,
+              transparent 1px var(--grid-minor)
+            ),
+            /* minor vertical */
+              repeating-linear-gradient(
+                to right,
+                var(--line-minor) 0 1px,
+                transparent 1px var(--grid-minor)
+              ),
+            /* major horizontal */
+              repeating-linear-gradient(
+                to bottom,
+                var(--line-major) 0 2px,
+                transparent 2px var(--grid-major)
+              ),
+            /* major vertical */
+              repeating-linear-gradient(
+                to right,
+                var(--line-major) 0 2px,
+                transparent 2px var(--grid-major)
+              ),
+            /* center horizontal */
+              linear-gradient(
+                to bottom,
+                transparent calc(50% - 0.75px),
+                var(--wiiBlue) calc(50% - 0.75px) calc(50% + 0.75px),
+                transparent calc(50% + 0.75px)
+              ),
+            /* center vertical */
+              linear-gradient(
+                to right,
+                transparent calc(50% - 0.75px),
+                var(--wiiBlue) calc(50% - 0.75px) calc(50% + 0.75px),
+                transparent calc(50% + 0.75px)
+              ),
+            /* center dot */
+              radial-gradient(
+                circle at 50% 50%,
+                var(--wiiBlue) 0 3px,
+                transparent 3px
+              );
+          background-size: cover;
+        }
+
+        /* Light/dark toggle (Alt+B) */
+        #alignment-overlay.bright {
+          --line-minor: rgba(255, 255, 255, 0.2);
+          --line-major: rgba(255, 255, 255, 0.35);
+          mix-blend-mode: normal;
+        }
+      </style>
+
+      <div id="alignment-overlay"></div>
+
+      <script>
+        (function () {
+          const overlay = document.getElementById("alignment-overlay");
+          // Start visible; change to false if you want it hidden by default
+          overlay.setAttribute("data-show", "");
+
+          document.addEventListener("keydown", (e) => {
+            if (!e.altKey) return;
+            const key = e.key.toLowerCase();
+            if (key === "g") {
+              overlay.toggleAttribute("data-show");
+              e.preventDefault();
+            } else if (key === "b") {
+              overlay.classList.toggle("bright");
+              e.preventDefault();
+            }
+          });
+        })();
+      </script>
+    </ng-container>
+    <!-- /Alignment Overlay -->
+  <script src="polyfills-B6TNHZQ6.js" type="module"></script><script src="main-YHTJG7JH.js" type="module"></script></body>
 </html>

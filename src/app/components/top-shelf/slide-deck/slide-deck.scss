@@ -1,10 +1,18 @@
-.slideSvg {
+@use "styles.scss" as *;
+
+.slideDeck {
+  position: relative;
+  display: flex;
+  top: -50%;
+}
+
+.slideDeckSvg {
   --scanLineWhite: rgb(245, 245, 245);
 
   .blueBorderLine {
     stroke: var(--wiiBlue);
     fill: none;
-    stroke-width: 4;
+    stroke-width: relativePx(4);
   }
 
   .borderShadow {
@@ -34,16 +42,6 @@
   }
 }
 
-.channelGrid {
-  position: absolute;
-  top: 8%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: grid;
-  width: calc(100% - 12px);
-  grid-template-columns: repeat(4, max-content);
-  row-gap: 12px;
-  justify-content: space-between;
-  align-items: center;
-  justify-items: center;
+.transitionEnabled {
+  transition: transform var(--slideTransitionDuration) ease-in-out;
 }

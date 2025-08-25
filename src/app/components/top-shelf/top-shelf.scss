@@ -1,19 +1,19 @@
+@use "styles.scss" as *;
+
 .arrow {
-  /* Custom properties */
   --arrowDistanceFromEdge: 3%;
   --animationLoopDuration: 0.9s;
-  --animationLoopDistance: 10px;
+  --animationLoopDistance: 10;
   --slideInDelay: 0.4s; // delay until after paging finishes
   --slideInDuration: 0.15s;
   --animationEasing: ease-in-out;
-  --padding: 24px;
+  --padding: 24;
 
-  /* Base styles */
   position: absolute;
-  top: calc(33.5% - var(--padding));
-  padding: var(--padding);
+  top: calc(33.5% - relativePx(var(--padding)));
+  padding: relativePx(var(--padding));
   width: auto;
-  height: calc(120 / 1152 * 100vh); // scales relative to viewport height
+  height: relativePx(120);
   z-index: 10;
   pointer-events: all;
 
@@ -23,7 +23,7 @@
     left var(--slideInDuration) ease-out var(--slideInDelay),
     right var(--slideInDuration) ease-out var(--slideInDelay);
 
-  /* Prevent dragging/selecting */
+  // Prevent dragging/selecting
   -webkit-user-drag: none; // For WebKit browsers like Chrome, Safari
   user-drag: none; // Standard property
   -moz-user-select: none; // For Firefox
@@ -31,24 +31,24 @@
   user-select: none; // Standard property
 
   &.left {
-    left: calc(-100px - var(--padding));
+    left: calc(relativePx(-100) - relativePx(var(--padding)));
     transform: scaleX(-1);
     animation: arrowLeft var(--animationLoopDuration) var(--animationEasing)
       infinite;
 
     &.visible {
-      left: calc(var(--arrowDistanceFromEdge) - var(--padding));
+      left: calc(var(--arrowDistanceFromEdge) - relativePx(var(--padding)));
       animation-play-state: running;
     }
   }
 
   &.right {
-    right: calc(-100px - var(--padding));
+    right: calc(relativePx(-100) - relativePx(var(--padding)));
     animation: arrowRight var(--animationLoopDuration) var(--animationEasing)
       infinite;
 
     &.visible {
-      right: calc(var(--arrowDistanceFromEdge) - var(--padding));
+      right: calc(var(--arrowDistanceFromEdge) - relativePx(var(--padding)));
       animation-play-state: running;
     }
   }
@@ -59,7 +59,8 @@
       transform: translateX(0) scaleX(-1);
     }
     30% {
-      transform: translateX(calc(-1 * var(--animationLoopDistance))) scaleX(-1);
+      transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance))))
+        scaleX(-1);
     }
   }
 
@@ -69,7 +70,7 @@
       transform: translateX(0);
     }
     30% {
-      transform: translateX(var(--animationLoopDistance));
+      transform: translateX(relativePx(var(--animationLoopDistance)));
     }
   }
 }

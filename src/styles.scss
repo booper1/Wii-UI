@@ -1,4 +1,3 @@
-/* Global styles and font imports */
 @font-face {
   font-family: "ShinGoBold";
   src:
@@ -25,10 +24,15 @@
 }
 
 :root {
-  --channelGap: 12px;
   --slideTransitionDuration: 0.4s;
-
   --wiiBlue: #31c1ed;
+  --originalHeight: 1152;
+
+  --stageWidth: min(100vw, calc(100vh * 16 / 9));
+}
+
+@function relativePx($n) {
+  @return calc(#{$n} / var(--originalHeight) * 100vh);
 }
 
 html,
@@ -54,9 +58,19 @@ body {
   }
 }
 
-app-root {
-  width: 100vw;
+#stage {
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
   height: 100vh;
+  aspect-ratio: 16 / 9;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   user-select: none;

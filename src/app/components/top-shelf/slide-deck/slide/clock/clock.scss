@@ -1,7 +1,8 @@
+@use "styles.scss" as *;
+
 .timeWrapper {
   position: absolute;
-  // TODO: Clean up
-  top: calc(8% + 717px + 3%); // 717px = channelGrid height at F11
+  top: calc(100% + relativePx(12) + 1%);
   left: 50%;
   transform: translateX(-50%);
 
@@ -9,14 +10,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
 
   color: #919191;
 
   .timeCore {
     display: flex;
     font-family: "DigitalDisplay";
-    font-size: 8.5rem;
+    font-size: relativePx(136);
     padding-inline-start: 3.3%;
 
     .hours,
@@ -47,7 +47,7 @@
     justify-content: center;
 
     font-family: "RodinBokutohBold";
-    font-size: 2.5rem;
-    line-height: 2rem;
+    font-size: relativePx(40);
+    line-height: relativePx(32);
   }
 }

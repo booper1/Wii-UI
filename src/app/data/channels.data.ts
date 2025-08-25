@@ -1,6 +1,5 @@
 import { Channel, PreviewType } from '../models/channel.model';
 
-/** Predefined channels shown on the Wii UI */
 export const CHANNELS: Channel[] = [
   {
     id: 'booper1_website',
@@ -117,7 +116,7 @@ export const CHANNELS: Channel[] = [
   },
 ];
 
-/** Fallback for empty/unused channels */
+// Fallback for empty/unused channel slots
 export const EMPTY_CHANNEL: Channel = {
   id: 'empty_channel',
   title: 'Empty Channel',

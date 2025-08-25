@@ -1,7 +1,9 @@
-.bottomDeckWrapper {
-  top: -100%;
+@use "styles.scss" as *;
+
+.bottomShelfWrapper {
+  bottom: 0;
   left: 0;
-  position: relative;
+  position: absolute;
   width: 100%;
 
   .date {
@@ -9,8 +11,8 @@
     left: 50%;
     transform: translateX(-50%);
     font-family: "RodinBokutohBold";
-    font-size: 4.5rem;
-    height: 4rem;
+    font-size: relativePx(72);
+    height: relativePx(64);
     justify-content: center;
     align-items: center;
     display: flex;

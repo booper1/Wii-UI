@@ -1,13 +1,13 @@
+@use "styles.scss" as *;
+
 .channel {
-  width: calc(420 / 1152 * 100vh); // relative scaling for smaller viewing
-  height: auto;
   vertical-align: bottom;
   pointer-events: none;
   transition: filter 0.2s ease;
   pointer-events: all;
 
   &:hover {
-    filter: brightness(95%) drop-shadow(0 0 3px var(--wiiBlue));
+    filter: brightness(95%) drop-shadow(0 0 relativePx(3) var(--wiiBlue));
 
     use {
       stroke: var(--wiiBlue);

@@ -32,7 +32,10 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            }
           },
           "configurations": {
             "production": {
@@ -90,7 +93,10 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            }
           }
         }
       }

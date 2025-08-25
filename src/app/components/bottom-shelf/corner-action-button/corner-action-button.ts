@@ -10,9 +10,10 @@ import { Component, Input } from '@angular/core';
 export class CornerActionButtonComponent {
   @Input({ required: true }) public isRight!: boolean;
 
-  public pressed = false;
+  protected pressed: boolean = false;
 
-  public onWiiClick() {
+  protected onWiiClick(): void {
     // TODO: Handle the click event
+    console.log(`${this.isRight ? 'Right' : 'Left'} Wii button clicked`);
   }
 }

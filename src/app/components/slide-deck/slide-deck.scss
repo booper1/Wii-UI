@@ -1,9 +1,0 @@
-.slideDeck {
-  display: flex;
-
-  .slide {
-    width: min-content;
-    height: 100vh;
-    transition: transform var(--slideTransitionDuration) ease-in-out;
-  }
-}

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { TimeService } from '../../services/time.service';
+import { TimeService } from '../../../../../services/time.service';
 
 @Component({
   selector: 'app-clock',
@@ -9,5 +9,5 @@ import { TimeService } from '../../services/time.service';
   styleUrls: ['./clock.scss'],
 })
 export class ClockComponent {
-  timeService = inject(TimeService);
+  protected timeService = inject(TimeService);
 }

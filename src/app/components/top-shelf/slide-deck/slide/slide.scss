@@ -1,0 +1,19 @@
+@use "styles.scss" as *;
+
+.slideWrapper {
+  position: relative;
+  top: relativePx(96);
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: relativePx(12);
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+
+  app-channel {
+    aspect-ratio: 20 / 11;
+    width: 100%;
+  }
+}
