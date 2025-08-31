@@ -11,8 +11,6 @@
     left: 50%;
     transform: translateX(-50%);
     font-family: "RodinBokutohBold";
-    font-size: relativePx(72);
-    height: relativePx(64);
     justify-content: center;
     align-items: center;
     display: flex;
@@ -24,15 +22,20 @@
 
 app-corner-action-slot {
   position: absolute;
-  bottom: 3%;
 
   &.left {
-    transform: translate(-10%, 10%) scale(80%);
     left: 0;
   }
 
   &.right {
-    transform: translate(10%, 10%) scale(80%);
     right: 0;
+  }
+}
+
+@media (max-aspect-ratio: 50/100) {
+  .bottomShelfWrapper {
+    .date {
+      transform: translateX(-50%) scale(80%);
+    }
   }
 }

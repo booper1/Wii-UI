@@ -1,10 +1,12 @@
 <svg
   class="slideDeckSvg"
-  [ngClass]="{ transitionEnabled }"
-  [attr.width]="displayService.slideDeckWidth"
-  [attr.height]="displayService.slideDeckHeight"
+  [ngClass]="{
+    transitionEnabled: slideService.isAnimating,
+  }"
+  [attr.width]="displayService.slideDeckWidth()"
+  [attr.height]="displayService.slideDeckHeight()"
   [attr.viewBox]="
-    `0 0 ${displayService.slideDeckWidth} ${displayService.slideDeckHeight}`
+    `0 0 ${displayService.slideDeckWidth()} ${displayService.slideDeckHeight()}`
   "
   xmlns="http://www.w3.org/2000/svg"
   [style.transform]="getSlideDeckTransform()"
@@ -20,7 +22,7 @@
       gradientUnits="userSpaceOnUse"
       x1="0"
       y1="0"
-      [attr.x2]="displayService.slideWidth"
+      [attr.x2]="displayService.slideWidth()"
       y2="0"
     >
       <stop class="scanLineGradientEnd" offset="0%" />
@@ -32,39 +34,42 @@
     <pattern
       id="scanLineGradientRepeat"
       patternUnits="userSpaceOnUse"
-      [attr.width]="displayService.slideWidth"
-      [attr.height]="displayService.slideWidth"
+      [attr.width]="displayService.slideWidth()"
+      [attr.height]="displayService.slideWidth()"
       patternContentUnits="userSpaceOnUse"
     >
       <rect
         x="0"
         y="0"
-        [attr.width]="displayService.slideWidth"
-        [attr.height]="displayService.slideWidth"
+        [attr.width]="displayService.slideWidth()"
+        [attr.height]="displayService.slideWidth()"
         fill="url(#scanLineGradientTile)"
       />
     </pattern>
 
-    <clipPath id="aboveLineClip">
-      <path [attr.d]="displayService.aboveLineClip" />
+    <clipPath id="aboveLineClipPath">
+      <path [attr.d]="displayService.aboveLineClipPath()" />
     </clipPath>
 
-    <clipPath id="belowLineClip">
-      <path [attr.d]="displayService.belowLineClip" />
+    <clipPath id="belowLineClipPath">
+      <path [attr.d]="displayService.belowLineClipPath()" />
     </clipPath>
 
     <filter
       id="borderShadowBlur"
       filterUnits="userSpaceOnUse"
-      [attr.x]="-displayService.shadowOutsideExcess"
-      [attr.y]="displayService.blueStartY - displayService.shadowOutsideExcess"
+      [attr.x]="-displayService.shadowOutsideExcess()"
+      [attr.y]="
+        displayService.borderStartY() - displayService.shadowOutsideExcess()
+      "
       [attr.width]="
-        displayService.slideDeckWidth + displayService.shadowOutsideExcess * 2
+        displayService.slideDeckWidth() +
+        displayService.shadowOutsideExcess() * 2
       "
       [attr.height]="
-        displayService.slideDeckHeight -
-        displayService.blueStartY +
-        displayService.shadowOutsideExcess * 2
+        displayService.slideDeckHeight() -
+        displayService.borderStartY() +
+        displayService.shadowOutsideExcess() * 2
       "
     >
       <feGaussianBlur stdDeviation="27" />
@@ -73,56 +78,64 @@
     <filter
       id="underShadowBlur"
       filterUnits="userSpaceOnUse"
-      [attr.x]="-displayService.shadowOutsideExcess"
-      [attr.y]="displayService.blueStartY - displayService.shadowOutsideExcess"
+      [attr.x]="-displayService.shadowOutsideExcess()"
+      [attr.y]="
+        displayService.borderStartY() - displayService.shadowOutsideExcess()
+      "
       [attr.width]="
-        displayService.slideDeckWidth + displayService.shadowOutsideExcess * 2
+        displayService.slideDeckWidth() +
+        displayService.shadowOutsideExcess() * 2
       "
       [attr.height]="
-        displayService.slideDeckHeight -
-        displayService.blueStartY +
-        displayService.shadowOutsideExcess * 2
+        displayService.slideDeckHeight() -
+        displayService.borderStartY() +
+        displayService.shadowOutsideExcess() * 2
       "
     >
       <feGaussianBlur stdDeviation="72" />
     </filter>
   </defs>
 
-  <g clip-path="url(#aboveLineClip)">
+  <g clip-path="url(#aboveLineClipPath)">
     <rect width="100%" height="100%" fill="url(#scanLines)" />
     <rect width="100%" height="100%" fill="url(#scanLineGradientRepeat)" />
   </g>
 
   <path
-    class="borderShadow"
-    [attr.d]="displayService.borderShadow"
+    class="borderShadowPath"
+    [attr.d]="displayService.borderShadowPath()"
     filter="url(#borderShadowBlur)"
-    clip-path="url(#belowLineClip)"
+    clip-path="url(#belowLineClipPath)"
   />
 
   <path
-    class="underShadow"
-    [attr.d]="displayService.underShadow"
+    class="lowerShadowPath"
+    [attr.d]="displayService.lowerShadowPath()"
     filter="url(#underShadowBlur)"
-    clip-path="url(#belowLineClip)"
+    clip-path="url(#belowLineClipPath)"
   />
 
-  <path class="blueBorderLine" [attr.d]="displayService.blueBorderLine" />
+  <path
+    class="blueBorderLinePath"
+    [attr.d]="displayService.blueBorderLinePath()"
+  />
 </svg>
 
 <div
   class="slideDeck"
-  [ngClass]="{ transitionEnabled }"
-  [style.width]="`${displayService.slideDeckWidth}px`"
-  [style.height]="`${displayService.slideDeckHeight}px`"
+  [ngClass]="{
+    transitionEnabled: slideService.isAnimating,
+  }"
+  [style.width.px]="displayService.slideDeckWidth()"
+  [style.height.px]="displayService.slideDeckHeight()"
   [style.transform]="getSlideDeckTransform()"
 >
   @for (channels of slideService.slideDeck; track $index) {
     <div
       class="slide"
       [ngClass]="{ inactiveSlide: $index !== slideService.currentSlideIndex }"
-      [style.width]="`${displayService.slideWidth}px`"
-      [style.height]="`${displayService.slideDeckHeight}px`"
+      [style.width.px]="displayService.slideWidth()"
+      [style.height.px]="displayService.slideDeckHeight()"
     >
       <app-slide
         [channels]="channels"

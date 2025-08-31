@@ -1,12 +1,12 @@
 @use "styles.scss" as *;
 
 .actionButton {
+  --shadowDistance: 0; // Calculated in TS
+
   --pressDistance: 3px;
-  --shadowDistance: 15;
   --shadowBlur: 3;
   --shadowColor: rgba(0, 0, 0, 0.15);
 
-  width: relativePx(235);
   height: auto;
 
   filter: drop-shadow(

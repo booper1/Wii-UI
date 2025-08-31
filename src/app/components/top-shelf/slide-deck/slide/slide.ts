@@ -16,8 +16,4 @@ export class SlideComponent {
 
   @Input({ required: true }) public channels!: Channel[];
   @Input({ required: true }) public isInactiveSlide!: boolean;
-
-  protected getSlideWidth(): string {
-    return `calc(${this.displayService.slideWidth}px - ${this.displayService.relativePx(12)})`;
-  }
 }

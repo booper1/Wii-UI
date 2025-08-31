@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  HostListener,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { DisplayService } from '../../../services/display.service';
 import { SlideService } from '../../../services/slide.service';
 import { SlideComponent } from './slide/slide';
@@ -16,33 +10,27 @@ import { SlideComponent } from './slide/slide';
   templateUrl: './slide-deck.html',
   styleUrl: './slide-deck.scss',
 })
-export class SlideDeckComponent implements OnInit, AfterViewInit {
+export class SlideDeckComponent implements OnInit {
   protected displayService = inject(DisplayService);
   protected slideService = inject(SlideService);
 
-  private totalSlideCount = 0;
-  protected transitionEnabled = false;
-
   ngOnInit() {
-    this.totalSlideCount = this.slideService.slideDeck.length;
-    this.displayService.configureSlideDeck(this.totalSlideCount);
-  }
-
-  ngAfterViewInit() {
-    // Wait for the first draw once the slide deck is in its starting place,
-    // then enable transitions for all subsequent changes.
-    requestAnimationFrame(() => {
-      this.transitionEnabled = true;
-    });
+    this.renderSlideDeck();
   }
 
   @HostListener('window:resize')
   onResize() {
-    this.displayService.updateViewportHeight();
+    this.renderSlideDeck();
+  }
+
+  private renderSlideDeck(): void {
+    this.displayService.updateViewport();
+    this.slideService.updateForResize();
+    this.displayService.configureSlideDeck(this.slideService.slideDeck.length);
   }
 
   protected getSlideDeckTransform(): string {
-    return `translateX(calc(-${(this.slideService.currentSlideIndex / this.totalSlideCount) * 100}% + 
-            (var(--stageWidth) - ${100 / this.totalSlideCount}%) / 2))`;
+    return `translateX(calc(-${(this.slideService.currentSlideIndex / this.slideService.slideDeck.length) * 100}% + 
+            (var(--stageWidth) - ${100 / this.slideService.slideDeck.length}%) / 2))`;
   }
 }

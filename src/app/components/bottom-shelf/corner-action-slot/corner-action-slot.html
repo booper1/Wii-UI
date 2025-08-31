@@ -1,8 +1,9 @@
 <svg
   class="actionSlot"
   [ngClass]="{ isRight }"
-  viewBox="0 0 400 312"
+  [attr.viewBox]="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
   xmlns="http://www.w3.org/2000/svg"
+  [style.width.px]="slotWidthPx"
 >
   <defs>
     <linearGradient
@@ -23,10 +24,10 @@
   <path
     class="darkPath"
     d="M 0 28
-        L 274 28
-        A 141 141 0 0 1 274 306
-        L 0 306
-      "
+      L 274 28
+      A 141 141 0 0 1 274 306
+      L 0 306
+    "
     stroke="#b4b6ba"
     stroke-width="12"
     fill="#00000005"
@@ -51,4 +52,5 @@
 <app-corner-action-button
   [ngClass]="isRight ? 'right' : 'left'"
   [isRight]="isRight"
+  [shelfHeightPx]="shelfHeightPx"
 />

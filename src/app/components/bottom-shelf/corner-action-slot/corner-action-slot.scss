@@ -1,7 +1,6 @@
 @use "styles.scss" as *;
 
 .actionSlot {
-  width: relativePx(400);
   height: auto;
 
   &.isRight {
@@ -17,13 +16,41 @@ app-corner-action-button {
   position: absolute;
   top: 9%;
 
-  $shiftAmount: 12%;
+  --actionButtonOffset: 12%;
 
   &.left {
-    right: $shiftAmount;
+    right: var(--actionButtonOffset);
   }
 
   &.right {
-    left: $shiftAmount;
+    left: var(--actionButtonOffset);
+  }
+}
+
+@media (max-aspect-ratio: 73/100) {
+  .actionSlot {
+    opacity: 0;
+  }
+
+  app-corner-action-button {
+    top: 12%;
+
+    --actionButtonOffset: 3vw;
+
+    &.left {
+      right: unset;
+      left: var(--actionButtonOffset);
+    }
+
+    &.right {
+      left: unset;
+      right: var(--actionButtonOffset);
+    }
+  }
+}
+
+@media (max-aspect-ratio: 40/100) {
+  app-corner-action-button {
+    --actionButtonOffset: 1vw;
   }
 }

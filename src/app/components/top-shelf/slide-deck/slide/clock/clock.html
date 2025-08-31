@@ -1,4 +1,8 @@
-<div class="timeWrapper">
+<div
+  class="timeWrapper"
+  [style.top.px]="displayService.clockTopPx()"
+  [style.--clockScaleFactor]="displayService.clockScaleFactor()"
+>
   <div class="timeCore">
     <div class="hours" [textContent]="timeService.displayHours"></div>
     <div class="colon" [ngClass]="{ hideColon: timeService.hideColon }">:</div>
@@ -6,6 +10,10 @@
   </div>
 
   @if (timeService.is12HourFormat) {
-    <div class="amPm" [textContent]="timeService.displayAmPm"></div>
+    <div
+      class="amPm"
+      [textContent]="timeService.displayAmPm"
+      [style.right.ch]="amPmRight"
+    ></div>
   }
 </div>

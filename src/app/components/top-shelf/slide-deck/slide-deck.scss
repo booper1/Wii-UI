@@ -9,18 +9,18 @@
 .slideDeckSvg {
   --scanLineWhite: rgb(245, 245, 245);
 
-  .blueBorderLine {
+  .blueBorderLinePath {
     stroke: var(--wiiBlue);
     fill: none;
     stroke-width: relativePx(4);
   }
 
-  .borderShadow {
+  .borderShadowPath {
     fill: black;
     opacity: 12%;
   }
 
-  .underShadow {
+  .lowerShadowPath {
     fill: black;
     opacity: 12%;
   }

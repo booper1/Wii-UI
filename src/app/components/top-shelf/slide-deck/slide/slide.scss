@@ -2,12 +2,12 @@
 
 .slideWrapper {
   position: relative;
-  top: relativePx(96);
   left: 50%;
   transform: translateX(-50%);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: relativePx(12);
+
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+
   justify-content: space-between;
   align-items: center;
   justify-items: center;

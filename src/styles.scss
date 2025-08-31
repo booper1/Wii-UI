@@ -46,6 +46,7 @@ body {
   align-items: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
 
   cursor:
     url(./app/assets/wii_pointer.cur) 11 3,
