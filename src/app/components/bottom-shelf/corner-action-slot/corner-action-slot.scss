@@ -35,7 +35,7 @@ app-corner-action-button {
   app-corner-action-button {
     top: 12%;
 
-    --actionButtonOffset: 3vw;
+    --actionButtonOffset: 3dvw;
 
     &.left {
       right: unset;
@@ -51,6 +51,6 @@ app-corner-action-button {
 
 @media (max-aspect-ratio: 40/100) {
   app-corner-action-button {
-    --actionButtonOffset: 1vw;
+    --actionButtonOffset: 1dvw;
   }
 }

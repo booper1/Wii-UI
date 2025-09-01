@@ -105,7 +105,7 @@ export class DisplayService {
   }
 
   public relativePx(n: number) {
-    return `calc(${n} / var(--originalHeight) * 100vh)`;
+    return `calc(${n} / var(--originalHeight) * 100dvh)`;
   }
 
   public configureSlideDeck(slideCount: number): void {

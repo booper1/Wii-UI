@@ -1,47 +1,59 @@
 @use "styles.scss" as *;
 
-.slideDeck {
+.slideDeckWrapper {
   position: relative;
-  display: flex;
-  top: -50%;
-}
 
-.slideDeckSvg {
-  --scanLineWhite: rgb(245, 245, 245);
-
-  .blueBorderLinePath {
-    stroke: var(--wiiBlue);
-    fill: none;
-    stroke-width: relativePx(4);
+  .slideDeckSvg,
+  .slideDeck {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .borderShadowPath {
-    fill: black;
-    opacity: 12%;
+  .slideDeckSvg {
+    pointer-events: none;
+
+    --scanLineWhite: rgb(245, 245, 245);
+
+    .blueBorderLinePath {
+      stroke: var(--wiiBlue);
+      fill: none;
+      stroke-width: relativePx(4);
+    }
+
+    .borderShadowPath {
+      fill: black;
+      opacity: 12%;
+    }
+
+    .lowerShadowPath {
+      fill: black;
+      opacity: 12%;
+    }
+
+    .scanLineWhite {
+      fill: var(--scanLineWhite);
+    }
+
+    .scanLineGray {
+      fill: #e4e4e4;
+    }
+
+    .scanLineGradientEnd {
+      stop-color: rgba(245, 245, 245, 0);
+    }
+
+    .scanLineGradientCenter {
+      stop-color: var(--scanLineWhite);
+    }
   }
 
-  .lowerShadowPath {
-    fill: black;
-    opacity: 12%;
+  .slideDeck {
+    display: flex;
   }
 
-  .scanLineWhite {
-    fill: var(--scanLineWhite);
+  .transitionEnabled {
+    transition: transform var(--slideTransitionDuration) ease-in-out;
   }
-
-  .scanLineGray {
-    fill: #e4e4e4;
-  }
-
-  .scanLineGradientEnd {
-    stop-color: rgba(245, 245, 245, 0);
-  }
-
-  .scanLineGradientCenter {
-    stop-color: var(--scanLineWhite);
-  }
-}
-
-.transitionEnabled {
-  transition: transform var(--slideTransitionDuration) ease-in-out;
 }
