@@ -58,6 +58,7 @@
   } @else {
     <use
       class="channelBorder"
+      [ngClass]="{ isIntroSlide }"
       href="#channelPath"
       stroke-width="24"
       clip-path="url(#insideChannelOnly)"

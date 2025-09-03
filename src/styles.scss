@@ -73,6 +73,11 @@ body {
       url(./app/assets/wii_click.cur) 11 3,
       auto;
   }
+
+  &.paused-animations * {
+    animation-play-state: paused !important;
+    transition: none !important;
+  }
 }
 
 #stage {

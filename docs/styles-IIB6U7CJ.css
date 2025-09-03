@@ -50,6 +50,11 @@ html:active,
 body:active {
   cursor: url("./media/wii_click-UQY5DVIK.cur") 11 3, auto;
 }
+html.paused-animations *,
+body.paused-animations * {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
 #stage {
   position: relative;
   width: min(100dvw, 177.7777777778dvh);

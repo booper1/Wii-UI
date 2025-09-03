@@ -15,6 +15,10 @@
 
   use {
     pointer-events: all;
+
+    &.isIntroSlide {
+      filter: drop-shadow(0 0 relativePx(5) black);
+    }
   }
 
   a {
