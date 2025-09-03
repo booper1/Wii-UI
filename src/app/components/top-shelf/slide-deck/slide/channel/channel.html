@@ -1,8 +1,10 @@
 <svg
   class="channel"
   [class.inactive]="isInactiveSlide"
+  [class.intro]="isIntroSlide"
   viewBox="0 0 1000 550"
   xmlns="http://www.w3.org/2000/svg"
+  [style.animation-delay.ms]="introDelay"
 >
   @if (!isInactiveSlide) {
     <title [textContent]="channel.title"></title>
@@ -18,6 +20,8 @@
           L 725 550 275 550
           C -20 545 5 570 0 275 5 -20 -20 5 275 0
         "
+      [attr.stroke-width]="displayService.relativePx(10)"
+      vector-effect="non-scaling-stroke"
     />
 
     <clipPath id="insideChannelOnly">
@@ -43,12 +47,11 @@
     }
   </defs>
 
-  @if (channel.url && !isInactiveSlide) {
+  @if (channel.url && !isInactiveSlide && !isIntroSlide) {
     <a [attr.href]="channel.url" target="_blank" rel="noreferrer">
       <use
         class="channelBorder"
         href="#channelPath"
-        stroke-width="24"
         clip-path="url(#insideChannelOnly)"
         [attr.fill]="resolvedBackgroundFill"
       />
@@ -57,9 +60,9 @@
     <use
       class="channelBorder"
       href="#channelPath"
-      stroke-width="24"
       clip-path="url(#insideChannelOnly)"
       [attr.fill]="resolvedBackgroundFill"
+      [style.--borderColor]="isIntroSlide ? 'black' : ''"
     />
   }
 

@@ -100,12 +100,20 @@ export class DisplayService {
     () => this.DESIGN_CHANNEL_GAP * this.scaleY,
   );
 
+  public introTotalTime = signal<number>(0);
+
   constructor() {
     this.computeDisplay();
   }
 
   public relativePx(n: number) {
     return `calc(${n} / var(--originalHeight) * 100dvh)`;
+  }
+
+  public cssVar(name: string): number {
+    return parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue(name),
+    );
   }
 
   public configureSlideDeck(slideCount: number): void {

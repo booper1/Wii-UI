@@ -18,9 +18,17 @@
   font-family: "DigitalDisplay";
   src:
     local("DigitalDisplay"),
-    url("./app/assets/fonts/DigitalDisplay/digital-display.otf")
+    url("./app/assets/fonts/DigitalDisplay/DigitalDisplay.otf")
       format("opentype");
   font-weight: normal;
+}
+
+@font-face {
+  font-family: "ContinuumBold";
+  src:
+    local("Continuum"),
+    url("./app/assets/fonts/Continuum/ContinuumB.otf") format("opentype");
+  font-weight: bold;
 }
 
 :root {
@@ -29,6 +37,14 @@
   --originalHeight: 1152;
 
   --stageWidth: min(100dvw, calc(100dvh * 16 / 9));
+
+  --introStartDelay: 500ms;
+  --introRippleStepDelay: 100ms; // time between diagonals
+  --introRippleFadeIn: 500ms;
+  --introRippleHold: 333ms;
+  --introRippleFadeOut: 833ms;
+  --introEndDelay: 833ms; // delay after last channel fade
+  --introFadeOut: 333ms;
 }
 
 @function relativePx($n) {

@@ -6,9 +6,14 @@
   [style.gap.px]="displayService.channelGapPx()"
 >
   @for (channel of channels; track $index) {
-    <app-channel [channel]="channel" [isInactiveSlide]="isInactiveSlide" />
+    <app-channel
+      [channel]="channel"
+      [isInactiveSlide]="isInactiveSlide"
+      [isIntroSlide]="isIntroSlide"
+      [introDelay]="isIntroSlide ? introDelays()[$index] : 0"
+    />
   }
-  @if (channels.length !== 0) {
+  @if (channels.length !== 0 && !isIntroSlide) {
     <app-clock />
   }
 </div>

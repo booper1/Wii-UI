@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   AnyPreview,
   Channel,
@@ -8,6 +8,7 @@ import {
   SvgPreview,
   TextPreview,
 } from '../../../../../models/channel.model';
+import { DisplayService } from '../../../../../services/display.service';
 
 @Component({
   selector: 'app-channel',
@@ -16,8 +17,12 @@ import {
   styleUrls: ['./channel.scss'],
 })
 export class ChannelComponent {
+  protected displayService = inject(DisplayService);
+
   @Input({ required: true }) public channel!: Channel;
   @Input({ required: true }) public isInactiveSlide!: boolean;
+  @Input({ required: true }) public isIntroSlide!: boolean;
+  @Input({ required: true }) public introDelay!: number;
 
   protected isSvgPreview(preview: AnyPreview): preview is SvgPreview {
     return preview.type === PreviewType.Svg;

@@ -46,4 +46,32 @@
       }
     }
   }
+
+  &.intro {
+    opacity: 0;
+    animation: fadeInOut
+      calc(
+        var(--introRippleFadeIn) + var(--introRippleHold) +
+          var(--introRippleFadeOut)
+      )
+      ease-in-out forwards;
+    --maxBrightness: 0.5;
+
+    // CAREFUL
+    // If you change the timing of any of the intro animations, make sure to update this keyframe
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      30% {
+        opacity: var(--maxBrightness);
+      } // ~3/6s fade in
+      50% {
+        opacity: var(--maxBrightness);
+      } // ~2/6s hold
+      100% {
+        opacity: 0;
+      } // ~5/6s fade out
+    }
+  }
 }

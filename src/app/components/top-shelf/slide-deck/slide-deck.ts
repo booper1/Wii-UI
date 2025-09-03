@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DisplayService } from '../../../services/display.service';
 import { SlideService } from '../../../services/slide.service';
 import { SlideComponent } from './slide/slide';
@@ -10,24 +10,9 @@ import { SlideComponent } from './slide/slide';
   templateUrl: './slide-deck.html',
   styleUrl: './slide-deck.scss',
 })
-export class SlideDeckComponent implements OnInit {
+export class SlideDeckComponent {
   protected displayService = inject(DisplayService);
   protected slideService = inject(SlideService);
-
-  ngOnInit() {
-    this.renderSlideDeck();
-  }
-
-  @HostListener('window:resize')
-  onResize() {
-    this.renderSlideDeck();
-  }
-
-  private renderSlideDeck(): void {
-    this.displayService.updateViewport();
-    this.slideService.updateForResize();
-    this.displayService.configureSlideDeck(this.slideService.slideDeck.length);
-  }
 
   protected getSlideDeckTransform(): string {
     return `translateX(calc(-${(this.slideService.currentSlideIndex / this.slideService.slideDeck.length) * 100}% + 

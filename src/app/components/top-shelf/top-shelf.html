@@ -13,3 +13,11 @@
   [class.visible]="slideService.canSlideRight"
   (click)="slideService.nextSlide()"
 />
+
+<div class="intro" [style.animation-delay.ms]="introFadeOutDelayMs">
+  <app-slide
+    [channels]="introChannels"
+    [isInactiveSlide]="true"
+    [isIntroSlide]="true"
+  />
+</div>

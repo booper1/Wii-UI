@@ -23,6 +23,8 @@ export class CornerActionButtonComponent {
   protected readonly innerRadius =
     this.outerRadius - Math.floor(this.borderWidth / 2);
 
+  protected readonly settingsCogSize = 175;
+
   // Pressed visual state
   protected pressed = false;
 
