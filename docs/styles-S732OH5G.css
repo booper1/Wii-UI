@@ -1,12 +1,24 @@
-<!doctype html>
-<html lang="en" data-beasties-container>
-  <head>
-    <meta charset="utf-8">
-    <title>Wii UI</title>
-    <base href="/Wii-UI/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="assets/cLogo.svg">
-  <style>
+/* src/styles.scss */
+@font-face {
+  font-family: "ShinGoBold";
+  src: local("ShinGoBold"), url("./media/ShinGoBold-YCKH34W4.otf") format("opentype");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "RodinBokutohBold";
+  src: local("RodinBokutohBold"), url("./media/RodinBokutohB-6PLTELS7.otf") format("opentype");
+  font-weight: bold;
+}
+@font-face {
+  font-family: "DigitalDisplay";
+  src: local("DigitalDisplay"), url("./media/DigitalDisplay-PRZZRIZC.otf") format("opentype");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ContinuumBold";
+  src: local("Continuum"), url("./media/ContinuumB-42XKIOEQ.otf") format("opentype");
+  font-weight: bold;
+}
 :root {
   --slideTransitionDuration: 0.4s;
   --wiiBlue: #31c1ed;
@@ -34,6 +46,7 @@ body {
   touch-action: manipulation;
   cursor: url("./media/wii_pointer-SM7NMZVH.cur") 11 3, auto;
 }
+html:active,
 body:active {
   cursor: url("./media/wii_click-UQY5DVIK.cur") 11 3, auto;
 }
@@ -55,10 +68,5 @@ app-root {
   user-select: none;
   background-color: #dddfe3;
 }
-</style><link rel="stylesheet" href="styles-S732OH5G.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-S732OH5G.css"></noscript></head>
-  <body>
-    <div id="stage">
-      <app-root></app-root>
-    </div>
-  <script src="polyfills-B6TNHZQ6.js" type="module"></script><script src="main-3AHRWVOM.js" type="module"></script></body>
-</html>
+
+/* angular:styles/global:styles */
