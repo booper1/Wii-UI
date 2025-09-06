@@ -80,15 +80,15 @@
   background-color: black;
   z-index: 20;
   animation: fade var(--introFadeOut) forwards;
-}
 
-@keyframes fade {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-    display: none;
+  @keyframes fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+    }
   }
 }

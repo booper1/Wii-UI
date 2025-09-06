@@ -24,7 +24,8 @@ export class TopShelfComponent {
   ngOnInit(): void {
     this.renderSlideDeck();
     for (let i = 0; i < this.displayService.channelGrid().capacity; i++) {
-      this.introChannels.push(EMPTY_CHANNEL);
+      const empty = { ...EMPTY_CHANNEL, id: `empty-intro-${i}` };
+      this.introChannels.push(empty);
     }
 
     this.initializeIntroAnimation();
