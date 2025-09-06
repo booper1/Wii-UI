@@ -6,12 +6,16 @@
   ngClass="arrow left"
   [class.visible]="slideService.canSlideLeft()"
   (click)="slideService.prevSlide()"
+  aria-label="Left Arrow"
+  alt="Left Arrow"
 />
 <img
   src="assets/arrow.svg"
   ngClass="arrow right"
   [class.visible]="slideService.canSlideRight()"
   (click)="slideService.nextSlide()"
+  aria-label="Right Arrow"
+  alt="Right Arrow"
 />
 
 @if (!isIntroComplete) {

@@ -5,6 +5,7 @@
   viewBox="0 0 1000 550"
   xmlns="http://www.w3.org/2000/svg"
   [style.animation-delay.ms]="introDelay"
+  [attr.aria-label]="channel.title"
 >
   @if (!isIntroSlide && slideIndex === slideService.currentSlideIndex()) {
     <title [textContent]="channel.title"></title>

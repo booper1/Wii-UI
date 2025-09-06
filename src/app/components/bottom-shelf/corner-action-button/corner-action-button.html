@@ -5,6 +5,8 @@
   xmlns="http://www.w3.org/2000/svg"
   [style.width.px]="buttonWidthPx()"
   [style.--shadowDistance]="shadowDistancePx()"
+  [attr.aria-label]="isRight ? 'Settings' : 'About Mii'"
+  role="button"
 >
   <defs>
     <radialGradient id="buttonFill" gradientUnits="userSpaceOnUse" cx="77" cy="87" r="180">
