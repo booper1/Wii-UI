@@ -73,6 +73,7 @@ export class DisplayService {
   public blueBorderLinePath: WritableSignal<string> = signal<string>('');
   public borderShadowPath: WritableSignal<string> = signal<string>('');
   public lowerShadowPath: WritableSignal<string> = signal<string>('');
+  public bottomDeckClipPath: WritableSignal<string> = signal<string>('');
 
   // current grid fit snapshot
   public channelGrid: WritableSignal<ChannelGrid> = signal({
@@ -338,6 +339,14 @@ export class DisplayService {
       Z
     `);
 
+    this.bottomDeckClipPath.set(`
+      M 0 ${this.slideDeckHeight()}
+      L 0 ${this.borderStartY()}
+      L ${this.currentVW()} ${this.borderStartY()}
+      L ${this.currentVW()} ${this.slideDeckHeight()}
+      Z
+    `);
+
     // Shadow paths
     let innerPath: string = `M 0 ${this.borderStartY() + this.notchDepth() + this.borderShadowInsideExcess()}`;
 
@@ -357,8 +366,8 @@ export class DisplayService {
     `);
 
     this.lowerShadowPath.set(`
-      M ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
-      L ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
+      M ${this.currentVW() + this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
+      L ${this.currentVW() + this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
       Z

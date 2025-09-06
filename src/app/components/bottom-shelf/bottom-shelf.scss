@@ -39,3 +39,17 @@ app-corner-action-slot {
     }
   }
 }
+
+.staticLowerShadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: auto;
+  backface-visibility: hidden;
+  contain: layout paint style;
+
+  .lowerShadowPath {
+    fill: black;
+    opacity: 12%;
+  }
+}

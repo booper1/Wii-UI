@@ -10,3 +10,37 @@
 
 <app-corner-action-slot class="left" [isRight]="false" [style.bottom.px]="actionSlotBottomPx()" />
 <app-corner-action-slot class="right" [isRight]="true" [style.bottom.px]="actionSlotBottomPx()" />
+
+<svg
+  class="staticLowerShadow"
+  xmlns="http://www.w3.org/2000/svg"
+  [attr.width]="displayService.currentVW()"
+  [attr.height]="displayService.slideDeckHeight()"
+  [attr.viewBox]="`0 0 ${displayService.currentVW()} ${displayService.slideDeckHeight()}`"
+>
+  <defs>
+    <clipPath id="bottomDeckClipPath">
+      <path [attr.d]="displayService.bottomDeckClipPath()" />
+    </clipPath>
+
+    <filter
+      id="staticLowerShadowBlur"
+      filterUnits="userSpaceOnUse"
+      [attr.x]="-displayService.shadowOutsideExcess()"
+      [attr.y]="displayService.borderStartY() - displayService.shadowOutsideExcess()"
+      [attr.width]="displayService.slideDeckWidth() + displayService.shadowOutsideExcess() * 2"
+      [attr.height]="
+        displayService.slideDeckHeight() - displayService.borderStartY() + displayService.shadowOutsideExcess() * 2
+      "
+    >
+      <feGaussianBlur stdDeviation="72" />
+    </filter>
+  </defs>
+
+  <path
+    class="lowerShadowPath"
+    [attr.d]="displayService.lowerShadowPath()"
+    filter="url(#staticLowerShadowBlur)"
+    clip-path="url(#bottomDeckClipPath)"
+  />
+</svg>

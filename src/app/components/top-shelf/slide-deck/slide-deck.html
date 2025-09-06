@@ -71,19 +71,6 @@
       >
         <feGaussianBlur stdDeviation="27" />
       </filter>
-
-      <filter
-        id="underShadowBlur"
-        filterUnits="userSpaceOnUse"
-        [attr.x]="-displayService.shadowOutsideExcess()"
-        [attr.y]="displayService.borderStartY() - displayService.shadowOutsideExcess()"
-        [attr.width]="displayService.slideDeckWidth() + displayService.shadowOutsideExcess() * 2"
-        [attr.height]="
-          displayService.slideDeckHeight() - displayService.borderStartY() + displayService.shadowOutsideExcess() * 2
-        "
-      >
-        <feGaussianBlur stdDeviation="72" />
-      </filter>
     </defs>
 
     <g clip-path="url(#aboveLineClipPath)">
@@ -95,13 +82,6 @@
       class="borderShadowPath"
       [attr.d]="displayService.borderShadowPath()"
       filter="url(#borderShadowBlur)"
-      clip-path="url(#belowLineClipPath)"
-    />
-
-    <path
-      class="lowerShadowPath"
-      [attr.d]="displayService.lowerShadowPath()"
-      filter="url(#underShadowBlur)"
       clip-path="url(#belowLineClipPath)"
     />
 
