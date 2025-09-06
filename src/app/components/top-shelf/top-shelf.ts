@@ -14,13 +14,14 @@ import { SlideComponent } from './slide-deck/slide/slide';
   styleUrl: './top-shelf.scss',
 })
 export class TopShelfComponent {
-  protected displayService = inject(DisplayService);
-  protected slideService = inject(SlideService);
+  protected displayService: DisplayService = inject(DisplayService);
+  protected slideService: SlideService = inject(SlideService);
 
   protected introChannels: Channel[] = [];
-  protected introFadeOutDelayMs = 0;
+  protected introFadeOutDelayMs: number = 0;
+  protected isIntroComplete: boolean = false;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderSlideDeck();
     for (let i = 0; i < this.displayService.channelGrid().capacity; i++) {
       this.introChannels.push(EMPTY_CHANNEL);
@@ -30,35 +31,43 @@ export class TopShelfComponent {
   }
 
   @HostListener('window:resize')
-  onResize() {
+  onResize(): void {
     this.renderSlideDeck();
   }
 
   private initializeIntroAnimation(): void {
-    const cols = this.displayService.channelGrid().cols;
-    const rows = this.introChannels.map((_, i) => Math.floor(i / cols));
-    const colsArr = this.introChannels.map((_, i) => i % cols);
+    const gridCols: number = this.displayService.channelGrid().cols;
+    const rows: number[] = this.introChannels.map((_, i) =>
+      Math.floor(i / gridCols),
+    );
+    const colsArr: number[] = this.introChannels.map((_, i) => i % gridCols);
 
-    const startDelay = this.displayService.cssVar('--introStartDelay');
-    const rippleStepDelay = this.displayService.cssVar(
+    const startDelay: number = this.displayService.cssVar('--introStartDelay');
+    const rippleStepDelay: number = this.displayService.cssVar(
       '--introRippleStepDelay',
     );
-    const rippleDuration =
+    const rippleDuration: number =
       this.displayService.cssVar('--introRippleFadeIn') +
       this.displayService.cssVar('--introRippleHold') +
       this.displayService.cssVar('--introRippleFadeOut');
-    const endDelay = this.displayService.cssVar('--introEndDelay');
-    const fadeOut = this.displayService.cssVar('--introFadeOut');
+    const endDelay: number = this.displayService.cssVar('--introEndDelay');
+    const fadeOut: number = this.displayService.cssVar('--introFadeOut');
 
-    const maxDiagonal = Math.max(...rows.map((r, i) => r + colsArr[i]));
+    const maxDiagonal: number = Math.max(...rows.map((r, i) => r + colsArr[i]));
     this.introFadeOutDelayMs =
       startDelay + maxDiagonal * rippleStepDelay + rippleDuration + endDelay;
     this.displayService.introTotalTime.set(this.introFadeOutDelayMs + fadeOut);
+
+    window.setTimeout(() => {
+      this.isIntroComplete = true;
+    }, this.introFadeOutDelayMs + fadeOut);
   }
 
   private renderSlideDeck(): void {
     this.displayService.updateViewport();
     this.slideService.updateForResize();
-    this.displayService.configureSlideDeck(this.slideService.slideDeck.length);
+    this.displayService.configureSlideDeck(
+      this.slideService.slideDeck().length,
+    );
   }
 }

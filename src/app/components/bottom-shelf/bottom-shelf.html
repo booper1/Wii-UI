@@ -1,22 +1,23 @@
-<div class="bottomShelfWrapper" [style.height.px]="shelfHeightPx">
+<div
+  class="bottomShelfWrapper"
+  [style.height.px]="displayService.bottomShelfHeight()"
+>
   <div
     class="date"
-    [textContent]="timeService.displayDate"
-    [style.fontSize.px]="dateFontPx"
-    [style.height.px]="dateBoxHeightPx"
-    [style.top.px]="dateTopPx"
+    [textContent]="timeService.currentDate()"
+    [style.fontSize.px]="dateFontPx()"
+    [style.height.px]="dateBoxHeightPx()"
+    [style.top.px]="dateTopPx()"
   ></div>
 </div>
 
 <app-corner-action-slot
   class="left"
   [isRight]="false"
-  [style.bottom.px]="actionSlotBottomPx"
-  [shelfHeightPx]="shelfHeightPx"
+  [style.bottom.px]="actionSlotBottomPx()"
 />
 <app-corner-action-slot
   class="right"
   [isRight]="true"
-  [style.bottom.px]="actionSlotBottomPx"
-  [shelfHeightPx]="shelfHeightPx"
+  [style.bottom.px]="actionSlotBottomPx()"
 />

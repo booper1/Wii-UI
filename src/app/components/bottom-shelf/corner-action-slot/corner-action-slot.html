@@ -3,7 +3,7 @@
   [ngClass]="{ isRight }"
   [attr.viewBox]="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
   xmlns="http://www.w3.org/2000/svg"
-  [style.width.px]="slotWidthPx"
+  [style.width.px]="slotWidthPx()"
 >
   <defs>
     <linearGradient
@@ -52,5 +52,4 @@
 <app-corner-action-button
   [ngClass]="isRight ? 'right' : 'left'"
   [isRight]="isRight"
-  [shelfHeightPx]="shelfHeightPx"
 />

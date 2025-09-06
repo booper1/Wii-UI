@@ -1,20 +1,21 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { CHANNELS, EMPTY_CHANNEL } from '../constants/channels.data';
 import { Channel } from '../models/channel.model';
 import { DisplayService } from './display.service';
 
 @Injectable({ providedIn: 'root' })
-export class SlideService implements OnDestroy {
-  private displayService = inject(DisplayService);
+export class SlideService {
+  private displayService: DisplayService = inject(DisplayService);
 
-  private readonly MIN_SLIDES: number = 5;
-  private transitionDurationMs: number = 0;
+  private readonly MIN_SLIDES: number = 10;
+  private slideTransitionDuration: number = 0;
 
-  public slideDeck: Channel[][] = [];
-  public currentSlideIndex: number = 1;
-  public canSlideLeft: boolean = false;
-  public canSlideRight: boolean = false;
-  public isAnimating: boolean = false;
+  public slideDeck: WritableSignal<Channel[][]> = signal<Channel[][]>([]);
+  public currentSlideIndex: WritableSignal<number> = signal(1);
+  public currentSlideDeckSvgIndex: WritableSignal<number> = signal(0);
+  public canSlideLeft: WritableSignal<boolean> = signal(false);
+  public canSlideRight: WritableSignal<boolean> = signal(false);
+  public isAnimating: WritableSignal<boolean> = signal(false);
 
   public readonly allChannels: Channel[] = [...CHANNELS];
 
@@ -26,19 +27,13 @@ export class SlideService implements OnDestroy {
   };
 
   constructor() {
-    // Populate slide / channel data
-    this.slideDeck = this.buildSlides(this.allChannels);
-
+    this.slideDeck.set(this.buildSlides(this.allChannels));
     this.initializeSliding();
-  }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('keydown', this.keydownHandler);
   }
 
   private buildSlides(channels: Channel[]): Channel[][] {
     const slides: Channel[][] = [];
-    const totalSlides = Math.max(
+    const totalSlides: number = Math.max(
       Math.ceil(channels.length / this.channelCapacity),
       this.MIN_SLIDES,
     );
@@ -46,14 +41,16 @@ export class SlideService implements OnDestroy {
     // 1 empty slide to pad the start
     slides.push([]);
 
+    let emptyChannelIndex = 0;
     for (let i = 0; i < totalSlides; i++) {
-      const start = i * this.channelCapacity;
-      const end = start + this.channelCapacity;
-      const slice = channels.slice(start, end);
+      const start: number = i * this.channelCapacity;
+      const end: number = start + this.channelCapacity;
+      const slice: Channel[] = channels.slice(start, end);
 
       // Fill remaining space with empty channels
       while (slice.length < this.channelCapacity) {
-        slice.push(EMPTY_CHANNEL);
+        const empty = { ...EMPTY_CHANNEL, id: `empty-${emptyChannelIndex++}` };
+        slice.push(empty);
       }
 
       slides.push(slice);
@@ -67,15 +64,18 @@ export class SlideService implements OnDestroy {
 
   public updateForResize(): void {
     this.channelCapacity = this.displayService.channelGrid().capacity;
-    this.slideDeck = this.buildSlides(this.allChannels);
+    this.slideDeck.set(this.buildSlides(this.allChannels));
 
-    this.currentSlideIndex =
-      this.currentSlideIndex <= this.slideDeck.length - 2
-        ? this.currentSlideIndex
-        : this.slideDeck.length - 2;
+    this.currentSlideIndex.set(
+      this.currentSlideIndex() <= this.slideDeck().length - 2
+        ? this.currentSlideIndex()
+        : this.slideDeck().length - 2,
+    );
+
+    this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
 
     this.updateNavigation(true);
-    this.displayService.configureSlideDeck(this.slideDeck.length);
+    this.displayService.configureSlideDeck(this.slideDeck().length);
   }
 
   private initializeSliding(): void {
@@ -83,35 +83,41 @@ export class SlideService implements OnDestroy {
     this.updateNavigation(true);
 
     // Prevent spamming through slides
-    const duration = getComputedStyle(document.documentElement)
-      .getPropertyValue('--slideTransitionDuration')
-      .trim();
-    this.transitionDurationMs = parseFloat(duration) * 1000;
+    this.slideTransitionDuration = this.displayService.parseCssDuration(
+      '--slideTransitionDuration',
+    );
 
     // Change slides on arrow keys
     window.addEventListener('keydown', this.keydownHandler);
   }
 
   private updateNavigation(blockAnimation: boolean = false): void {
-    this.canSlideRight = this.currentSlideIndex < this.slideDeck.length - 2;
-    this.canSlideLeft = this.currentSlideIndex > 1;
+    this.canSlideRight.set(
+      this.currentSlideIndex() < this.slideDeck().length - 2,
+    );
+    this.canSlideLeft.set(this.currentSlideIndex() > 1);
 
     if (!blockAnimation) {
-      this.isAnimating = true;
-      setTimeout(() => (this.isAnimating = false), this.transitionDurationMs);
+      this.isAnimating.set(true);
+      setTimeout(() => {
+        this.isAnimating.set(false);
+        this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
+      }, this.slideTransitionDuration);
     }
   }
 
   public nextSlide(): void {
-    if (!this.isAnimating && this.canSlideRight) {
-      this.currentSlideIndex++;
+    if (!this.isAnimating() && this.canSlideRight()) {
+      this.currentSlideIndex.update((i) => i + 1);
+      this.currentSlideDeckSvgIndex.update((i) => i + 1);
       this.updateNavigation();
     }
   }
 
   public prevSlide(): void {
-    if (!this.isAnimating && this.canSlideLeft) {
-      this.currentSlideIndex--;
+    if (!this.isAnimating() && this.canSlideLeft()) {
+      this.currentSlideIndex.update((i) => i - 1);
+      this.currentSlideDeckSvgIndex.update((i) => i - 1);
       this.updateNavigation();
     }
   }

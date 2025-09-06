@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
+import { SHARED_DESIGN } from '../../constants/shared-design.data';
 import { DisplayService } from '../../services/display.service';
 import { TimeService } from '../../services/time.service';
 import { CornerActionSlotComponent } from './corner-action-slot/corner-action-slot';
-import { SHARED_DESIGN } from '../../constants/shared-design.data';
 
 @Component({
   selector: 'app-bottom-shelf',
@@ -11,28 +11,33 @@ import { SHARED_DESIGN } from '../../constants/shared-design.data';
   styleUrl: './bottom-shelf.scss',
 })
 export class BottomShelfComponent {
-  protected timeService = inject(TimeService);
-  protected displayService = inject(DisplayService);
+  protected timeService: TimeService = inject(TimeService);
+  protected displayService: DisplayService = inject(DisplayService);
 
-  get shelfHeightPx(): number {
+  protected readonly dateFontPx: Signal<number> = computed(() => {
     return (
-      this.displayService.slideHeight() - this.displayService.borderStartY()
+      72 *
+      (this.displayService.bottomShelfHeight() /
+        SHARED_DESIGN.BOTTOM_SHELF_HEIGHT)
     );
-  }
+  });
 
-  get dateFontPx(): number {
-    return 72 * (this.shelfHeightPx / SHARED_DESIGN.BOTTOM_SHELF_HEIGHT);
-  }
+  protected readonly dateBoxHeightPx: Signal<number> = computed(() => {
+    return (
+      64 *
+      (this.displayService.bottomShelfHeight() /
+        SHARED_DESIGN.BOTTOM_SHELF_HEIGHT)
+    );
+  });
 
-  get dateBoxHeightPx(): number {
-    return 64 * (this.shelfHeightPx / SHARED_DESIGN.BOTTOM_SHELF_HEIGHT);
-  }
+  protected readonly dateTopPx: Signal<number> = computed(() => {
+    return (
+      this.displayService.notchDepth() +
+      this.displayService.bottomShelfHeight() * 0.08
+    );
+  });
 
-  get dateTopPx(): number {
-    return this.displayService.notchDepth() + this.shelfHeightPx * 0.08;
-  }
-
-  get actionSlotBottomPx(): number {
-    return this.shelfHeightPx * 0.11;
-  }
+  protected readonly actionSlotBottomPx: Signal<number> = computed(() => {
+    return this.displayService.bottomShelfHeight() * 0.11;
+  });
 }

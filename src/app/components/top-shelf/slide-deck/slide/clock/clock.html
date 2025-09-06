@@ -4,16 +4,18 @@
   [style.--clockScaleFactor]="displayService.clockScaleFactor()"
 >
   <div class="timeCore">
-    <div class="hours" [textContent]="timeService.displayHours"></div>
-    <div class="colon" [ngClass]="{ hideColon: timeService.hideColon }">:</div>
-    <div class="minutes" [textContent]="timeService.displayMinutes"></div>
+    <div class="hour" [textContent]="timeService.currentHour()"></div>
+    <div class="colon" [ngClass]="{ hideColon: timeService.hideColon() }">
+      :
+    </div>
+    <div class="minute" [textContent]="timeService.currentMinute()"></div>
   </div>
 
-  @if (timeService.is12HourFormat) {
+  @if (timeService.is12HourFormat()) {
     <div
       class="amPm"
-      [textContent]="timeService.displayAmPm"
-      [style.right.ch]="amPmRight"
+      [textContent]="timeService.amPmValue()"
+      [style.right.ch]="amPmRightCh()"
     ></div>
   }
 </div>

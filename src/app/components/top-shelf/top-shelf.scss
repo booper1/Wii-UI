@@ -34,10 +34,6 @@
     left: calc(relativePx(-100) - relativePx(var(--padding)));
     transform: scaleX(-1);
 
-    -webkit-animation: arrowLeft var(--animationLoopDuration)
-      var(--animationEasing) infinite;
-    -moz-animation: arrowLeft var(--animationLoopDuration)
-      var(--animationEasing) infinite;
     animation: arrowLeft var(--animationLoopDuration) var(--animationEasing)
       infinite;
 
@@ -50,10 +46,6 @@
   &.right {
     right: calc(relativePx(-100) - relativePx(var(--padding)));
 
-    -webkit-animation: arrowRight var(--animationLoopDuration)
-      var(--animationEasing) infinite;
-    -moz-animation: arrowRight var(--animationLoopDuration)
-      var(--animationEasing) infinite;
     animation: arrowRight var(--animationLoopDuration) var(--animationEasing)
       infinite;
 
@@ -63,26 +55,6 @@
     }
   }
 
-  @-moz-keyframes arrowLeft {
-    0%,
-    100% {
-      transform: translateX(0) scaleX(-1);
-    }
-    30% {
-      transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance))))
-        scaleX(-1);
-    }
-  }
-  @-webkit-keyframes arrowLeft {
-    0%,
-    100% {
-      transform: translateX(0) scaleX(-1);
-    }
-    30% {
-      transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance))))
-        scaleX(-1);
-    }
-  }
   @keyframes arrowLeft {
     0%,
     100% {
@@ -94,24 +66,6 @@
     }
   }
 
-  @-moz-keyframes arrowRight {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    30% {
-      transform: translateX(relativePx(var(--animationLoopDistance)));
-    }
-  }
-  @-webkit-keyframes arrowRight {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    30% {
-      transform: translateX(relativePx(var(--animationLoopDistance)));
-    }
-  }
   @keyframes arrowRight {
     0%,
     100% {

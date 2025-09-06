@@ -1,9 +1,9 @@
 <svg
   class="actionButton"
-  [ngClass]="{ isRight, pressed }"
+  [ngClass]="{ isRight, pressed: pressed() }"
   [attr.viewBox]="`0 0 ${viewBoxSize} ${viewBoxSize}`"
   xmlns="http://www.w3.org/2000/svg"
-  [style.width.px]="buttonWidthPx"
+  [style.width.px]="buttonWidthPx()"
   [style.--shadowDistance]="shadowDistancePx()"
 >
   <defs>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { DisplayService } from '../../../../../services/display.service';
 import { TimeService } from '../../../../../services/time.service';
 
@@ -10,10 +10,10 @@ import { TimeService } from '../../../../../services/time.service';
   styleUrls: ['./clock.scss'],
 })
 export class ClockComponent {
-  protected timeService = inject(TimeService);
-  protected displayService = inject(DisplayService);
+  protected timeService: TimeService = inject(TimeService);
+  protected displayService: DisplayService = inject(DisplayService);
 
-  get amPmRight(): number {
+  protected readonly amPmRightCh: Signal<number> = computed(() => {
     return -4 * this.displayService.clockScaleFactor();
-  }
+  });
 }

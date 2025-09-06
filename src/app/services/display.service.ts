@@ -1,5 +1,12 @@
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import {
+  computed,
+  Injectable,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { SHARED_DESIGN } from '../constants/shared-design.data';
+import { ChannelGrid } from '../models/channel-grid.model';
 
 @Injectable({ providedIn: 'root' })
 export class DisplayService {
@@ -18,68 +25,79 @@ export class DisplayService {
   private readonly DESIGN_UNDER_SHADOW_INSIDE: number = 100;
 
   // Channel grid
-  private readonly CHANNEL_ASPECT = 20 / 11;
-  private readonly DESIGN_CHANNEL_GAP = 12;
-  private readonly DESIGN_GRID_TOP_CLEARANCE = 28 * 2;
-  private readonly DESIGN_GRID_BOTTOM_CLEARANCE = 28;
+  private readonly CHANNEL_ASPECT: number = 20 / 11;
+  private readonly DESIGN_CHANNEL_GAP: number = 12;
+  private readonly DESIGN_GRID_TOP_CLEARANCE: number = 28 * 2;
+  private readonly DESIGN_GRID_BOTTOM_CLEARANCE: number = 28;
 
   // Clock
-  private readonly DESIGN_CLOCK_FONT = 136;
-  private readonly DESIGN_CLOCK_SPACING_FROM_GRID_PX = 24;
-  private readonly CLOCK_ANCHOR_TOP = 0.48;
-  private readonly CLOCK_TOP_NUDGE = -6;
-  private readonly DESIGN_CLOCK_OFFSET_PX = this.computeDesignClockOffsetPx();
+  private readonly DESIGN_CLOCK_FONT: number = 136;
+  private readonly DESIGN_CLOCK_SPACING_FROM_GRID_PX: number = 24;
+  private readonly CLOCK_ANCHOR_TOP: number = 0.48;
+  private readonly CLOCK_TOP_NUDGE: number = -6;
+  private readonly DESIGN_CLOCK_OFFSET_PX: number =
+    this.computeDesignClockOffsetPx();
 
   // Cached values
-  private readonly slideCount = signal(1);
-  public readonly currentVH: WritableSignal<number> = signal(
-    SHARED_DESIGN.STAGE_HEIGHT,
-  );
-  public readonly currentVW: WritableSignal<number> = signal(
-    SHARED_DESIGN.STAGE_WIDTH,
-  );
+  private slideCount: WritableSignal<number> = signal(1);
+  public currentVH: WritableSignal<number> = signal(SHARED_DESIGN.STAGE_HEIGHT);
+  public currentVW: WritableSignal<number> = signal(SHARED_DESIGN.STAGE_WIDTH);
 
-  private readonly GRID_CENTERING_WEIGHT = 2 / 3;
+  private readonly GRID_CENTERING_WEIGHT: number = 2 / 3;
 
   // Shadows (outside excess is horizontal; scales with width)
-  public readonly shadowOutsideExcess = signal(this.DESIGN_SLIDE_WIDTH / 5);
+  public shadowOutsideExcess: WritableSignal<number> = signal(
+    this.DESIGN_SLIDE_WIDTH / 5,
+  );
 
   // Scaled per-slide size
-  public readonly slideWidth = signal(this.DESIGN_SLIDE_WIDTH);
-  public readonly slideHeight = signal(this.DESIGN_SLIDE_HEIGHT);
+  public slideWidth: WritableSignal<number> = signal(this.DESIGN_SLIDE_WIDTH);
+  public slideHeight: WritableSignal<number> = signal(this.DESIGN_SLIDE_HEIGHT);
+  public readonly slideDeckSvgWidth: Signal<number> = computed(() => {
+    return this.slideWidth() * 4;
+  });
 
   // Full slide deck size
-  public readonly slideDeckWidth = signal(
+  public slideDeckWidth: WritableSignal<number> = signal(
     this.slideWidth() * this.slideCount(),
   );
-  public readonly slideDeckHeight = signal(this.slideHeight());
+  public slideDeckHeight: WritableSignal<number> = signal(this.slideHeight());
 
   // Scaled geometry
-  public readonly borderStartY = signal(this.DESIGN_BORDER_START_Y);
-  public readonly notchDepth = signal(this.DESIGN_NOTCH_DEPTH); // vertical
-  public readonly edgeToNotch = signal(this.DESIGN_EDGE_TO_NOTCH); // horizontal
-  public readonly notchCurveWidth = signal(this.DESIGN_NOTCH_CURVE_W); // horizontal
+  public borderStartY: WritableSignal<number> = signal(
+    this.DESIGN_BORDER_START_Y,
+  );
+  public notchDepth: WritableSignal<number> = signal(this.DESIGN_NOTCH_DEPTH);
+  public edgeToNotch: WritableSignal<number> = signal(
+    this.DESIGN_EDGE_TO_NOTCH,
+  );
+  public notchCurveWidth: WritableSignal<number> = signal(
+    this.DESIGN_NOTCH_CURVE_W,
+  );
+  public readonly bottomShelfHeight: Signal<number> = computed(() => {
+    return this.slideHeight() - this.borderStartY();
+  });
 
   // Arc radii
-  public readonly arcRx = signal(this.DESIGN_ARC_R);
-  public readonly arcRy = signal(this.DESIGN_ARC_R);
+  public arcRx: WritableSignal<number> = signal(this.DESIGN_ARC_R);
+  public arcRy: WritableSignal<number> = signal(this.DESIGN_ARC_R);
 
-  public readonly borderShadowInsideExcess = signal(
+  public borderShadowInsideExcess: WritableSignal<number> = signal(
     this.DESIGN_BORDER_SHADOW_INSIDE,
-  ); // vertical
-  public readonly underShadowInsideExcess = signal(
+  );
+  public underShadowInsideExcess: WritableSignal<number> = signal(
     this.DESIGN_UNDER_SHADOW_INSIDE,
-  ); // vertical
+  );
 
   // Paths bound in template
-  public readonly aboveLineClipPath = signal<string>('');
-  public readonly belowLineClipPath = signal<string>('');
-  public readonly blueBorderLinePath = signal<string>('');
-  public readonly borderShadowPath = signal<string>('');
-  public readonly lowerShadowPath = signal<string>('');
+  public aboveLineClipPath: WritableSignal<string> = signal<string>('');
+  public belowLineClipPath: WritableSignal<string> = signal<string>('');
+  public blueBorderLinePath: WritableSignal<string> = signal<string>('');
+  public borderShadowPath: WritableSignal<string> = signal<string>('');
+  public lowerShadowPath: WritableSignal<string> = signal<string>('');
 
   // current grid fit snapshot
-  public readonly channelGrid = signal({
+  public channelGrid: WritableSignal<ChannelGrid> = signal({
     cols: 4,
     rows: 3,
     capacity: 12,
@@ -87,26 +105,26 @@ export class DisplayService {
     channelHeight: this.DESIGN_SLIDE_WIDTH / 4 / this.CHANNEL_ASPECT,
   });
 
-  public readonly channelGridTopPx = signal<number>(
+  public channelGridTopPx: WritableSignal<number> = signal<number>(
     this.DESIGN_GRID_TOP_CLEARANCE,
   );
 
   // Clock outputs
-  public readonly clockTopPx = signal<number>(0);
-  public readonly clockScaleFactor = signal<number>(1);
+  public clockTopPx: WritableSignal<number> = signal<number>(0);
+  public clockScaleFactor: WritableSignal<number> = signal<number>(1);
 
   // numeric gap in current px (computed from scaleY)
-  public readonly channelGapPx = computed(
+  public readonly channelGapPx: Signal<number> = computed(
     () => this.DESIGN_CHANNEL_GAP * this.scaleY,
   );
 
-  public introTotalTime = signal<number>(0);
+  public introTotalTime: WritableSignal<number> = signal<number>(0);
 
   constructor() {
     this.computeDisplay();
   }
 
-  public relativePx(n: number) {
+  public relativePx(n: number): string {
     return `calc(${n} / var(--originalHeight) * 100dvh)`;
   }
 
@@ -116,18 +134,36 @@ export class DisplayService {
     );
   }
 
+  public parseCssDuration(varName: string): number {
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue(varName)
+      .trim();
+
+    if (value.endsWith('ms')) return parseFloat(value);
+    if (value.endsWith('s')) return parseFloat(value) * 1000;
+    return parseFloat(value) || 0;
+  }
+
   public configureSlideDeck(slideCount: number): void {
     this.slideCount.set(slideCount);
-    const vh = Math.round(window.visualViewport?.height ?? window.innerHeight);
-    const vw = Math.round(window.visualViewport?.width ?? window.innerWidth);
+    const vh: number = Math.round(
+      window.visualViewport?.height ?? window.innerHeight,
+    );
+    const vw: number = Math.round(
+      window.visualViewport?.width ?? window.innerWidth,
+    );
     this.currentVH.set(vh);
     this.currentVW.set(vw);
     this.computeDisplay();
   }
 
   public updateViewport(): void {
-    const vh = Math.round(window.visualViewport?.height ?? window.innerHeight);
-    const vw = Math.round(window.visualViewport?.width ?? window.innerWidth);
+    const vh: number = Math.round(
+      window.visualViewport?.height ?? window.innerHeight,
+    );
+    const vw: number = Math.round(
+      window.visualViewport?.width ?? window.innerWidth,
+    );
     this.currentVH.set(vh);
     this.currentVW.set(vw);
 
@@ -149,7 +185,7 @@ export class DisplayService {
 
   // Width only shrinks when skinnier than 16:9, otherwise match height scale
   private get scaleX(): number {
-    const stageScale = this.currentVW() / SHARED_DESIGN.STAGE_WIDTH;
+    const stageScale: number = this.currentVW() / SHARED_DESIGN.STAGE_WIDTH;
     return this.isViewportSkinnier ? stageScale : this.scaleY;
   }
 
@@ -160,36 +196,41 @@ export class DisplayService {
 
   // Weighted notch scaling: tend toward scaleX on skinny screens
   private get notchScale(): number {
-    const scaleWeight = 0.5;
+    const scaleWeight: number = 0.5;
     return this.isViewportSkinnier
       ? this.scaleY + (this.scaleX - this.scaleY) * scaleWeight
       : this.scaleY;
   }
 
   // Determine best layout that fits above the border
-  public computeChannelGrid() {
-    const maxColsPref = 4;
-    const topOffsetPx = this.DESIGN_GRID_TOP_CLEARANCE * this.scaleY;
-    const bottomPaddingPx = 16;
+  public computeChannelGrid(): ChannelGrid {
+    const maxColsPref: number = 4;
+    const topOffsetPx: number = this.DESIGN_GRID_TOP_CLEARANCE * this.scaleY;
+    const bottomPaddingPx: number = 16;
 
-    const gridWidth = Math.max(1, this.slideWidth() - this.channelGapPx());
-    const gridHeight = Math.max(
+    const gridWidth: number = Math.max(
+      1,
+      this.slideWidth() - this.channelGapPx(),
+    );
+    const gridHeight: number = Math.max(
       1,
       this.borderStartY() - topOffsetPx - bottomPaddingPx,
     );
-    const gap = this.channelGapPx();
-    const invertedAspect = 1 / this.CHANNEL_ASPECT;
+    const gap: number = this.channelGapPx();
+    const invertedAspect: number = 1 / this.CHANNEL_ASPECT;
 
-    const minChannelWidth = 288 * this.scaleY;
+    const minChannelWidth: number = 288 * this.scaleY;
 
-    const widthCap = Math.floor((gridWidth + gap) / (minChannelWidth + gap));
-    const cols = Math.max(1, Math.min(maxColsPref, widthCap));
+    const widthCap: number = Math.floor(
+      (gridWidth + gap) / (minChannelWidth + gap),
+    );
+    const cols: number = Math.max(1, Math.min(maxColsPref, widthCap));
 
-    const totalGapW = (cols - 1) * gap;
-    const channelWidth = (gridWidth - totalGapW) / cols;
-    const channelHeight = channelWidth * invertedAspect;
+    const totalGapW: number = (cols - 1) * gap;
+    const channelWidth: number = (gridWidth - totalGapW) / cols;
+    const channelHeight: number = channelWidth * invertedAspect;
 
-    const rows = Math.max(
+    const rows: number = Math.max(
       cols === maxColsPref ? 3 : 2,
       Math.floor((gridHeight + gap) / (channelHeight + gap)),
     );
@@ -207,41 +248,61 @@ export class DisplayService {
   private buildBorderSegment(
     segmentStartX: number,
     isShadow: boolean = false,
+    isHalf: boolean = false,
+    isLeftHalf: boolean = false,
   ): string {
     // X positions
-    const leftEdgeX = segmentStartX;
-    const rightEdgeX = segmentStartX + this.slideWidth();
-    const leftStraightEndX = leftEdgeX + this.edgeToNotch();
-    const notchLeftMidX = leftStraightEndX + this.notchCurveWidth() / 2;
-    const notchLeftEndX = leftStraightEndX + this.notchCurveWidth();
-    const bottomMidX = segmentStartX + this.slideWidth() / 2;
-    const notchRightStartX =
+    const leftEdgeX: number = segmentStartX;
+    const rightEdgeX: number = segmentStartX + this.slideWidth();
+    const leftStraightEndX: number = leftEdgeX + this.edgeToNotch();
+    const notchLeftMidX: number = leftStraightEndX + this.notchCurveWidth() / 2;
+    const notchLeftEndX: number = leftStraightEndX + this.notchCurveWidth();
+    const bottomMidX: number = segmentStartX + this.slideWidth() / 2;
+    const notchRightStartX: number =
       rightEdgeX - this.edgeToNotch() - this.notchCurveWidth();
-    const notchRightMidX =
+    const notchRightMidX: number =
       rightEdgeX - this.edgeToNotch() - this.notchCurveWidth() / 2;
-    const notchRightEndX = rightEdgeX - this.edgeToNotch();
+    const notchRightEndX: number = rightEdgeX - this.edgeToNotch();
 
     // Y positions
-    const yTop = isShadow
+    const yTop: number = isShadow
       ? this.borderStartY() + this.borderShadowInsideExcess()
       : this.borderStartY();
-    const yMid = yTop + this.notchDepth() / 2;
-    const yBottom = yTop + this.notchDepth();
+    const yMid: number = yTop + this.notchDepth() / 2;
+    const yBottom: number = yTop + this.notchDepth();
 
     // Arc radii
-    const rx = this.arcRx();
-    const ry = this.arcRy();
+    const rx: number = this.arcRx();
+    const ry: number = this.arcRy();
 
-    return `
-    L ${leftStraightEndX} ${yTop}
-    A ${rx} ${ry} 0 0 1 ${notchLeftMidX} ${yMid}
-    A ${rx} ${ry} 0 0 0 ${notchLeftEndX} ${yBottom}
-    L ${bottomMidX} ${yBottom}
-    L ${notchRightStartX} ${yBottom}
-    A ${rx} ${ry} 0 0 0 ${notchRightMidX} ${yMid}
-    A ${rx} ${ry} 0 0 1 ${notchRightEndX} ${yTop}
-    L ${rightEdgeX} ${yTop}
-  `;
+    if (!isHalf) {
+      return `
+        L ${leftStraightEndX} ${yTop}
+        A ${rx} ${ry} 0 0 1 ${notchLeftMidX} ${yMid}
+        A ${rx} ${ry} 0 0 0 ${notchLeftEndX} ${yBottom}
+        L ${bottomMidX} ${yBottom}
+        L ${notchRightStartX} ${yBottom}
+        A ${rx} ${ry} 0 0 0 ${notchRightMidX} ${yMid}
+        A ${rx} ${ry} 0 0 1 ${notchRightEndX} ${yTop}
+        L ${rightEdgeX} ${yTop}
+      `;
+    } else {
+      if (isLeftHalf) {
+        return `
+          L ${leftStraightEndX} ${yTop}
+          A ${rx} ${ry} 0 0 1 ${notchLeftMidX} ${yMid}
+          A ${rx} ${ry} 0 0 0 ${notchLeftEndX} ${yBottom}
+          L ${bottomMidX} ${yBottom}
+        `;
+      } else {
+        return `
+          L ${notchRightStartX - bottomMidX} ${yBottom}
+          A ${rx} ${ry} 0 0 0 ${notchRightMidX - bottomMidX} ${yMid}
+          A ${rx} ${ry} 0 0 1 ${notchRightEndX - bottomMidX} ${yTop}
+          L ${rightEdgeX - bottomMidX} ${yTop}
+        `;
+      }
+    }
   }
 
   private computeDisplay(): void {
@@ -261,10 +322,10 @@ export class DisplayService {
     );
 
     // Border Y (tend lower on skinny screens)
-    const defaultY = this.DESIGN_BORDER_START_Y * this.scaleY;
+    const defaultY: number = this.DESIGN_BORDER_START_Y * this.scaleY;
     if (this.isViewportSkinnier) {
-      const shiftBelow = this.slideHeight() - defaultY;
-      const weight = 0.5;
+      const shiftBelow: number = this.slideHeight() - defaultY;
+      const weight: number = 0.5;
       this.borderStartY.set(defaultY + shiftBelow * this.skinniness * weight);
     } else {
       this.borderStartY.set(defaultY);
@@ -274,15 +335,16 @@ export class DisplayService {
     this.channelGrid.set(this.computeChannelGrid());
 
     const { rows, channelHeight } = this.channelGrid();
-    const gap = this.channelGapPx();
-    const gridHeight = rows * channelHeight + (rows - 1) * gap;
-    const scaledBottomClearance =
+    const gap: number = this.channelGapPx();
+    const gridHeight: number = rows * channelHeight + (rows - 1) * gap;
+    const scaledBottomClearance: number =
       this.DESIGN_GRID_BOTTOM_CLEARANCE * this.scaleY;
 
-    const designTop = this.borderStartY() - scaledBottomClearance - gridHeight;
-    const centerTop = designTop / 2;
+    const designTop: number =
+      this.borderStartY() - scaledBottomClearance - gridHeight;
+    const centerTop: number = designTop / 2;
 
-    const centerWeightedTop =
+    const centerWeightedTop: number =
       designTop + (centerTop - designTop) * this.GRID_CENTERING_WEIGHT;
 
     this.channelGridTopPx.set(
@@ -295,7 +357,7 @@ export class DisplayService {
     );
 
     // Clock
-    const clockAnchorY =
+    const clockAnchorY: number =
       this.borderStartY() + this.notchDepth() * this.CLOCK_ANCHOR_TOP;
 
     this.clockScaleFactor.set(
@@ -304,11 +366,11 @@ export class DisplayService {
           (this.isViewportSkinnier ? this.skinniness : 0),
     );
 
-    const targetFontPx =
+    const targetFontPx: number =
       this.DESIGN_CLOCK_FONT * this.scaleY * this.clockScaleFactor();
-    const clockTopStage =
+    const clockTopStage: number =
       clockAnchorY - targetFontPx * 0.55 + this.CLOCK_TOP_NUDGE * this.scaleY;
-    const notchClockTop = clockTopStage - this.channelGridTopPx();
+    const notchClockTop: number = clockTopStage - this.channelGridTopPx();
 
     this.clockTopPx.set(
       Math.round(
@@ -324,44 +386,51 @@ export class DisplayService {
     this.shadowOutsideExcess.set(this.slideWidth() / 5);
 
     // Border paths
-    let borderPath = `M 0 ${this.borderStartY()}`;
-    for (let i = 0; i < this.slideCount(); i++) {
-      borderPath += ` ${this.buildBorderSegment(i * this.slideWidth())}`;
-    }
+    let borderPath: string = `M 0 ${this.borderStartY() + this.notchDepth()}`;
+
+    borderPath += ` ${this.buildBorderSegment(0, false, true, false)}`;
+    borderPath += ` ${this.buildBorderSegment(0.5 * this.slideWidth())}`;
+    borderPath += ` ${this.buildBorderSegment(1.5 * this.slideWidth())}`;
+    borderPath += ` ${this.buildBorderSegment(2.5 * this.slideWidth())}`;
+    borderPath += ` ${this.buildBorderSegment(3.5 * this.slideWidth(), false, true, true)}`;
+
     this.blueBorderLinePath.set(borderPath);
 
     this.aboveLineClipPath.set(`
       M 0 0
       ${borderPath.replace(/^M /, 'L ')}
-      L ${this.slideDeckWidth()} 0
+      L ${this.slideDeckSvgWidth()} 0
       Z
     `);
 
     this.belowLineClipPath.set(`
       M 0 ${this.slideDeckHeight()}
       ${borderPath.replace(/^M /, 'L ')}
-      L ${this.slideDeckWidth()} ${this.slideDeckHeight()}
+      L ${this.slideDeckSvgWidth()} ${this.slideDeckHeight()}
       Z
     `);
 
     // Shadow paths
-    let innerPath = `M 0 ${this.borderStartY() + this.borderShadowInsideExcess()}`;
-    for (let i = 0; i < this.slideCount(); i++) {
-      innerPath += ` ${this.buildBorderSegment(i * this.slideWidth(), true)}`;
-    }
+    let innerPath: string = `M 0 ${this.borderStartY() + this.notchDepth() + this.borderShadowInsideExcess()}`;
+
+    innerPath += ` ${this.buildBorderSegment(0, true, true, false)}`;
+    innerPath += ` ${this.buildBorderSegment(0.5 * this.slideWidth(), true)}`;
+    innerPath += ` ${this.buildBorderSegment(1.5 * this.slideWidth(), true)}`;
+    innerPath += ` ${this.buildBorderSegment(2.5 * this.slideWidth(), true)}`;
+    innerPath += ` ${this.buildBorderSegment(3.5 * this.slideWidth(), true, true, true)}`;
 
     this.borderShadowPath.set(`
-      M ${this.slideDeckWidth() + this.shadowOutsideExcess()} ${this.borderStartY() - this.shadowOutsideExcess()}
+      M ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.borderStartY() - this.shadowOutsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.borderStartY() - this.shadowOutsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.borderStartY() + this.borderShadowInsideExcess()}
       ${innerPath.replace(/^M /, 'L ')}
-      L ${this.slideDeckWidth() + this.shadowOutsideExcess()} ${this.borderStartY() + this.borderShadowInsideExcess()}
-      L ${this.slideDeckWidth() + this.shadowOutsideExcess()} ${this.borderStartY() - this.shadowOutsideExcess()}
+      L ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.borderStartY() + this.borderShadowInsideExcess()}
+      L ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.borderStartY() - this.shadowOutsideExcess()}
     `);
 
     this.lowerShadowPath.set(`
-      M ${this.slideDeckWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
-      L ${this.slideDeckWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
+      M ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
+      L ${this.slideDeckSvgWidth() + this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.slideDeckHeight() - this.underShadowInsideExcess()}
       L ${-this.shadowOutsideExcess()} ${this.slideDeckHeight() + this.shadowOutsideExcess()}
       Z
@@ -369,33 +438,32 @@ export class DisplayService {
   }
 
   private computeDesignClockOffsetPx(): number {
-    // Design grid (4×3) geometry
-    const gap = this.DESIGN_CHANNEL_GAP;
-    const cols = 4;
-    const rows = 3;
+    const gap: number = this.DESIGN_CHANNEL_GAP;
+    const cols: number = 4;
+    const rows: number = 3;
 
-    const gridWidth = this.DESIGN_SLIDE_WIDTH - gap;
-    const channelWidth = (gridWidth - (cols - 1) * gap) / cols;
-    const channelHeight = channelWidth * (1 / this.CHANNEL_ASPECT);
-    const gridHeight = rows * channelHeight + (rows - 1) * gap;
+    const gridWidth: number = this.DESIGN_SLIDE_WIDTH - gap;
+    const channelWidth: number = (gridWidth - (cols - 1) * gap) / cols;
+    const channelHeight: number = channelWidth * (1 / this.CHANNEL_ASPECT);
+    const gridHeight: number = rows * channelHeight + (rows - 1) * gap;
 
-    const bottomBound =
+    const bottomBound: number =
       this.DESIGN_BORDER_START_Y - this.DESIGN_GRID_BOTTOM_CLEARANCE;
-    const gridTop = Math.max(
+    const gridTop: number = Math.max(
       this.DESIGN_GRID_TOP_CLEARANCE,
       bottomBound - gridHeight,
     );
 
-    const designClockTop =
+    const designClockTop: number =
       gridHeight + this.DESIGN_CLOCK_SPACING_FROM_GRID_PX + gridHeight * 0.01;
 
-    const clockAnchorY =
+    const clockAnchorY: number =
       this.DESIGN_BORDER_START_Y +
       this.DESIGN_NOTCH_DEPTH * this.CLOCK_ANCHOR_TOP;
-    const targetFontPx = this.DESIGN_CLOCK_FONT;
-    const clockTopStage =
+    const targetFontPx: number = this.DESIGN_CLOCK_FONT;
+    const clockTopStage: number =
       clockAnchorY - targetFontPx * 0.55 + this.CLOCK_TOP_NUDGE;
-    const notchClockTop = clockTopStage - gridTop;
+    const notchClockTop: number = clockTopStage - gridTop;
 
     return designClockTop - notchClockTop;
   }

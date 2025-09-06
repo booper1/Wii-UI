@@ -6,15 +6,15 @@
   <svg
     class="slideDeckSvg"
     [ngClass]="{
-      transitionEnabled: slideService.isAnimating,
+      transitionEnabled: slideService.isAnimating(),
     }"
-    [attr.width]="displayService.slideDeckWidth()"
+    [attr.width]="displayService.slideDeckSvgWidth()"
     [attr.height]="displayService.slideDeckHeight()"
     [attr.viewBox]="
-      `0 0 ${displayService.slideDeckWidth()} ${displayService.slideDeckHeight()}`
+      `0 0 ${displayService.slideDeckSvgWidth()} ${displayService.slideDeckHeight()}`
     "
     xmlns="http://www.w3.org/2000/svg"
-    [style.transform]="getSlideDeckTransform()"
+    [style.transform]="slideDeckSvgTransform()"
   >
     <defs>
       <pattern
@@ -47,6 +47,9 @@
         [attr.width]="displayService.slideWidth()"
         [attr.height]="displayService.slideWidth()"
         patternContentUnits="userSpaceOnUse"
+        [attr.patternTransform]="
+          `translate(${displayService.slideWidth() / 2},0)`
+        "
       >
         <rect
           x="0"
@@ -134,22 +137,24 @@
   <div
     class="slideDeck"
     [ngClass]="{
-      transitionEnabled: slideService.isAnimating,
+      transitionEnabled: slideService.isAnimating(),
     }"
     [style.width.px]="displayService.slideDeckWidth()"
     [style.height.px]="displayService.slideDeckHeight()"
-    [style.transform]="getSlideDeckTransform()"
+    [style.transform]="slideDeckTransform()"
   >
-    @for (channels of slideService.slideDeck; track $index) {
+    @for (channels of slideService.slideDeck(); track $index) {
       <div
         class="slide"
-        [ngClass]="{ inactiveSlide: $index !== slideService.currentSlideIndex }"
+        [ngClass]="{
+          inactiveSlide: $index !== slideService.currentSlideIndex(),
+        }"
         [style.width.px]="displayService.slideWidth()"
         [style.height.px]="displayService.slideDeckHeight()"
       >
         <app-slide
           [channels]="channels"
-          [isInactiveSlide]="$index !== slideService.currentSlideIndex"
+          [slideIndex]="$index"
           [isIntroSlide]="false"
         />
       </div>

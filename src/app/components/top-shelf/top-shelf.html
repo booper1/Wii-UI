@@ -4,20 +4,22 @@
 <img
   src="assets/arrow.svg"
   ngClass="arrow left"
-  [class.visible]="slideService.canSlideLeft"
+  [class.visible]="slideService.canSlideLeft()"
   (click)="slideService.prevSlide()"
 />
 <img
   src="assets/arrow.svg"
   ngClass="arrow right"
-  [class.visible]="slideService.canSlideRight"
+  [class.visible]="slideService.canSlideRight()"
   (click)="slideService.nextSlide()"
 />
 
-<div class="intro" [style.animation-delay.ms]="introFadeOutDelayMs">
-  <app-slide
-    [channels]="introChannels"
-    [isInactiveSlide]="true"
-    [isIntroSlide]="true"
-  />
-</div>
+@if (!isIntroComplete) {
+  <div class="intro" [style.animation-delay.ms]="introFadeOutDelayMs">
+    <app-slide
+      [channels]="introChannels"
+      [slideIndex]="1"
+      [isIntroSlide]="true"
+    />
+  </div>
+}

@@ -1,30 +1,30 @@
 <svg
   class="channel"
-  [class.inactive]="isInactiveSlide"
+  [class.inactive]="
+    slideIndex !== slideService.currentSlideIndex() || isIntroSlide
+  "
   [class.intro]="isIntroSlide"
   viewBox="0 0 1000 550"
   xmlns="http://www.w3.org/2000/svg"
   [style.animation-delay.ms]="introDelay"
 >
-  @if (!isInactiveSlide) {
+  @if (!isIntroSlide && slideIndex === slideService.currentSlideIndex()) {
     <title [textContent]="channel.title"></title>
   }
 
   <defs>
     <path
       id="channelPath"
-      d="M 0 275
-          C 5 -20 -20 5 275 0
-          L 275 0 725 0
-          C 1020 5 995 -20 1000 275 995 570 1020 545 725 550
-          L 725 550 275 550
-          C -20 545 5 570 0 275 5 -20 -20 5 275 0
+      d="M 500 544
+          L 281 544
+          C -14 540 10 564 6 275
+          C 10 -14 -14 10 281 6
+          L 719 6
+          C 1014 10 990 -14 994 275
+          C 990 564 1014 540 719 544
+          Z
         "
     />
-
-    <clipPath id="insideChannelOnly">
-      <use href="#channelPath" />
-    </clipPath>
 
     @if (isImgPreview(channel.preview)) {
       <pattern
@@ -38,21 +38,24 @@
           y="0"
           width="1000"
           height="550"
-          [attr.href]="resolvedImg"
-          [attr.preserveAspectRatio]="resolvedPreserveAspectRatio"
+          [attr.href]="resolvedImg()"
+          [attr.preserveAspectRatio]="resolvedPreserveAspectRatio()"
         />
       </pattern>
     }
   </defs>
 
-  @if (channel.url && !isInactiveSlide && !isIntroSlide) {
+  @if (
+    channel.url &&
+    slideIndex === slideService.currentSlideIndex() &&
+    !isIntroSlide
+  ) {
     <a [attr.href]="channel.url" target="_blank" rel="noreferrer">
       <use
         class="channelBorder"
         href="#channelPath"
-        stroke-width="24"
-        clip-path="url(#insideChannelOnly)"
-        [attr.fill]="resolvedBackgroundFill"
+        stroke-width="12"
+        [attr.fill]="resolvedBackgroundFill()"
       />
     </a>
   } @else {
@@ -60,9 +63,8 @@
       class="channelBorder"
       [ngClass]="{ isIntroSlide }"
       href="#channelPath"
-      stroke-width="24"
-      clip-path="url(#insideChannelOnly)"
-      [attr.fill]="resolvedBackgroundFill"
+      stroke-width="12"
+      [attr.fill]="resolvedBackgroundFill()"
       [style.--borderColor]="isIntroSlide ? 'black' : ''"
     />
   }
@@ -71,12 +73,12 @@
     <image
       x="50%"
       y="50%"
-      [attr.width]="300 * resolvedSvgScale"
-      [attr.height]="300 * resolvedSvgScale"
+      [attr.width]="innerSvgDefaultSize * resolvedSvgScale()"
+      [attr.height]="innerSvgDefaultSize * resolvedSvgScale()"
       [attr.transform]="
-        `translate(${-150 * resolvedSvgScale},${-150 * resolvedSvgScale})`
+        `translate(${(innerSvgDefaultSize / -2) * resolvedSvgScale()},${(innerSvgDefaultSize / -2) * resolvedSvgScale()})`
       "
-      [attr.href]="resolvedSvg"
+      [attr.href]="resolvedSvg()"
     />
   }
 
@@ -86,8 +88,8 @@
       y="50%"
       text-anchor="middle"
       dominant-baseline="central"
-      [attr.fill]="resolvedTextColor"
-      [textContent]="resolvedText"
+      [attr.fill]="resolvedTextColor()"
+      [textContent]="resolvedText()"
     />
   }
 </svg>

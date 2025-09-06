@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { DisplayService } from '../../../services/display.service';
 import { SlideService } from '../../../services/slide.service';
 import { SlideComponent } from './slide/slide';
@@ -11,11 +11,22 @@ import { SlideComponent } from './slide/slide';
   styleUrl: './slide-deck.scss',
 })
 export class SlideDeckComponent {
-  protected displayService = inject(DisplayService);
-  protected slideService = inject(SlideService);
+  protected displayService: DisplayService = inject(DisplayService);
+  protected slideService: SlideService = inject(SlideService);
 
-  protected getSlideDeckTransform(): string {
-    return `translateX(calc(-${(this.slideService.currentSlideIndex / this.slideService.slideDeck.length) * 100}% + 
-            (var(--stageWidth) - ${100 / this.slideService.slideDeck.length}%) / 2))`;
-  }
+  protected readonly slideDeckTransform: Signal<string> = computed(() => {
+    return `translateX(calc(-${
+      (this.slideService.currentSlideIndex() /
+        this.slideService.slideDeck().length) *
+      100
+    }% + (var(--stageWidth) - ${100 / this.slideService.slideDeck().length}%) / 2))`;
+  });
+
+  protected readonly slideDeckSvgTransform: Signal<string> = computed(() => {
+    return `translateX(calc(-${
+      (this.slideService.currentSlideDeckSvgIndex() /
+        this.slideService.slideDeck().length) *
+      100
+    }% + (var(--stageWidth) - ${100 / this.slideService.slideDeck().length}%) / 2))`;
+  });
 }

@@ -12,7 +12,8 @@
   align-items: center;
   justify-items: center;
 
-  app-channel {
+  app-channel,
+  .channelPlaceholder {
     aspect-ratio: 20 / 11;
     width: 100%;
   }

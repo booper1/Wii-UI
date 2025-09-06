@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, Signal, computed, inject } from '@angular/core';
 import { SHARED_DESIGN } from '../../../constants/shared-design.data';
 import { DisplayService } from '../../../services/display.service';
 import { CornerActionButtonComponent } from '../corner-action-button/corner-action-button';
@@ -11,20 +11,19 @@ import { CornerActionButtonComponent } from '../corner-action-button/corner-acti
   styleUrls: ['./corner-action-slot.scss'],
 })
 export class CornerActionSlotComponent {
-  protected displayService = inject(DisplayService);
+  protected displayService: DisplayService = inject(DisplayService);
 
   @Input({ required: true }) public isRight!: boolean;
-  @Input({ required: true }) public shelfHeightPx!: number;
 
-  readonly viewBoxWidth = 400;
-  readonly viewBoxHeight = 312;
+  protected readonly viewBoxWidth: number = 400;
+  protected readonly viewBoxHeight: number = 312;
 
-  protected get slotWidthPx(): number {
+  protected readonly slotWidthPx: Signal<number> = computed(() => {
     return (
       (this.viewBoxWidth *
         SHARED_DESIGN.CORNER_ACTION_SCALE *
-        this.shelfHeightPx) /
+        this.displayService.bottomShelfHeight()) /
       SHARED_DESIGN.BOTTOM_SHELF_HEIGHT
     );
-  }
+  });
 }
