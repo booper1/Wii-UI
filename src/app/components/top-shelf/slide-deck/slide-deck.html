@@ -10,19 +10,12 @@
     }"
     [attr.width]="displayService.slideDeckSvgWidth()"
     [attr.height]="displayService.slideDeckHeight()"
-    [attr.viewBox]="
-      `0 0 ${displayService.slideDeckSvgWidth()} ${displayService.slideDeckHeight()}`
-    "
+    [attr.viewBox]="`0 0 ${displayService.slideDeckSvgWidth()} ${displayService.slideDeckHeight()}`"
     xmlns="http://www.w3.org/2000/svg"
     [style.transform]="slideDeckSvgTransform()"
   >
     <defs>
-      <pattern
-        id="scanLines"
-        patternUnits="userSpaceOnUse"
-        width="9"
-        height="9"
-      >
+      <pattern id="scanLines" patternUnits="userSpaceOnUse" width="9" height="9">
         <rect class="scanLineWhite" width="9" height="3" />
         <rect class="scanLineGray" y="3" width="9" height="6" />
       </pattern>
@@ -47,9 +40,7 @@
         [attr.width]="displayService.slideWidth()"
         [attr.height]="displayService.slideWidth()"
         patternContentUnits="userSpaceOnUse"
-        [attr.patternTransform]="
-          `translate(${displayService.slideWidth() / 2},0)`
-        "
+        [attr.patternTransform]="`translate(${displayService.slideWidth() / 2},0)`"
       >
         <rect
           x="0"
@@ -72,17 +63,10 @@
         id="borderShadowBlur"
         filterUnits="userSpaceOnUse"
         [attr.x]="-displayService.shadowOutsideExcess()"
-        [attr.y]="
-          displayService.borderStartY() - displayService.shadowOutsideExcess()
-        "
-        [attr.width]="
-          displayService.slideDeckWidth() +
-          displayService.shadowOutsideExcess() * 2
-        "
+        [attr.y]="displayService.borderStartY() - displayService.shadowOutsideExcess()"
+        [attr.width]="displayService.slideDeckWidth() + displayService.shadowOutsideExcess() * 2"
         [attr.height]="
-          displayService.slideDeckHeight() -
-          displayService.borderStartY() +
-          displayService.shadowOutsideExcess() * 2
+          displayService.slideDeckHeight() - displayService.borderStartY() + displayService.shadowOutsideExcess() * 2
         "
       >
         <feGaussianBlur stdDeviation="27" />
@@ -92,17 +76,10 @@
         id="underShadowBlur"
         filterUnits="userSpaceOnUse"
         [attr.x]="-displayService.shadowOutsideExcess()"
-        [attr.y]="
-          displayService.borderStartY() - displayService.shadowOutsideExcess()
-        "
-        [attr.width]="
-          displayService.slideDeckWidth() +
-          displayService.shadowOutsideExcess() * 2
-        "
+        [attr.y]="displayService.borderStartY() - displayService.shadowOutsideExcess()"
+        [attr.width]="displayService.slideDeckWidth() + displayService.shadowOutsideExcess() * 2"
         [attr.height]="
-          displayService.slideDeckHeight() -
-          displayService.borderStartY() +
-          displayService.shadowOutsideExcess() * 2
+          displayService.slideDeckHeight() - displayService.borderStartY() + displayService.shadowOutsideExcess() * 2
         "
       >
         <feGaussianBlur stdDeviation="72" />
@@ -128,10 +105,7 @@
       clip-path="url(#belowLineClipPath)"
     />
 
-    <path
-      class="blueBorderLinePath"
-      [attr.d]="displayService.blueBorderLinePath()"
-    />
+    <path class="blueBorderLinePath" [attr.d]="displayService.blueBorderLinePath()" />
   </svg>
 
   <div
@@ -152,11 +126,7 @@
         [style.width.px]="displayService.slideWidth()"
         [style.height.px]="displayService.slideDeckHeight()"
       >
-        <app-slide
-          [channels]="channels"
-          [slideIndex]="$index"
-          [isIntroSlide]="false"
-        />
+        <app-slide [channels]="channels" [slideIndex]="$index" [isIntroSlide]="false" />
       </div>
     }
   </div>

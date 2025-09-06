@@ -36,9 +36,7 @@ export class SlideComponent {
   @Input({ required: true }) public isIntroSlide!: boolean;
 
   protected readonly introDelays: Signal<number[]> = computed(() => {
-    const rippleDelay: number = this.displayService.cssVar(
-      '--introRippleStepDelay',
-    );
+    const rippleDelay: number = this.displayService.cssVar('--introRippleStepDelay');
     const startDelay: number = this.displayService.cssVar('--introStartDelay');
     const gridCols: number = this.displayService.channelGrid().cols;
 
@@ -52,29 +50,18 @@ export class SlideComponent {
   protected readonly slideWidthMinusGap: Signal<number> = computed(
     () => this.displayService.slideWidth() - this.displayService.channelGapPx(),
   );
-  protected readonly gridCols: Signal<number> = computed(
-    () => this.displayService.channelGrid().cols,
-  );
-  protected readonly topPx: Signal<number> = computed(() =>
-    this.displayService.channelGridTopPx(),
-  );
-  protected readonly gapPx: Signal<number> = computed(() =>
-    this.displayService.channelGapPx(),
-  );
+  protected readonly gridCols: Signal<number> = computed(() => this.displayService.channelGrid().cols);
+  protected readonly topPx: Signal<number> = computed(() => this.displayService.channelGridTopPx());
+  protected readonly gapPx: Signal<number> = computed(() => this.displayService.channelGapPx());
 
   protected slideTransitionDuration: WritableSignal<number> = signal(0);
 
-  private channelStates: Map<number, ShowHideElement> = new Map<
-    number,
-    ShowHideElement
-  >();
+  private channelStates: Map<number, ShowHideElement> = new Map<number, ShowHideElement>();
 
   private clockState: ShowHideElement = { isHidden: false };
 
   ngOnInit(): void {
-    this.slideTransitionDuration.set(
-      this.displayService.parseCssDuration('--slideTransitionDuration'),
-    );
+    this.slideTransitionDuration.set(this.displayService.parseCssDuration('--slideTransitionDuration'));
   }
 
   protected shouldRenderChannel(index: number): boolean {
@@ -87,8 +74,7 @@ export class SlideComponent {
   }
 
   protected shouldRenderClock(): boolean {
-    const clockIsVisible: boolean =
-      this.slideIndex === this.slideService.currentSlideIndex();
+    const clockIsVisible: boolean = this.slideIndex === this.slideService.currentSlideIndex();
 
     return this.updateHideState(this.clockState, clockIsVisible);
   }
@@ -99,8 +85,7 @@ export class SlideComponent {
 
     return (
       this.slideIndex === currentSlideIndex ||
-      (this.slideIndex === currentSlideIndex - 1 &&
-        index % gridCols === gridCols - 1) ||
+      (this.slideIndex === currentSlideIndex - 1 && index % gridCols === gridCols - 1) ||
       (this.slideIndex === currentSlideIndex + 1 && index % gridCols === 0)
     );
   }

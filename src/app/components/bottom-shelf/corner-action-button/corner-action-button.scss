@@ -10,16 +10,14 @@
   height: auto;
 
   filter: drop-shadow(
-    relativePx(var(--shadowDistance)) relativePx(var(--shadowDistance))
-      relativePx(var(--shadowBlur)) var(--shadowColor)
+    relativePx(var(--shadowDistance)) relativePx(var(--shadowDistance)) relativePx(var(--shadowBlur)) var(--shadowColor)
   );
 
   &.pressed {
     transform: translate(var(--pressDistance), var(--pressDistance));
     filter: drop-shadow(
       calc(relativePx(var(--shadowDistance)) - var(--pressDistance))
-        calc(relativePx(var(--shadowDistance)) - var(--pressDistance))
-        relativePx(var(--shadowBlur)) var(--shadowColor)
+        calc(relativePx(var(--shadowDistance)) - var(--pressDistance)) relativePx(var(--shadowBlur)) var(--shadowColor)
     );
   }
 

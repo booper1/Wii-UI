@@ -16,10 +16,6 @@
 
 @if (!isIntroComplete) {
   <div class="intro" [style.animation-delay.ms]="introFadeOutDelayMs">
-    <app-slide
-      [channels]="introChannels"
-      [slideIndex]="1"
-      [isIntroSlide]="true"
-    />
+    <app-slide [channels]="introChannels" [slideIndex]="1" [isIntroSlide]="true" />
   </div>
 }

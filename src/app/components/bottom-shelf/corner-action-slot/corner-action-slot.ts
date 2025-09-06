@@ -20,9 +20,7 @@ export class CornerActionSlotComponent {
 
   protected readonly slotWidthPx: Signal<number> = computed(() => {
     return (
-      (this.viewBoxWidth *
-        SHARED_DESIGN.CORNER_ACTION_SCALE *
-        this.displayService.bottomShelfHeight()) /
+      (this.viewBoxWidth * SHARED_DESIGN.CORNER_ACTION_SCALE * this.displayService.bottomShelfHeight()) /
       SHARED_DESIGN.BOTTOM_SHELF_HEIGHT
     );
   });

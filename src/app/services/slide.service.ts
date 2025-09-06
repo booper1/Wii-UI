@@ -33,10 +33,7 @@ export class SlideService {
 
   private buildSlides(channels: Channel[]): Channel[][] {
     const slides: Channel[][] = [];
-    const totalSlides: number = Math.max(
-      Math.ceil(channels.length / this.channelCapacity),
-      this.MIN_SLIDES,
-    );
+    const totalSlides: number = Math.max(Math.ceil(channels.length / this.channelCapacity), this.MIN_SLIDES);
 
     // 1 empty slide to pad the start
     slides.push([]);
@@ -67,9 +64,7 @@ export class SlideService {
     this.slideDeck.set(this.buildSlides(this.allChannels));
 
     this.currentSlideIndex.set(
-      this.currentSlideIndex() <= this.slideDeck().length - 2
-        ? this.currentSlideIndex()
-        : this.slideDeck().length - 2,
+      this.currentSlideIndex() <= this.slideDeck().length - 2 ? this.currentSlideIndex() : this.slideDeck().length - 2,
     );
 
     this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
@@ -83,18 +78,14 @@ export class SlideService {
     this.updateNavigation(true);
 
     // Prevent spamming through slides
-    this.slideTransitionDuration = this.displayService.parseCssDuration(
-      '--slideTransitionDuration',
-    );
+    this.slideTransitionDuration = this.displayService.parseCssDuration('--slideTransitionDuration');
 
     // Change slides on arrow keys
     window.addEventListener('keydown', this.keydownHandler);
   }
 
   private updateNavigation(blockAnimation: boolean = false): void {
-    this.canSlideRight.set(
-      this.currentSlideIndex() < this.slideDeck().length - 2,
-    );
+    this.canSlideRight.set(this.currentSlideIndex() < this.slideDeck().length - 2);
     this.canSlideLeft.set(this.currentSlideIndex() > 1);
 
     if (!blockAnimation) {

@@ -1,8 +1,6 @@
 <svg
   class="channel"
-  [class.inactive]="
-    slideIndex !== slideService.currentSlideIndex() || isIntroSlide
-  "
+  [class.inactive]="slideIndex !== slideService.currentSlideIndex() || isIntroSlide"
   [class.intro]="isIntroSlide"
   viewBox="0 0 1000 550"
   xmlns="http://www.w3.org/2000/svg"
@@ -27,12 +25,7 @@
     />
 
     @if (isImgPreview(channel.preview)) {
-      <pattern
-        [attr.id]="channel.id"
-        patternUnits="userSpaceOnUse"
-        width="1000"
-        height="550"
-      >
+      <pattern [attr.id]="channel.id" patternUnits="userSpaceOnUse" width="1000" height="550">
         <image
           x="0"
           y="0"
@@ -45,18 +38,9 @@
     }
   </defs>
 
-  @if (
-    channel.url &&
-    slideIndex === slideService.currentSlideIndex() &&
-    !isIntroSlide
-  ) {
+  @if (channel.url && slideIndex === slideService.currentSlideIndex() && !isIntroSlide) {
     <a [attr.href]="channel.url" target="_blank" rel="noreferrer">
-      <use
-        class="channelBorder"
-        href="#channelPath"
-        stroke-width="12"
-        [attr.fill]="resolvedBackgroundFill()"
-      />
+      <use class="channelBorder" href="#channelPath" stroke-width="12" [attr.fill]="resolvedBackgroundFill()" />
     </a>
   } @else {
     <use

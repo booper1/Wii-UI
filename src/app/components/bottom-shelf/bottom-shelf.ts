@@ -15,26 +15,15 @@ export class BottomShelfComponent {
   protected displayService: DisplayService = inject(DisplayService);
 
   protected readonly dateFontPx: Signal<number> = computed(() => {
-    return (
-      72 *
-      (this.displayService.bottomShelfHeight() /
-        SHARED_DESIGN.BOTTOM_SHELF_HEIGHT)
-    );
+    return 72 * (this.displayService.bottomShelfHeight() / SHARED_DESIGN.BOTTOM_SHELF_HEIGHT);
   });
 
   protected readonly dateBoxHeightPx: Signal<number> = computed(() => {
-    return (
-      64 *
-      (this.displayService.bottomShelfHeight() /
-        SHARED_DESIGN.BOTTOM_SHELF_HEIGHT)
-    );
+    return 64 * (this.displayService.bottomShelfHeight() / SHARED_DESIGN.BOTTOM_SHELF_HEIGHT);
   });
 
   protected readonly dateTopPx: Signal<number> = computed(() => {
-    return (
-      this.displayService.notchDepth() +
-      this.displayService.bottomShelfHeight() * 0.08
-    );
+    return this.displayService.notchDepth() + this.displayService.bottomShelfHeight() * 0.08;
   });
 
   protected readonly actionSlotBottomPx: Signal<number> = computed(() => {

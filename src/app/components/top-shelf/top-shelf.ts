@@ -37,15 +37,11 @@ export class TopShelfComponent {
 
   private initializeIntroAnimation(): void {
     const gridCols: number = this.displayService.channelGrid().cols;
-    const rows: number[] = this.introChannels.map((_, i) =>
-      Math.floor(i / gridCols),
-    );
+    const rows: number[] = this.introChannels.map((_, i) => Math.floor(i / gridCols));
     const colsArr: number[] = this.introChannels.map((_, i) => i % gridCols);
 
     const startDelay: number = this.displayService.cssVar('--introStartDelay');
-    const rippleStepDelay: number = this.displayService.cssVar(
-      '--introRippleStepDelay',
-    );
+    const rippleStepDelay: number = this.displayService.cssVar('--introRippleStepDelay');
     const rippleDuration: number =
       this.displayService.cssVar('--introRippleFadeIn') +
       this.displayService.cssVar('--introRippleHold') +
@@ -54,8 +50,7 @@ export class TopShelfComponent {
     const fadeOut: number = this.displayService.cssVar('--introFadeOut');
 
     const maxDiagonal: number = Math.max(...rows.map((r, i) => r + colsArr[i]));
-    this.introFadeOutDelayMs =
-      startDelay + maxDiagonal * rippleStepDelay + rippleDuration + endDelay;
+    this.introFadeOutDelayMs = startDelay + maxDiagonal * rippleStepDelay + rippleDuration + endDelay;
     this.displayService.introTotalTime.set(this.introFadeOutDelayMs + fadeOut);
 
     window.setTimeout(() => {
@@ -66,8 +61,6 @@ export class TopShelfComponent {
   private renderSlideDeck(): void {
     this.displayService.updateViewport();
     this.slideService.updateForResize();
-    this.displayService.configureSlideDeck(
-      this.slideService.slideDeck().length,
-    );
+    this.displayService.configureSlideDeck(this.slideService.slideDeck().length);
   }
 }

@@ -16,17 +16,13 @@ export class SlideDeckComponent {
 
   protected readonly slideDeckTransform: Signal<string> = computed(() => {
     return `translateX(calc(-${
-      (this.slideService.currentSlideIndex() /
-        this.slideService.slideDeck().length) *
-      100
+      (this.slideService.currentSlideIndex() / this.slideService.slideDeck().length) * 100
     }% + (var(--stageWidth) - ${100 / this.slideService.slideDeck().length}%) / 2))`;
   });
 
   protected readonly slideDeckSvgTransform: Signal<string> = computed(() => {
     return `translateX(calc(-${
-      (this.slideService.currentSlideDeckSvgIndex() /
-        this.slideService.slideDeck().length) *
-      100
+      (this.slideService.currentSlideDeckSvgIndex() / this.slideService.slideDeck().length) * 100
     }% + (var(--stageWidth) - ${100 / this.slideService.slideDeck().length}%) / 2))`;
   });
 }

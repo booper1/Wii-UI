@@ -1,7 +1,4 @@
-<div
-  class="bottomShelfWrapper"
-  [style.height.px]="displayService.bottomShelfHeight()"
->
+<div class="bottomShelfWrapper" [style.height.px]="displayService.bottomShelfHeight()">
   <div
     class="date"
     [textContent]="timeService.currentDate()"
@@ -11,13 +8,5 @@
   ></div>
 </div>
 
-<app-corner-action-slot
-  class="left"
-  [isRight]="false"
-  [style.bottom.px]="actionSlotBottomPx()"
-/>
-<app-corner-action-slot
-  class="right"
-  [isRight]="true"
-  [style.bottom.px]="actionSlotBottomPx()"
-/>
+<app-corner-action-slot class="left" [isRight]="false" [style.bottom.px]="actionSlotBottomPx()" />
+<app-corner-action-slot class="right" [isRight]="true" [style.bottom.px]="actionSlotBottomPx()" />

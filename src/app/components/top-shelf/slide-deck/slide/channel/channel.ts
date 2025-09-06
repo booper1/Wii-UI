@@ -52,15 +52,11 @@ export class ChannelComponent {
     return this.isImgPreview(preview) ? preview.imgPath : '';
   });
 
-  protected readonly resolvedPreserveAspectRatio: Signal<string> = computed(
-    () => {
-      const preview: AnyPreview = this.channel.preview;
-      const defaultValue: string = 'xMidYMid slice';
-      return this.isImgPreview(preview)
-        ? (preview.preserveAspectRatio ?? defaultValue)
-        : defaultValue;
-    },
-  );
+  protected readonly resolvedPreserveAspectRatio: Signal<string> = computed(() => {
+    const preview: AnyPreview = this.channel.preview;
+    const defaultValue: string = 'xMidYMid slice';
+    return this.isImgPreview(preview) ? (preview.preserveAspectRatio ?? defaultValue) : defaultValue;
+  });
 
   protected readonly resolvedSvg: Signal<string> = computed(() => {
     const preview: AnyPreview = this.channel.preview;
@@ -70,9 +66,7 @@ export class ChannelComponent {
   protected readonly resolvedSvgScale: Signal<number> = computed(() => {
     const preview: AnyPreview = this.channel.preview;
     const defaultValue: number = 1;
-    return this.isSvgPreview(preview)
-      ? (preview.scale ?? defaultValue)
-      : defaultValue;
+    return this.isSvgPreview(preview) ? (preview.scale ?? defaultValue) : defaultValue;
   });
 
   protected readonly resolvedText: Signal<string> = computed(() => {
@@ -83,8 +77,6 @@ export class ChannelComponent {
   protected readonly resolvedTextColor: Signal<string> = computed(() => {
     const preview: AnyPreview = this.channel.preview;
     const defaultValue: string = '#000000';
-    return this.isTextPreview(preview)
-      ? (preview.textColor ?? defaultValue)
-      : defaultValue;
+    return this.isTextPreview(preview) ? (preview.textColor ?? defaultValue) : defaultValue;
   });
 }

@@ -1,10 +1,4 @@
-import {
-  computed,
-  Injectable,
-  signal,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
+import { computed, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +14,8 @@ export class TimeService {
   // Example value: new Date("2021-07-25T15:30:00")
   private readonly testDate?: Date;
 
-  private readonly effectiveLocale: string =
-    this.testLocale ?? navigator.language;
-  private readonly time: WritableSignal<Date> = signal<Date>(
-    this.testDate ?? new Date(),
-  );
+  private readonly effectiveLocale: string = this.testLocale ?? navigator.language;
+  private readonly time: WritableSignal<Date> = signal<Date>(this.testDate ?? new Date());
 
   constructor() {
     this.detect12HourFormat();
@@ -32,9 +23,7 @@ export class TimeService {
   }
 
   public readonly currentHour: Signal<string> = computed(() => {
-    const hours = this.is12HourFormat()
-      ? this.time().getHours() % 12 || 12
-      : this.time().getHours();
+    const hours = this.is12HourFormat() ? this.time().getHours() % 12 || 12 : this.time().getHours();
     return hours.toString();
   });
 
@@ -58,15 +47,10 @@ export class TimeService {
 
   private detect12HourFormat(): void {
     const now: Date = this.testDate ?? new Date();
-    const timeParts: Intl.DateTimeFormatPart[] = new Intl.DateTimeFormat(
-      this.effectiveLocale,
-      {
-        hour: 'numeric',
-      },
-    ).formatToParts(now);
-    this.is12HourFormat.set(
-      timeParts.some((part) => part.type === 'dayPeriod'),
-    );
+    const timeParts: Intl.DateTimeFormatPart[] = new Intl.DateTimeFormat(this.effectiveLocale, {
+      hour: 'numeric',
+    }).formatToParts(now);
+    this.is12HourFormat.set(timeParts.some((part) => part.type === 'dayPeriod'));
   }
 
   private startClock(): void {

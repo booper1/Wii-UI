@@ -5,17 +5,11 @@
 >
   <div class="timeCore">
     <div class="hour" [textContent]="timeService.currentHour()"></div>
-    <div class="colon" [ngClass]="{ hideColon: timeService.hideColon() }">
-      :
-    </div>
+    <div class="colon" [ngClass]="{ hideColon: timeService.hideColon() }">:</div>
     <div class="minute" [textContent]="timeService.currentMinute()"></div>
   </div>
 
   @if (timeService.is12HourFormat()) {
-    <div
-      class="amPm"
-      [textContent]="timeService.amPmValue()"
-      [style.right.ch]="amPmRightCh()"
-    ></div>
+    <div class="amPm" [textContent]="timeService.amPmValue()" [style.right.ch]="amPmRightCh()"></div>
   }
 </div>

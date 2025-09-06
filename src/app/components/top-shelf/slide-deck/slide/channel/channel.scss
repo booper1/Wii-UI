@@ -53,12 +53,8 @@
 
   &.intro {
     opacity: 0;
-    animation: fadeInOut
-      calc(
-        var(--introRippleFadeIn) + var(--introRippleHold) +
-          var(--introRippleFadeOut)
-      )
-      ease-in-out forwards;
+    animation: fadeInOut calc(var(--introRippleFadeIn) + var(--introRippleHold) + var(--introRippleFadeOut)) ease-in-out
+      forwards;
     --maxBrightness: 0.5;
 
     // CAREFUL

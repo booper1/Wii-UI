@@ -34,8 +34,7 @@
     left: calc(relativePx(-100) - relativePx(var(--padding)));
     transform: scaleX(-1);
 
-    animation: arrowLeft var(--animationLoopDuration) var(--animationEasing)
-      infinite;
+    animation: arrowLeft var(--animationLoopDuration) var(--animationEasing) infinite;
 
     &.visible {
       left: calc(var(--arrowDistanceFromEdge) - relativePx(var(--padding)));
@@ -46,8 +45,7 @@
   &.right {
     right: calc(relativePx(-100) - relativePx(var(--padding)));
 
-    animation: arrowRight var(--animationLoopDuration) var(--animationEasing)
-      infinite;
+    animation: arrowRight var(--animationLoopDuration) var(--animationEasing) infinite;
 
     &.visible {
       right: calc(var(--arrowDistanceFromEdge) - relativePx(var(--padding)));
@@ -61,8 +59,7 @@
       transform: translateX(0) scaleX(-1);
     }
     30% {
-      transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance))))
-        scaleX(-1);
+      transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance)))) scaleX(-1);
     }
   }
 

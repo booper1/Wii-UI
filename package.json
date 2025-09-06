@@ -10,7 +10,7 @@
     "publish:ghpages": "ng build --configuration production --base-href /Wii-UI/ && node tools/publish.js"
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 120,
     "overrides": [
       {
         "files": "*.html",

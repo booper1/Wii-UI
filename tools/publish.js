@@ -3,9 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const dist = path.join(process.cwd(), "dist");
-const apps = fs
-  .readdirSync(dist)
-  .filter((n) => fs.statSync(path.join(dist, n)).isDirectory());
+const apps = fs.readdirSync(dist).filter((n) => fs.statSync(path.join(dist, n)).isDirectory());
 if (apps.length === 0) {
   console.error("No app folder found in dist/");
   process.exit(1);
