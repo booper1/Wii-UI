@@ -6,25 +6,42 @@
     <base href="/Wii-UI/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="assets/wii.ico">
+
+    <!-- Channel Images -->
+    <link rel="preload" href="assets/emptyChannel.png" as="image">
+
+    <link rel="preload" href="assets/documentIcon.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/githubLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/homebrewChannel.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/linkedinLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/nytSudokuLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/wiiLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/wiiShopLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/wordleLogo.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="assets/youtubeLogo.svg" as="image" type="image/svg+xml">
   <style>
 :root {
-  --slideTransitionDuration: 400ms;
   --wiiBlue: #31c1ed;
-  --originalHeight: 1152;
+  --channelDefaultBorderColor: #b4b4b4;
+  --designHeight: 1152;
+  --scanLineWhite: rgb(245, 245, 245);
+  --arrowsPercentFromTop: 34.5%;
   --stageWidth: min(100dvw, calc(100dvh * 16 / 9));
-  --introStartDelay: 500ms;
-  --introRippleStepDelay: 100ms;
-  --introRippleFadeIn: 500ms;
-  --introRippleHold: 333ms;
-  --introRippleFadeOut: 833ms;
-  --introEndDelay: 833ms;
-  --introFadeOut: 333ms;
+  --bodyGradient:
+    linear-gradient(
+      to bottom,
+      var(--scanLineWhite) 40%,
+      #c6c8cc 60%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 html,
 body {
   margin: 0;
   padding: 0;
-  background: black;
+  background: var(--bodyBackground, black);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -37,28 +54,14 @@ body {
 body:active {
   cursor: url("./media/wii_click-UQY5DVIK.cur") 11 3, auto;
 }
-#stage {
-  position: relative;
-  width: min(100dvw, 177.7777777778dvh);
-  height: 100dvh;
-  aspect-ratio: 16/9;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-}
 app-root {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  -webkit-user-select: none;
-  user-select: none;
-  background-color: #dddfe3;
 }
-</style><link rel="stylesheet" href="styles-MNA4XRRY.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-MNA4XRRY.css"></noscript></head>
+</style><link rel="stylesheet" href="styles-WJ4MU5DR.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-WJ4MU5DR.css"></noscript></head>
   <body>
-    <div id="stage">
-      <app-root></app-root>
-    </div>
-  <script src="polyfills-B6TNHZQ6.js" type="module"></script><script src="main-F7Y2CCLQ.js" type="module"></script></body>
+    <app-root></app-root>
+  <script src="polyfills-B6TNHZQ6.js" type="module"></script><script src="main-HYSTOHK3.js" type="module"></script></body>
 </html>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import { Component, Signal, WritableSignal, computed, inject, input, signal } from '@angular/core';
 import { SHARED_DESIGN } from '../../../constants/shared-design.data';
 import { DisplayService } from '../../../services/display.service';
 
@@ -12,7 +12,7 @@ import { DisplayService } from '../../../services/display.service';
 export class CornerActionButtonComponent {
   protected displayService: DisplayService = inject(DisplayService);
 
-  @Input({ required: true }) public isRight!: boolean;
+  public isRight = input.required<boolean>();
 
   protected readonly viewBoxSize: number = 235;
   protected readonly center: number = Math.floor(this.viewBoxSize / 2);
@@ -34,7 +34,7 @@ export class CornerActionButtonComponent {
 
     const aspectScale = (SHARED_DESIGN.ASPECT_RATIO - currentAspectRatio) / (SHARED_DESIGN.ASPECT_RATIO - 73 / 100);
 
-    return SHARED_DESIGN.CORNER_ACTION_SCALE * (15 - 10 * aspectScale);
+    return Math.min(SHARED_DESIGN.CORNER_ACTION_SCALE * (15 - 10 * aspectScale), 5);
   });
 
   // Pressed visual state
@@ -42,7 +42,7 @@ export class CornerActionButtonComponent {
 
   protected onWiiClick(): void {
     // TODO: Handle the click event
-    console.log(`${this.isRight ? 'Right' : 'Left'} Wii button clicked`);
+    console.log(`${this.isRight() ? 'Right' : 'Left'} Wii button clicked`);
   }
 
   // Pointer helpers so pressed state never gets stuck

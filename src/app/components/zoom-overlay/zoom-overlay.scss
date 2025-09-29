@@ -1,0 +1,172 @@
+@use "styles.scss" as *;
+
+$testingOpacity: 1;
+$fadeToBlackFraction: 0.666;
+
+#zoom-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: black;
+  z-index: 1000;
+  pointer-events: none;
+
+  opacity: 0;
+
+  &.enable {
+    pointer-events: all;
+    opacity: $testingOpacity;
+  }
+
+  &.zoomIn {
+    pointer-events: all;
+    transition: opacity calc(var(--zoomTransitionDurationMs) * $fadeToBlackFraction) ease-in-out
+      calc(var(--arrowSlideInDurationMs) * 2);
+  }
+
+  &.zoomOut {
+    pointer-events: all;
+    transition: opacity calc(var(--zoomTransitionDurationMs) * $fadeToBlackFraction) ease-in-out
+      calc(var(--zoomTransitionDurationMs) * (1 - $fadeToBlackFraction));
+  }
+}
+
+#zoom-overlay {
+  // !important for any styles needing to override .channelLayered
+  position: fixed !important;
+  z-index: 1001;
+  opacity: $testingOpacity;
+  pointer-events: none;
+
+  top: 0;
+  left: calc((100dvw - var(--stageWidth)) / 2);
+  width: var(--stageWidth) !important;
+  height: 100dvh !important;
+
+  .channel {
+    pointer-events: none !important;
+
+    .channelContent {
+      will-change: transform;
+      contain: paint layout style;
+      backface-visibility: hidden;
+      opacity: 0;
+      visibility: hidden;
+
+      .zoomRectGroup,
+      .zoomButtonGroup {
+        display: unset !important;
+        opacity: 0;
+
+        .innerButton {
+          pointer-events: all;
+
+          text {
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-size: 28px;
+            font-family: "RodinBokutohDemiBold";
+            fill: #474747;
+          }
+        }
+      }
+    }
+  }
+
+  &.zoomedIn {
+    .channelContent {
+      opacity: 1;
+      visibility: visible;
+
+      .zoomButtonGroup {
+        .innerButton {
+          transform-box: fill-box; // or stroke-box
+          transform-origin: center; // relative to its own bounding box
+          transition: transform 50ms ease-in-out;
+
+          @media (hover: hover) and (pointer: fine) {
+            $scaleDiff: 0.04;
+            &:hover {
+              transform: scale(calc(1 + $scaleDiff));
+            }
+
+            &.pressed {
+              transform: scale(calc(1 - $scaleDiff));
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (pointer: fine) {
+    .channelBackground {
+      .channelBorder {
+        stroke: var(--channelDefaultBorderColor);
+      }
+    }
+
+    .channelForeground {
+      .foregroundDimmer {
+        opacity: 0.02;
+      }
+    }
+  }
+
+  &.enable {
+    .channelBackground {
+      .zoomRectGroup,
+      .zoomButtonGroup {
+        opacity: 1;
+      }
+
+      .channelBorder {
+        stroke: #000000 !important;
+      }
+    }
+
+    .channelForeground {
+      .foregroundDimmer {
+        opacity: 0 !important;
+      }
+    }
+  }
+
+  &.zoomIn {
+    .channelBackground {
+      .zoomRectGroup,
+      .zoomButtonGroup {
+        transition: opacity calc(var(--zoomTransitionDurationMs)) ease-in-out calc(var(--arrowSlideInDurationMs) * 2);
+      }
+      .channelBorder {
+        transition: stroke calc(var(--zoomTransitionDurationMs) * $fadeToBlackFraction) ease-in-out
+          calc(var(--arrowSlideInDurationMs) * 2);
+      }
+    }
+
+    .channelForeground {
+      .foregroundDimmer {
+        transition: opacity calc(var(--arrowSlideInDurationMs) * 2) ease-in-out;
+      }
+    }
+  }
+
+  &.zoomOut {
+    .channelBackground {
+      .zoomRectGroup,
+      .zoomButtonGroup {
+        transition: opacity calc(var(--zoomTransitionDurationMs)) ease-in-out;
+      }
+      .channelBorder {
+        stroke: var(--channelDefaultBorderColor);
+        transition: stroke calc(var(--zoomTransitionDurationMs) * $fadeToBlackFraction) ease-in-out
+          calc(var(--zoomTransitionDurationMs) * (1 - $fadeToBlackFraction));
+      }
+    }
+
+    .channelForeground {
+      .foregroundDimmer {
+        opacity: 0;
+      }
+    }
+  }
+}

@@ -17,6 +17,8 @@ export class TimeService {
   private readonly effectiveLocale: string = this.testLocale ?? navigator.language;
   private readonly time: WritableSignal<Date> = signal<Date>(this.testDate ?? new Date());
 
+  private previousMinute = this.time().getMinutes();
+
   constructor() {
     this.detect12HourFormat();
     this.startClock();
@@ -55,8 +57,14 @@ export class TimeService {
 
   private startClock(): void {
     setInterval(() => {
-      this.time.set(this.testDate ?? new Date());
       this.hideColon.update((val) => !val);
+
+      const now = this.testDate ?? new Date();
+      const minute = now.getMinutes();
+      if (minute !== this.previousMinute) {
+        this.time.set(now);
+        this.previousMinute = minute;
+      }
     }, 1000);
   }
 }

@@ -100,11 +100,11 @@ export class DisplayService {
   }
 
   public relativePx(n: number): string {
-    return `calc(${n} / var(--originalHeight) * 100dvh)`;
+    return `calc(${n} / var(--designHeight) * 100dvh)`;
   }
 
-  public cssVar(name: string): number {
-    return parseInt(getComputedStyle(document.documentElement).getPropertyValue(name));
+  public cssVar(name: string): string {
+    return getComputedStyle(document.documentElement).getPropertyValue(name);
   }
 
   public parseCssDuration(varName: string): number {
@@ -129,9 +129,6 @@ export class DisplayService {
     const vw: number = Math.round(window.visualViewport?.width ?? window.innerWidth);
     this.currentVH.set(vh);
     this.currentVW.set(vw);
-
-    // TEMP: Uncomment to see live updates to aspect ratio
-    // console.log('current aspect ratio:', vw / vh);
 
     this.computeDisplay();
   }
@@ -266,10 +263,12 @@ export class DisplayService {
     // Border Y (tend lower on skinny screens)
     const defaultY: number = this.DESIGN_BORDER_START_Y * this.scaleY;
     if (this.isViewportSkinnier) {
+      document.documentElement.style.setProperty('--bodyBackground', this.cssVar('--bodyGradient'));
       const shiftBelow: number = this.slideHeight() - defaultY;
       const weight: number = 0.5;
       this.borderStartY.set(defaultY + shiftBelow * this.skinniness * weight);
     } else {
+      document.documentElement.style.setProperty('--bodyBackground', 'black');
       this.borderStartY.set(defaultY);
     }
 

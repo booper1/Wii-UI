@@ -1,12 +1,19 @@
 <svg
   class="actionSlot"
-  [ngClass]="{ isRight }"
+  [ngClass]="{ isRight: isRight() }"
   [attr.viewBox]="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
   xmlns="http://www.w3.org/2000/svg"
   [style.width.px]="slotWidthPx()"
 >
   <defs>
-    <linearGradient id="lightPathGradient" gradientUnits="userSpaceOnUse" x1="84" y1="185" x2="396" y2="105">
+    <linearGradient
+      [id]="`lightPathGradient-${isRight() ? 'Right' : 'Left'}`"
+      gradientUnits="userSpaceOnUse"
+      x1="84"
+      y1="185"
+      x2="396"
+      y2="105"
+    >
       <stop offset="0%" stop-color="#b4b6ba99" />
       <stop offset="40%" stop-color="#b4b6ba99" />
       <stop offset="60%" stop-color="#dEdee1" />
@@ -33,7 +40,7 @@
         A 141 141 0 0 1 255 284
         L 0 284
       "
-    stroke="url(#lightPathGradient)"
+    [attr.stroke]="`url(#lightPathGradient-${isRight() ? 'Right' : 'Left'})`"
     stroke-width="12"
     fill="none"
     opacity="0.7"
@@ -42,4 +49,4 @@
   />
 </svg>
 
-<app-corner-action-button [ngClass]="isRight ? 'right' : 'left'" [isRight]="isRight" />
+<app-corner-action-button [ngClass]="isRight() ? 'right' : 'left'" [isRight]="isRight()" />

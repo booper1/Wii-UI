@@ -1,0 +1,31 @@
+<div id="stage">
+  <app-slide-deck />
+  <app-bottom-shelf />
+</div>
+
+<app-zoom-overlay />
+
+<div class="arrowsLayer">
+  <img
+    src="assets/arrow.svg"
+    class="arrow left"
+    [class.visible]="canArrowLeft()"
+    (click)="arrowLeft()"
+    aria-label="Left Arrow"
+    alt="Left Arrow"
+  />
+  <img
+    src="assets/arrow.svg"
+    class="arrow right"
+    [class.visible]="canArrowRight()"
+    (click)="arrowRight()"
+    aria-label="Right Arrow"
+    alt="Right Arrow"
+  />
+</div>
+
+@if (!isIntroComplete()) {
+  <div class="intro" [style.animation-delay.ms]="introFadeOutDelayMs">
+    <app-slide [channels]="introChannels" [slideIndex]="1" [isIntroSlide]="true" />
+  </div>
+}

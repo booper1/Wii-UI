@@ -1,0 +1,23 @@
+<div
+  class="slideWrapper"
+  [style.width.px]="slideWidthMinusGap()"
+  [style.--cols]="gridColCount()"
+  [style.top.px]="topPx()"
+  [style.gap.px]="gapPx()"
+>
+  @for (channel of channels(); track channel.id) {
+    @if (shouldRenderChannel()[$index]) {
+      <app-channel
+        [channel]="channel"
+        [slideIndex]="slideIndex()"
+        [isIntroSlide]="isIntroSlide()"
+        [introDelay]="isIntroSlide() ? introDelays()[$index] : 0"
+      />
+    } @else {
+      <div class="channelPlaceholder" aria-hidden="true"></div>
+    }
+  }
+  @if (channels().length !== 0 && !isIntroSlide()) {
+    <app-clock />
+  }
+</div>

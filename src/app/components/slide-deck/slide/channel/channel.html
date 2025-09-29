@@ -1,0 +1,213 @@
+<div class="channelLayered insideGrid" #channelRoot [attr.data-channel-id]="channel().id">
+  <ng-container *ngTemplateOutlet="channelContent; context: { portal: channelPortal }" />
+  <ng-template cdkPortal #channelPortal="cdkPortal">
+    <ng-container *ngTemplateOutlet="channelContent; context: { portal: channelPortal }" />
+  </ng-template>
+</div>
+
+<ng-template #channelContent let-portal="portal">
+  <svg
+    class="channel channelBackground"
+    [class.inactive]="!isCurrentSlide()"
+    [class.intro]="isIntroSlide()"
+    [attr.viewBox]="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
+    xmlns="http://www.w3.org/2000/svg"
+    [style.animation-delay.ms]="introDelay()"
+    [attr.aria-label]="channel().title"
+    (click)="onChannelClick()"
+  >
+    @if (isCurrentSlide() && !(zoomService.isZoomActive() && zoomService.activeChannelId() === channel().id)) {
+      <title [textContent]="channel().title"></title>
+    }
+
+    <defs>
+      <path [id]="`channelPath-${channel().id}`" [attr.d]="channelPath" />
+
+      @if (isImgPreview(channel().preview)) {
+        <pattern [attr.id]="channel().id" patternUnits="userSpaceOnUse" width="100%" height="100%">
+          <image
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            [attr.href]="resolvedImg()"
+            [attr.preserveAspectRatio]="resolvedPreserveAspectRatio()"
+          />
+        </pattern>
+      }
+
+      @if (zoomService.activeChannelId() === channel().id) {
+        <pattern [id]="`scanLines-${channel().id}`" patternUnits="userSpaceOnUse" width="6" height="6">
+          <rect class="scanLineWhite" width="6" height="2" />
+          <rect class="scanLineGray" y="2" width="6" height="4" />
+        </pattern>
+
+        <linearGradient
+          [id]="`scanLineGradientTile-${channel().id}`"
+          gradientUnits="userSpaceOnUse"
+          x1="0"
+          y1="0"
+          x2="100%"
+          y2="0"
+        >
+          <stop class="scanLineGradientEnd" offset="0%" />
+          <stop class="scanLineGradientCenter" offset="45%" />
+          <stop class="scanLineGradientCenter" offset="55%" />
+          <stop class="scanLineGradientEnd" offset="100%" />
+        </linearGradient>
+
+        <clipPath [id]="`backgroundClip-${channel().id}`">
+          <use [attr.href]="`#channelPath-${channel().id}`" />
+        </clipPath>
+
+        <linearGradient [id]="`innerButtonFillGradient-${channel().id}`" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f3f5f9" />
+          <stop offset="100%" stop-color="#d9dee8" />
+        </linearGradient>
+
+        <linearGradient [id]="`innerButtonShineGradient-${channel().id}`" x1="0" y1="0" x2="0.6" y2="0.6">
+          <stop offset="0%" stop-color="white" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+
+        <linearGradient [id]="`innerButtonShadowGradient-${channel().id}`" x1="1" y1="1" x2="0.4" y2="0.4">
+          <stop offset="0%" stop-color="black" stop-opacity="0.2" />
+          <stop offset="100%" stop-color="black" stop-opacity="0" />
+        </linearGradient>
+
+        <symbol [id]="`innerButton-${channel().id}`" viewBox="0 0 735 210">
+          <path
+            [id]="`innerButtonPath-${channel().id}`"
+            d="M 105,5 h 525 a 100,100 0 0 1 0,200 h -525 a 100,100 0 0 1 0,-200 Z"
+          />
+          <use
+            [attr.href]="`#innerButtonPath-${channel().id}`"
+            [attr.fill]="`url(#innerButtonFillGradient-${channel().id})`"
+          />
+          <use
+            [attr.href]="`#innerButtonPath-${channel().id}`"
+            [attr.fill]="`url(#innerButtonShineGradient-${channel().id})`"
+          />
+          <use
+            [attr.href]="`#innerButtonPath-${channel().id}`"
+            [attr.fill]="`url(#innerButtonShadowGradient-${channel().id})`"
+          />
+          <use [attr.href]="`#innerButtonPath-${channel().id}`" fill="none" stroke="var(--wiiBlue)" stroke-width="7" />
+        </symbol>
+      }
+    </defs>
+    <g class="channelContent bg">
+      <use
+        class="channelFill"
+        [ngClass]="{ isIntroSlide: isIntroSlide() }"
+        [attr.href]="`#channelPath-${channel().id}`"
+        [attr.fill]="resolvedBackgroundFill()"
+      />
+
+      @if (zoomService.activeChannelId() === channel().id) {
+        <g class="zoomRectGroup" [attr.clip-path]="`url(#backgroundClip-${channel().id})`">
+          <rect x="0" y="75%" width="100%" height="23%" class="scanLineWhite" />
+          <rect x="0" y="75%" width="100%" height="23%" [attr.fill]="`url(#scanLines-${channel().id})`" />
+          <rect x="0" y="75%" width="100%" height="23%" [attr.fill]="`url(#scanLineGradientTile-${channel().id})`" />
+          <line x1="0" y1="75%" x2="100%" y2="75%" stroke="black" stroke-width="1" />
+        </g>
+
+        <g class="zoomButtonGroup">
+          <g
+            class="innerButton"
+            [ngClass]="{ pressed: pressedLeft() }"
+            (click)="onWiiMenuClick()"
+            (pointerdown)="onPointerDown('left')"
+            (pointerup)="onPointerCancel('left')"
+            (pointercancel)="onPointerCancel('left')"
+            (pointerleave)="onPointerCancel('left')"
+          >
+            <use
+              [attr.href]="`#innerButton-${channel().id}`"
+              [attr.x]="innerButtonCenterX[0] - innerButtonWidth / 2"
+              [attr.y]="innerButtonCenterY - innerButtonHeight / 2"
+              [attr.width]="innerButtonWidth"
+              [attr.height]="innerButtonHeight"
+            />
+            <text [attr.x]="innerButtonCenterX[0]" [attr.y]="innerButtonCenterY">Wii Menu</text>
+          </g>
+
+          <g
+            class="innerButton"
+            [ngClass]="{ pressed: pressedRight() }"
+            (click)="onStartClick()"
+            (pointerdown)="onPointerDown('right')"
+            (pointerup)="onPointerCancel('right')"
+            (pointercancel)="onPointerCancel('right')"
+            (pointerleave)="onPointerCancel('right')"
+          >
+            <use
+              [attr.href]="`#innerButton-${channel().id}`"
+              [attr.x]="innerButtonCenterX[1] - innerButtonWidth / 2"
+              [attr.y]="innerButtonCenterY - innerButtonHeight / 2"
+              [attr.width]="innerButtonWidth"
+              [attr.height]="innerButtonHeight"
+            />
+            <text [attr.x]="innerButtonCenterX[1]" [attr.y]="innerButtonCenterY">Start</text>
+          </g>
+        </g>
+      }
+
+      <use
+        class="channelBorder"
+        [attr.href]="`#channelPath-${channel().id}`"
+        [style.--borderColor]="isIntroSlide() ? 'black' : ''"
+      />
+    </g>
+  </svg>
+
+  @if (!isImgPreview(channel().preview)) {
+    <svg
+      class="channel channelForeground"
+      [class.inactive]="!isCurrentSlide()"
+      [attr.viewBox]="`0 0 ${viewBoxWidth} ${viewBoxHeight}`"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <clipPath [id]="`dimmerClip-${channel().id}`">
+          <path class="dimmerClip" [attr.d]="channelPath" />
+        </clipPath>
+      </defs>
+      <g class="channelContent fg">
+        <g [attr.clip-path]="`url(#dimmerClip-${channel().id})`" pointer-events="none">
+          @if (isSvgPreview(channel().preview)) {
+            <image
+              x="50%"
+              y="50%"
+              [attr.width]="innerSvgDefaultSize * resolvedSvgScale()"
+              [attr.height]="innerSvgDefaultSize * resolvedSvgScale()"
+              [attr.transform]="
+                `translate(${(innerSvgDefaultSize / -2) * resolvedSvgScale()},${(innerSvgDefaultSize / -2) * resolvedSvgScale()})`
+              "
+              [attr.href]="resolvedSvg()"
+            />
+          } @else if (isTextPreview(channel().preview)) {
+            <text
+              x="50%"
+              y="50%"
+              text-anchor="middle"
+              dominant-baseline="central"
+              [attr.fill]="resolvedTextColor()"
+              [textContent]="resolvedText()"
+            />
+          }
+        </g>
+
+        <rect
+          class="foregroundDimmer"
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
+          [attr.clip-path]="`url(#dimmerClip-${channel().id})`"
+        />
+      </g>
+    </svg>
+  }
+</ng-template>

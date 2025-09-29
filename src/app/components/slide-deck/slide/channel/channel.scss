@@ -1,0 +1,145 @@
+@use "styles.scss" as *;
+
+.channelLayered {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .channelBackground,
+  .channelForeground {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    vertical-align: bottom;
+    pointer-events: none;
+  }
+
+  .channelBackground {
+    --borderColor: var(--channelDefaultBorderColor);
+    --borderThickness: 12;
+
+    .zoomRectGroup,
+    .zoomButtonGroup {
+      display: none;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .scanLineWhite {
+      fill: var(--scanLineWhite);
+    }
+
+    .scanLineGray {
+      fill: #e4e4e4;
+    }
+
+    .scanLineGradientEnd {
+      stop-color: rgba(245, 245, 245, 0);
+    }
+
+    .scanLineGradientCenter {
+      stop-color: var(--scanLineWhite);
+    }
+
+    filter: none;
+    // FIXME: Causes jitter when uncommented, find fix
+    // transition: filter 200ms ease;
+
+    .channelBorder {
+      stroke: var(--borderColor);
+      transition: stroke 200ms ease;
+      pointer-events: none;
+      will-change: stroke;
+      stroke-width: var(--borderThickness);
+      fill: none;
+    }
+
+    .channelFill {
+      pointer-events: all;
+      &.isIntroSlide {
+        filter: drop-shadow(0 0 relativePx(var(--borderThickness)) black);
+      }
+    }
+
+    &.intro {
+      opacity: 0;
+      animation: fadeInOut calc(var(--introRippleFadeInMs) + var(--introRippleHoldMs) + var(--introRippleFadeOutMs))
+        ease-in-out forwards;
+      --maxBrightness: 0.5;
+      will-change: opacity;
+
+      // CAREFUL
+      // If you change the timing of any of the intro animations, make sure to update this keyframe
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+        }
+        30% {
+          opacity: var(--maxBrightness);
+        } // ~3/6s fade in
+        50% {
+          opacity: var(--maxBrightness);
+        } // ~2/6s hold
+        100% {
+          opacity: 0;
+        } // ~5/6s fade out
+      }
+    }
+  }
+
+  .channelForeground {
+    pointer-events: none;
+
+    .dimmerClip {
+      --inset: 5px;
+      scale: calc(((1000px / 2) - var(--inset)) / (1000px / 2)) calc(((550px / 2) - var(--inset)) / (550px / 2));
+      transform-origin: center;
+    }
+
+    text {
+      font-size: 100px;
+      font-family: "ShinGoBold";
+    }
+
+    .foregroundDimmer {
+      fill: black;
+      transition: opacity 200ms ease;
+      opacity: 0;
+      will-change: opacity;
+    }
+  }
+}
+
+.insideGrid {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      .channelBackground:not(.inactive) {
+        // FIXME:
+        // filter: drop-shadow(0 0 relativePx(3) var(--wiiBlue));
+
+        .channelBorder {
+          stroke: var(--wiiBlue);
+        }
+      }
+
+      .channelForeground:not(.inactive) {
+        .foregroundDimmer {
+          opacity: 0.02;
+        }
+      }
+    }
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .innerButton,
+  .innerButton *,
+  .channel,
+  .channel * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+}

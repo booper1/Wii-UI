@@ -2,6 +2,7 @@
   class="timeWrapper"
   [style.top.px]="displayService.clockTopPx()"
   [style.--clockScaleFactor]="displayService.clockScaleFactor()"
+  [style.animation-delay.ms]="timeDelay"
 >
   <div class="timeCore">
     <div class="hour" [textContent]="timeService.currentHour()"></div>
@@ -12,4 +13,13 @@
   @if (timeService.is12HourFormat()) {
     <div class="amPm" [textContent]="timeService.amPmValue()" [style.right.ch]="amPmRightCh()"></div>
   }
+</div>
+
+<div
+  class="titleWrapper"
+  [style.top.px]="displayService.clockTopPx()"
+  [style.--clockScaleFactor]="displayService.clockScaleFactor()"
+  [style.animation-delay.ms]="titleDelay"
+>
+  <div class="title" [textContent]="'Wii UI Menu'"></div>
 </div>

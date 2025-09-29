@@ -9,8 +9,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  opacity: 0;
 
   color: #919191;
+
+  animation: fadeClockIn var(--clockTitleSwapDurationMs) ease-in forwards;
+
+  @keyframes fadeClockIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   .timeCore {
     display: flex;
@@ -65,8 +77,55 @@
   }
 }
 
+.titleWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #919191;
+
+  animation: fadeTitleOut var(--clockTitleSwapDurationMs) ease-out forwards;
+
+  @keyframes fadeTitleOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .title {
+    font-family: "RodinBokutohDemiBold";
+    color: var(--wiiBlue);
+    font-size: calc(#{relativePx(80)} * var(--clockScaleFactor));
+    line-height: calc(#{relativePx(90)} * var(--clockScaleFactor));
+    white-space: nowrap;
+  }
+}
+
 @media (max-aspect-ratio: 85/100) {
   .amPm {
     visibility: hidden;
+  }
+  .title {
+    font-size: calc(#{relativePx(70)} * var(--clockScaleFactor)) !important;
+  }
+}
+
+@media (max-aspect-ratio: 73/100) {
+  .title {
+    font-size: calc(#{relativePx(60)} * var(--clockScaleFactor)) !important;
+  }
+}
+
+@media (max-aspect-ratio: 50/100) {
+  .title {
+    font-size: calc(#{relativePx(50)} * var(--clockScaleFactor)) !important;
   }
 }

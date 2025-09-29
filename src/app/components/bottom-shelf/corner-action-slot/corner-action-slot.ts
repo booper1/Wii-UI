@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Signal, computed, inject } from '@angular/core';
+import { Component, Signal, computed, inject, input } from '@angular/core';
 import { SHARED_DESIGN } from '../../../constants/shared-design.data';
 import { DisplayService } from '../../../services/display.service';
 import { CornerActionButtonComponent } from '../corner-action-button/corner-action-button';
@@ -13,7 +13,7 @@ import { CornerActionButtonComponent } from '../corner-action-button/corner-acti
 export class CornerActionSlotComponent {
   protected displayService: DisplayService = inject(DisplayService);
 
-  @Input({ required: true }) public isRight!: boolean;
+  public isRight = input.required<boolean>();
 
   protected readonly viewBoxWidth: number = 400;
   protected readonly viewBoxHeight: number = 312;

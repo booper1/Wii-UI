@@ -4,7 +4,7 @@ export const CHANNELS: Channel[] = [
   {
     id: 'booper1_website',
     title: 'Booper_1 Wii UI',
-    url: '',
+    url: 'https://www.nintendo.com/en-gb/Hardware/Nintendo-History/Wii/Wii-636022.html?srsltid=AfmBOooDX7R1vPCkZy2hWEATB-1ilfIJMhgaq69pXB68FSK2NycJqxik',
     preview: {
       type: PreviewType.Svg,
       svgPath: 'assets/wiiLogo.svg',
@@ -70,8 +70,10 @@ export const CHANNELS: Channel[] = [
     title: 'Wii Shop',
     url: 'https://www.youtube.com/watch?v=yyjUmv1gJEg',
     preview: {
-      type: PreviewType.Img,
-      imgPath: 'assets/wiiShop.jpg',
+      type: PreviewType.Svg,
+      svgPath: 'assets/wiiShopLogo.svg',
+      backgroundColor: '#ffffff',
+      scale: 2.7,
     },
   },
   {
@@ -79,8 +81,10 @@ export const CHANNELS: Channel[] = [
     title: 'Homebrew Channel',
     url: 'https://wiibrew.org/wiki/Homebrew_Channel',
     preview: {
-      type: PreviewType.Img,
-      imgPath: 'assets/homebrew.png',
+      type: PreviewType.Svg,
+      svgPath: 'assets/homebrewChannel.svg',
+      backgroundColor: '#3989a7',
+      scale: 2,
     },
   },
   {

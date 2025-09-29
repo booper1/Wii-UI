@@ -1,0 +1,124 @@
+@use "styles.scss" as *;
+
+.intro {
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  z-index: 10000; // intro is the highest
+  animation: fade var(--introFadeOutMs) forwards;
+
+  @keyframes fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+.arrowsLayer {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--stageWidth);
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 9000; // arrows are 2nd highest
+
+  .arrow {
+    --arrowDistanceFromEdge: 3%;
+    --animationLoopDuration: 0.9s;
+    --animationLoopDistance: 10;
+    --animationEasing: ease-in-out;
+    --arrowPadding: 24;
+    --arrowHeight: 100;
+
+    position: absolute;
+    top: calc(var(--arrowsPercentFromTop) - relativePx(var(--arrowPadding)));
+    padding: relativePx(var(--arrowPadding));
+    width: auto;
+    height: relativePx(var(--arrowHeight));
+    pointer-events: all;
+
+    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.15));
+    animation-play-state: paused;
+    transition:
+      left var(--arrowSlideInDurationMs) ease-out var(--slideTransitionDurationMs),
+      right var(--arrowSlideInDurationMs) ease-out var(--slideTransitionDurationMs);
+
+    // Prevent dragging/selecting
+    -webkit-user-drag: none;
+    user-drag: none;
+
+    &.left {
+      left: calc(relativePx(-100) - relativePx(var(--arrowPadding)));
+      transform: scaleX(-1);
+      animation: arrowLeft var(--animationLoopDuration) var(--animationEasing) infinite;
+
+      &.visible {
+        left: calc(var(--arrowDistanceFromEdge) - relativePx(var(--arrowPadding)));
+        animation-play-state: running;
+      }
+    }
+
+    &.right {
+      right: calc(relativePx(-100) - relativePx(var(--arrowPadding)));
+      animation: arrowRight var(--animationLoopDuration) var(--animationEasing) infinite;
+
+      &.visible {
+        right: calc(var(--arrowDistanceFromEdge) - relativePx(var(--arrowPadding)));
+        animation-play-state: running;
+      }
+    }
+
+    @keyframes arrowLeft {
+      0%,
+      100% {
+        transform: translateX(0) scaleX(-1);
+      }
+      30% {
+        transform: translateX(calc(-1 * relativePx(var(--animationLoopDistance)))) scaleX(-1);
+      }
+    }
+
+    @keyframes arrowRight {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+      30% {
+        transform: translateX(relativePx(var(--animationLoopDistance)));
+      }
+    }
+  }
+}
+
+app-slide-deck {
+  z-index: 2;
+  pointer-events: none;
+
+  * {
+    pointer-events: none;
+  }
+}
+
+app-bottom-shelf {
+  z-index: 1;
+}
+
+#stage {
+  position: relative;
+  width: var(--stageWidth);
+  height: 100dvh;
+  aspect-ratio: 16 / 9;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+
+  will-change: transform;
+  contain: paint layout style;
+  backface-visibility: hidden;
+}

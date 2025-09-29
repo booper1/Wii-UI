@@ -1,14 +1,26 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import {
+  afterNextRender,
+  computed,
+  EnvironmentInjector,
+  inject,
+  Injectable,
+  runInInjectionContext,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CHANNELS, EMPTY_CHANNEL } from '../constants/channels.data';
 import { Channel } from '../models/channel.model';
 import { DisplayService } from './display.service';
+import { ZoomService } from './zoom.service';
 
 @Injectable({ providedIn: 'root' })
 export class SlideService {
   private displayService: DisplayService = inject(DisplayService);
+  private zoomService: ZoomService = inject(ZoomService);
+  private environmentInjector: EnvironmentInjector = inject(EnvironmentInjector);
 
-  private readonly MIN_SLIDES: number = 10;
-  private slideTransitionDuration: number = 0;
+  private readonly MIN_SLIDES: number = 3;
 
   public slideDeck: WritableSignal<Channel[][]> = signal<Channel[][]>([]);
   public currentSlideIndex: WritableSignal<number> = signal(1);
@@ -16,15 +28,25 @@ export class SlideService {
   public canSlideLeft: WritableSignal<boolean> = signal(false);
   public canSlideRight: WritableSignal<boolean> = signal(false);
   public isAnimating: WritableSignal<boolean> = signal(false);
+  public tempSlideIndex: WritableSignal<number> = signal(1);
+
+  public readonly canZoomChannelLeft: Signal<boolean> = computed(() => {
+    return (
+      this.zoomService.zoomState() === 'zoomedIn' &&
+      this.allChannels.findIndex((c) => c.id === this.zoomService.activeChannelId()) !== 0
+    );
+  });
+
+  public readonly canZoomChannelRight: Signal<boolean> = computed(() => {
+    return (
+      this.zoomService.zoomState() === 'zoomedIn' &&
+      this.allChannels.findIndex((c) => c.id === this.zoomService.activeChannelId()) !== this.allChannels.length - 1
+    );
+  });
 
   public readonly allChannels: Channel[] = [...CHANNELS];
 
   private channelCapacity: number = 1;
-
-  private keydownHandler = (event: KeyboardEvent) => {
-    if (event.key === 'ArrowRight') this.nextSlide();
-    if (event.key === 'ArrowLeft') this.prevSlide();
-  };
 
   constructor() {
     this.slideDeck.set(this.buildSlides(this.allChannels));
@@ -46,7 +68,7 @@ export class SlideService {
 
       // Fill remaining space with empty channels
       while (slice.length < this.channelCapacity) {
-        const empty = { ...EMPTY_CHANNEL, id: `empty-${emptyChannelIndex++}` };
+        const empty = { ...EMPTY_CHANNEL, id: `${EMPTY_CHANNEL.id}-${emptyChannelIndex++}` };
         slice.push(empty);
       }
 
@@ -63,9 +85,16 @@ export class SlideService {
     this.channelCapacity = this.displayService.channelGrid().capacity;
     this.slideDeck.set(this.buildSlides(this.allChannels));
 
-    this.currentSlideIndex.set(
-      this.currentSlideIndex() <= this.slideDeck().length - 2 ? this.currentSlideIndex() : this.slideDeck().length - 2,
-    );
+    if (this.zoomService.activeChannelId()) {
+      const zoomChannelIndex = this.allChannels.findIndex((c) => c.id === this.zoomService.activeChannelId());
+      this.currentSlideIndex.set(Math.floor(zoomChannelIndex / this.channelCapacity) + 1);
+    } else {
+      this.currentSlideIndex.set(
+        this.currentSlideIndex() <= this.slideDeck().length - 2
+          ? this.currentSlideIndex()
+          : this.slideDeck().length - 2,
+      );
+    }
 
     this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
 
@@ -76,12 +105,7 @@ export class SlideService {
   private initializeSliding(): void {
     // Configure initial navigation
     this.updateNavigation(true);
-
-    // Prevent spamming through slides
-    this.slideTransitionDuration = this.displayService.parseCssDuration('--slideTransitionDuration');
-
-    // Change slides on arrow keys
-    window.addEventListener('keydown', this.keydownHandler);
+    this.tempSlideIndex.set(this.currentSlideIndex());
   }
 
   private updateNavigation(blockAnimation: boolean = false): void {
@@ -90,26 +114,71 @@ export class SlideService {
 
     if (!blockAnimation) {
       this.isAnimating.set(true);
-      setTimeout(() => {
-        this.isAnimating.set(false);
-        this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
-      }, this.slideTransitionDuration);
+    } else {
+      this.currentSlideDeckSvgIndex.set((this.slideDeck().length - 1) / 2);
     }
   }
 
-  public nextSlide(): void {
-    if (!this.isAnimating() && this.canSlideRight()) {
-      this.currentSlideIndex.update((i) => i + 1);
-      this.currentSlideDeckSvgIndex.update((i) => i + 1);
-      this.updateNavigation();
-    }
-  }
-
-  public prevSlide(): void {
+  public prevSlide(blockAnimation: boolean = false): void {
     if (!this.isAnimating() && this.canSlideLeft()) {
+      this.tempSlideIndex.set(this.currentSlideIndex());
       this.currentSlideIndex.update((i) => i - 1);
       this.currentSlideDeckSvgIndex.update((i) => i - 1);
-      this.updateNavigation();
+      this.updateNavigation(blockAnimation);
+    }
+  }
+
+  public nextSlide(blockAnimation: boolean = false): void {
+    if (!this.isAnimating() && this.canSlideRight()) {
+      this.tempSlideIndex.set(this.currentSlideIndex());
+      this.currentSlideIndex.update((i) => i + 1);
+      this.currentSlideDeckSvgIndex.update((i) => i + 1);
+      this.updateNavigation(blockAnimation);
+    }
+  }
+
+  public prevZoomedChannel(): void {
+    if (this.canZoomChannelLeft()) {
+      const currentId = this.zoomService.activeChannelId();
+
+      if (currentId) {
+        const currentIndex = this.allChannels.findIndex((c) => c.id === currentId);
+
+        if (currentIndex > 0) {
+          if (currentIndex % this.channelCapacity === 0) {
+            this.prevSlide(true);
+          }
+
+          // Ensure rect is read after the DOM reflow completes
+          runInInjectionContext(this.environmentInjector, () => {
+            afterNextRender(() => {
+              this.zoomService.setActiveChannel(this.allChannels[currentIndex - 1].id);
+            });
+          });
+        }
+      }
+    }
+  }
+
+  public nextZoomedChannel(): void {
+    if (this.canZoomChannelRight()) {
+      const currentId = this.zoomService.activeChannelId();
+
+      if (currentId) {
+        const currentIndex = this.allChannels.findIndex((c) => c.id === currentId);
+        if (currentIndex > -1 && currentIndex !== this.allChannels.length - 1) {
+          if ((currentIndex + 1) % this.channelCapacity === 0) {
+            this.nextSlide(true);
+          }
+
+          // Ensure rect is read after the DOM reflow completes
+          runInInjectionContext(this.environmentInjector, () => {
+            afterNextRender(() => {
+              this.zoomService.setActiveChannel(this.allChannels[currentIndex + 1].id);
+            });
+          });
+        }
+      }
     }
   }
 }

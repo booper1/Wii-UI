@@ -1,0 +1,17 @@
+<div
+  id="zoom-overlay-backdrop"
+  [class.enable]="zoomService.zoomState() === 'zoomingIn' || zoomService.zoomState() === 'zoomedIn'"
+  [class.zoomIn]="zoomService.zoomState() === 'zoomingIn'"
+  [class.zoomOut]="zoomService.zoomState() === 'zoomingOut'"
+></div>
+
+<div
+  id="zoom-overlay"
+  class="channelLayered"
+  [class.zoomedIn]="zoomService.zoomState() === 'zoomedIn'"
+  [class.enable]="zoomService.zoomState() === 'zoomingIn' || zoomService.zoomState() === 'zoomedIn'"
+  [class.zoomIn]="zoomService.zoomState() === 'zoomingIn'"
+  [class.zoomOut]="zoomService.zoomState() === 'zoomingOut'"
+>
+  <ng-template [cdkPortalOutlet]="zoomService.activePortal()" (attached)="onPortalAttached()" />
+</div>

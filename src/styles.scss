@@ -10,8 +10,16 @@
   font-family: "RodinBokutohBold";
   src:
     local("RodinBokutohBold"),
-    url("./app/assets/fonts/RodinBokutoh/RodinBokutohB.otf") format("opentype");
+    url("./app/assets/fonts/RodinBokutoh/RodinBokutohBold.otf") format("opentype");
   font-weight: bold;
+}
+
+@font-face {
+  font-family: "RodinBokutohDemiBold";
+  src:
+    local("RodinBokutohDemiBold"),
+    url("./app/assets/fonts/RodinBokutoh/RodinBokutohDemiBold.otf") format("opentype");
+  font-weight: 600;
 }
 
 @font-face {
@@ -25,36 +33,36 @@
 @font-face {
   font-family: "ContinuumBold";
   src:
-    local("Continuum"),
-    url("./app/assets/fonts/Continuum/ContinuumB.otf") format("opentype");
+    local("ContinuumBold"),
+    url("./app/assets/fonts/Continuum/ContinuumBold.otf") format("opentype");
   font-weight: bold;
 }
 
 :root {
-  --slideTransitionDuration: 400ms;
   --wiiBlue: #31c1ed;
-  --originalHeight: 1152;
+  --channelDefaultBorderColor: #b4b4b4;
+  --designHeight: 1152;
+  --scanLineWhite: rgb(245, 245, 245);
+  --arrowsPercentFromTop: 34.5%;
 
   --stageWidth: min(100dvw, calc(100dvh * 16 / 9));
+  --bodyGradient: linear-gradient(to bottom, var(--scanLineWhite) 40%, #c6c8cc 60%);
 
-  --introStartDelay: 500ms;
-  --introRippleStepDelay: 100ms; // time between diagonals
-  --introRippleFadeIn: 500ms;
-  --introRippleHold: 333ms;
-  --introRippleFadeOut: 833ms;
-  --introEndDelay: 833ms; // delay after last channel fade
-  --introFadeOut: 333ms;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 @function relativePx($n) {
-  @return calc(#{$n} / var(--originalHeight) * 100dvh);
+  @return calc(#{$n} / var(--designHeight) * 100dvh);
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
-  background: black;
+  background: var(--bodyBackground, black);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -79,21 +87,9 @@ body {
   }
 }
 
-#stage {
-  position: relative;
-  width: min(100dvw, calc(100dvh * 16 / 9));
-  height: 100dvh;
-  aspect-ratio: 16 / 9;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 app-root {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  user-select: none;
-  background-color: #dddfe3;
 }

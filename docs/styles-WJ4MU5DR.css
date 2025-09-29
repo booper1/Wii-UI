@@ -6,8 +6,13 @@
 }
 @font-face {
   font-family: "RodinBokutohBold";
-  src: local("RodinBokutohBold"), url("./media/RodinBokutohB-6PLTELS7.otf") format("opentype");
+  src: local("RodinBokutohBold"), url("./media/RodinBokutohBold-6PLTELS7.otf") format("opentype");
   font-weight: bold;
+}
+@font-face {
+  font-family: "RodinBokutohDemiBold";
+  src: local("RodinBokutohDemiBold"), url("./media/RodinBokutohDemiBold-A6DUMLVH.otf") format("opentype");
+  font-weight: 600;
 }
 @font-face {
   font-family: "DigitalDisplay";
@@ -16,27 +21,31 @@
 }
 @font-face {
   font-family: "ContinuumBold";
-  src: local("Continuum"), url("./media/ContinuumB-42XKIOEQ.otf") format("opentype");
+  src: local("ContinuumBold"), url("./media/ContinuumBold-42XKIOEQ.otf") format("opentype");
   font-weight: bold;
 }
 :root {
-  --slideTransitionDuration: 400ms;
   --wiiBlue: #31c1ed;
-  --originalHeight: 1152;
+  --channelDefaultBorderColor: #b4b4b4;
+  --designHeight: 1152;
+  --scanLineWhite: rgb(245, 245, 245);
+  --arrowsPercentFromTop: 34.5%;
   --stageWidth: min(100dvw, calc(100dvh * 16 / 9));
-  --introStartDelay: 500ms;
-  --introRippleStepDelay: 100ms;
-  --introRippleFadeIn: 500ms;
-  --introRippleHold: 333ms;
-  --introRippleFadeOut: 833ms;
-  --introEndDelay: 833ms;
-  --introFadeOut: 333ms;
+  --bodyGradient:
+    linear-gradient(
+      to bottom,
+      var(--scanLineWhite) 40%,
+      #c6c8cc 60%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 html,
 body {
   margin: 0;
   padding: 0;
-  background: black;
+  background: var(--bodyBackground, black);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -55,23 +64,11 @@ body.paused-animations * {
   animation-play-state: paused !important;
   transition: none !important;
 }
-#stage {
-  position: relative;
-  width: min(100dvw, 177.7777777778dvh);
-  height: 100dvh;
-  aspect-ratio: 16/9;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-}
 app-root {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  -webkit-user-select: none;
-  user-select: none;
-  background-color: #dddfe3;
 }
 
 /* angular:styles/global:styles */

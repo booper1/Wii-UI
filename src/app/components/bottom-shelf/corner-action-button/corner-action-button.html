@@ -1,29 +1,41 @@
 <svg
   class="actionButton"
-  [ngClass]="{ isRight, pressed: pressed() }"
+  [ngClass]="{ isRight: isRight(), pressed: pressed() }"
   [attr.viewBox]="`0 0 ${viewBoxSize} ${viewBoxSize}`"
   xmlns="http://www.w3.org/2000/svg"
   [style.width.px]="buttonWidthPx()"
   [style.--shadowDistance]="shadowDistancePx()"
-  [attr.aria-label]="isRight ? 'Settings' : 'About Mii'"
+  [attr.aria-label]="isRight() ? 'Settings' : 'About Mii'"
   role="button"
 >
   <defs>
-    <radialGradient id="buttonFill" gradientUnits="userSpaceOnUse" cx="77" cy="87" r="180">
+    <radialGradient
+      [id]="`buttonFill-${isRight() ? 'Right' : 'Left'}`"
+      gradientUnits="userSpaceOnUse"
+      cx="77"
+      cy="87"
+      r="180"
+    >
       <stop offset="0" stop-color="#f1f1f2" />
       <stop offset="0.45" stop-color="#e7e7e9" />
       <stop offset="0.75" stop-color="#dddddf" />
       <stop offset="1" stop-color="#cfcfd3" />
     </radialGradient>
 
-    <radialGradient id="innerGradient" gradientUnits="userSpaceOnUse" cx="127" cy="147" r="160">
+    <radialGradient
+      [id]="`innerGradient-${isRight() ? 'Right' : 'Left'}`"
+      gradientUnits="userSpaceOnUse"
+      cx="127"
+      cy="147"
+      r="160"
+    >
       <stop offset="0" stop-color="rgba(0,0,0,0)" />
       <stop offset="0.45" stop-color="rgba(0,0,0,0.02)" />
       <stop offset="1" stop-color="rgba(0,0,0,0.06)" />
     </radialGradient>
 
     <radialGradient
-      id="outerGradient"
+      [id]="`outerGradient-${isRight() ? 'Right' : 'Left'}`"
       gradientUnits="userSpaceOnUse"
       [attr.cx]="center"
       [attr.cy]="center"
@@ -34,15 +46,15 @@
       <stop offset="1" stop-color="rgba(0,0,0,0.12)" />
     </radialGradient>
 
-    <clipPath id="circleClip">
+    <clipPath [id]="`circleClip-${isRight() ? 'Right' : 'Left'}`">
       <circle [attr.cx]="center" [attr.cy]="center" [attr.r]="innerRadius" />
     </clipPath>
 
-    <filter id="softBlur" x="-20%" y="-20%" width="140%" height="140%">
+    <filter [id]="`softBlur-${isRight() ? 'Right' : 'Left'}`" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="2" />
     </filter>
 
-    <filter id="bigBlur" x="-20%" y="-20%" width="140%" height="140%">
+    <filter [id]="`bigBlur-${isRight() ? 'Right' : 'Left'}`" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="7" />
     </filter>
   </defs>
@@ -52,7 +64,7 @@
     [attr.cx]="center"
     [attr.cy]="center"
     [attr.r]="outerRadius"
-    fill="url(#buttonFill)"
+    [attr.fill]="`url(#buttonFill-${isRight() ? 'Right' : 'Left'})`"
     [attr.stroke-width]="borderWidth"
     pointer-events="visiblePainted"
     (click)="onWiiClick()"
@@ -66,8 +78,8 @@
     [attr.cx]="center"
     [attr.cy]="center"
     [attr.r]="innerRadius"
-    fill="url(#innerGradient)"
-    clip-path="url(#circleClip)"
+    [attr.fill]="`url(#innerGradient-${isRight() ? 'Right' : 'Left'})`"
+    [attr.clip-path]="`url(#circleClip-${isRight() ? 'Right' : 'Left'})`"
     pointer-events="none"
   />
 
@@ -75,14 +87,18 @@
     [attr.cx]="center"
     [attr.cy]="center"
     [attr.r]="innerRadius"
-    fill="url(#outerGradient)"
-    clip-path="url(#circleClip)"
-    filter="url(#softBlur)"
+    [attr.fill]="`url(#outerGradient-${isRight() ? 'Right' : 'Left'})`"
+    [attr.clip-path]="`url(#circleClip-${isRight() ? 'Right' : 'Left'})`"
+    [attr.filter]="`url(#softBlur-${isRight() ? 'Right' : 'Left'})`"
     pointer-events="none"
   />
 
   <!-- wonky bubble boi 2.0 -->
-  <g transform="translate(-27, -7) scale(0.29, 0.27)" filter="url(#bigBlur)" pointer-events="none">
+  <g
+    transform="translate(-27, -7) scale(0.29, 0.27)"
+    [attr.filter]="`url(#bigBlur-${isRight() ? 'Right' : 'Left'})`"
+    pointer-events="none"
+  >
     <path
       d="M 609.532043 135.117462 
         C 575.803528 119.974533 539.679565 116.073738 503.476074 113.505135 
@@ -111,7 +127,7 @@
     />
   </g>
 
-  @if (!isRight) {
+  @if (!isRight()) {
     <text x="50%" y="50%" text-anchor="middle" fill="#999999" pointer-events="none">
       <tspan x="50%" y="38%" font-size="44">About</tspan>
       <tspan x="50%" y="73%" font-size="94">Mii</tspan>

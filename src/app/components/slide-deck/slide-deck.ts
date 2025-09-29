@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal } from '@angular/core';
-import { DisplayService } from '../../../services/display.service';
-import { SlideService } from '../../../services/slide.service';
+import { DisplayService } from '../../services/display.service';
+import { SlideService } from '../../services/slide.service';
 import { SlideComponent } from './slide/slide';
 
 @Component({
@@ -25,4 +25,11 @@ export class SlideDeckComponent {
       (this.slideService.currentSlideDeckSvgIndex() / this.slideService.slideDeck().length) * 100
     }% + (var(--stageWidth) - ${100 / this.slideService.slideDeck().length}%) / 2))`;
   });
+
+  onDeckTransitionEnd(event: TransitionEvent) {
+    if (event.target === event.currentTarget && event.propertyName === 'transform' && this.slideService.isAnimating()) {
+      this.slideService.isAnimating.set(false);
+      this.slideService.currentSlideDeckSvgIndex.set((this.slideService.slideDeck().length - 1) / 2);
+    }
+  }
 }
