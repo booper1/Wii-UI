@@ -79,8 +79,8 @@ $fadeToBlackFraction: 0.666;
 
       .zoomButtonGroup {
         .innerButton {
-          transform-box: fill-box; // or stroke-box
-          transform-origin: center; // relative to its own bounding box
+          transform-box: fill-box;
+          transform-origin: center;
           transition: transform 50ms ease-in-out;
 
           @media (hover: hover) and (pointer: fine) {

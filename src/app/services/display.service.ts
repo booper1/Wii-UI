@@ -75,7 +75,6 @@ export class DisplayService {
   public lowerShadowPath: WritableSignal<string> = signal<string>('');
   public bottomDeckClipPath: WritableSignal<string> = signal<string>('');
 
-  // current grid fit snapshot
   public channelGrid: WritableSignal<ChannelGrid> = signal({
     cols: 4,
     rows: 3,
@@ -90,7 +89,6 @@ export class DisplayService {
   public clockTopPx: WritableSignal<number> = signal<number>(0);
   public clockScaleFactor: WritableSignal<number> = signal<number>(1);
 
-  // numeric gap in current px (computed from scaleY)
   public readonly channelGapPx: Signal<number> = computed(() => this.DESIGN_CHANNEL_GAP * this.scaleY);
 
   public introTotalTime: WritableSignal<number> = signal<number>(0);
@@ -138,8 +136,8 @@ export class DisplayService {
     return this.currentVW() / this.currentVH() < SHARED_DESIGN.ASPECT_RATIO;
   }
 
-  // Height always fills viewport
   private get scaleY(): number {
+    // Height always fills viewport
     return this.currentVH() / this.DESIGN_SLIDE_HEIGHT;
   }
 
