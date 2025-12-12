@@ -56,7 +56,9 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": "docs/Wii-UI",
+              "baseHref": "/Wii-UI/"
             },
             "development": {
               "optimization": false,

@@ -1,20 +1,21 @@
-/* tools/publish.js */
+// tools/publish.js
 const fs = require("fs");
 const path = require("path");
 
-const dist = path.join(process.cwd(), "dist");
-const apps = fs.readdirSync(dist).filter((n) => fs.statSync(path.join(dist, n)).isDirectory());
-if (apps.length === 0) {
-  console.error("No app folder found in dist/");
+// Root docs folder (GitHub Pages source)
+const docsRoot = path.join(process.cwd(), "docs");
+
+// Angular's build output (with your current angular.json)
+const browserDir = path.join(docsRoot, "Wii-UI", "browser");
+
+// This is where we want the app to actually live:
+// docs/Wii-UI/ -> https://skour.is/Wii-UI/
+const targetDir = path.join(docsRoot, "Wii-UI");
+
+if (!fs.existsSync(browserDir)) {
+  console.error("Build output not found. Did you run `ng build` first?");
   process.exit(1);
 }
-const appDir = path.join(dist, apps[0]);
-const browserDir = path.join(appDir, "browser");
-const srcDir = fs.existsSync(browserDir) ? browserDir : appDir;
-
-const docs = path.join(process.cwd(), "docs");
-fs.rmSync(docs, { recursive: true, force: true });
-fs.mkdirSync(docs, { recursive: true });
 
 function copyDir(src, dest) {
   for (const entry of fs.readdirSync(src)) {
@@ -29,8 +30,21 @@ function copyDir(src, dest) {
     }
   }
 }
-copyDir(srcDir, docs);
 
-// SPA fallback
-fs.copyFileSync(path.join(docs, "index.html"), path.join(docs, "404.html"));
-console.log("Copied build from", srcDir, "to", docs);
+// Make sure target directory exists (but do NOT delete all of docs/)
+fs.mkdirSync(targetDir, { recursive: true });
+
+// Copy built app from docs/Wii-UI/browser -> docs/Wii-UI
+copyDir(browserDir, targetDir);
+
+// Remove the now-unneeded browser directory
+fs.rmSync(browserDir, { recursive: true, force: true });
+
+// SPA fallback: /Wii-UI/404.html -> /Wii-UI/index.html
+const indexPath = path.join(targetDir, "index.html");
+const fallbackPath = path.join(targetDir, "404.html");
+if (fs.existsSync(indexPath)) {
+  fs.copyFileSync(indexPath, fallbackPath);
+}
+
+console.log("Copied build from", browserDir, "to", targetDir, "and removed browser directory");

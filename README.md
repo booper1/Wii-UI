@@ -1,7 +1,7 @@
 # Wii UI (Angular)
 
 A personal project recreating the look and feel of the Nintendo Wii's system menu using Angular.  
-Deployed live via GitHub Pages: **[View Live Demo](https://booper1.github.io/Wii-UI/)**
+Deployed live via GitHub Pages: **[View Live Demo](https://skour.is/Wii-UI/)**
 
 This project was originally started in React and later migrated to Angular, maintaining the same UI and functionality.
 
@@ -13,12 +13,12 @@ Start a local development server:
 ng serve
 ```
 
-Once running, open a browser at [http://localhost:4200/](http://localhost:4200/).  
+Once running, open a browser at http://localhost:4200/.  
 The application will auto-reload after modifying source files.
 
 ## 🌐 Deploying to GitHub Pages
 
-This project is deployed via GitHub Pages using the `/docs` folder on the `main` branch.
+This project is deployed via GitHub Pages using the `/docs` folder on the `main` branch, with the app served from /Wii-UI/.
 
 ### 1. Build for GitHub Pages
 
@@ -42,7 +42,7 @@ git push
 4. Click **Save**.
 
 The app will be available at:  
-**https://booper1.github.io/Wii-UI/**
+**https://skour.is/Wii-UI/**
 
 ## 📚 Additional Resources
 
