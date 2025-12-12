@@ -1,4 +1,4 @@
-// tools/publish.js
+/* tools/publish.js */
 const fs = require("fs");
 const path = require("path");
 
@@ -37,14 +37,23 @@ fs.mkdirSync(targetDir, { recursive: true });
 // Copy built app from docs/Wii-UI/browser -> docs/Wii-UI
 copyDir(browserDir, targetDir);
 
-// Remove the now-unneeded browser directory
+// Remove leftover browser directory
 fs.rmSync(browserDir, { recursive: true, force: true });
 
-// SPA fallback: /Wii-UI/404.html -> /Wii-UI/index.html
+// Patch favicon path in built index.html
 const indexPath = path.join(targetDir, "index.html");
-const fallbackPath = path.join(targetDir, "404.html");
 if (fs.existsSync(indexPath)) {
-  fs.copyFileSync(indexPath, fallbackPath);
+  let html = fs.readFileSync(indexPath, "utf8");
+
+  // Replace relative favicon path with absolute one
+  html = html.replace(/href="assets\/wii\.ico"/g, 'href="/Wii-UI/assets/wii.ico"');
+
+  fs.writeFileSync(indexPath, html, "utf8");
+  console.log("Patched favicon path for production build.");
 }
 
-console.log("Copied build from", browserDir, "to", targetDir, "and removed browser directory");
+// SPA fallback: /Wii-UI/404.html -> /Wii-UI/index.html
+const fallbackPath = path.join(targetDir, "404.html");
+fs.copyFileSync(indexPath, fallbackPath);
+
+console.log("Copied build and cleaned up successfully.");
