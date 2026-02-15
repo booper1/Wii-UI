@@ -19,6 +19,17 @@
     color: #7a7a7a;
     width: max-content;
   }
+
+  .wipMessage {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "RodinBokutohDemiBold";
+    color: #a0a0a0;
+    letter-spacing: 0.05em;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
 
 app-corner-action-slot {
@@ -36,6 +47,9 @@ app-corner-action-slot {
 @media (max-aspect-ratio: 50/100) {
   .bottomShelfWrapper {
     .date {
+      transform: translateX(-50%) scale(80%);
+    }
+    .wipMessage {
       transform: translateX(-50%) scale(80%);
     }
   }

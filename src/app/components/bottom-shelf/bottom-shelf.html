@@ -6,6 +6,9 @@
     [style.height.px]="dateBoxHeightPx()"
     [style.top.px]="dateTopPx()"
   ></div>
+  <div class="wipMessage" [style.fontSize.px]="dateFontPx() * 0.5" [style.top.px]="dateTopPx() + dateBoxHeightPx()">
+    *Work In Progress*
+  </div>
 </div>
 
 <app-corner-action-slot class="left" [isRight]="false" [style.bottom.px]="actionSlotBottomPx()" />

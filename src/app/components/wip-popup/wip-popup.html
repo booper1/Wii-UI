@@ -1,0 +1,12 @@
+@if (wipPopupService.activePopup()) {
+  <div class="wip-backdrop" (click)="onBackdropClick()">
+    <div class="wip-popup" (click)="onPopupClick($event)">
+      <div class="wip-title">{{ wipPopupService.getTitle() }}</div>
+      <div class="wip-content">
+        <span class="wip-icon">🚧</span>
+        <span class="wip-text">Work In Progress</span>
+      </div>
+      <button class="wip-close-button" (click)="onBackdropClick()">OK</button>
+    </div>
+  </div>
+}

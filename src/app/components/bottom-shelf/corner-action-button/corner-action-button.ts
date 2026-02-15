@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Signal, WritableSignal, computed, inject, input, signal } from '@angular/core';
 import { SHARED_DESIGN } from '../../../constants/shared-design.data';
 import { DisplayService } from '../../../services/display.service';
+import { WipPopupService, WipPopupType } from '../../../services/wip-popup.service';
 
 @Component({
   selector: 'app-corner-action-button',
@@ -11,6 +12,7 @@ import { DisplayService } from '../../../services/display.service';
 })
 export class CornerActionButtonComponent {
   protected displayService: DisplayService = inject(DisplayService);
+  private wipPopupService: WipPopupService = inject(WipPopupService);
 
   public isRight = input.required<boolean>();
 
@@ -41,8 +43,7 @@ export class CornerActionButtonComponent {
   protected pressed: WritableSignal<boolean> = signal(false);
 
   protected onWiiClick(): void {
-    // TODO: Handle the click event
-    console.log(`${this.isRight() ? 'Right' : 'Left'} Wii button clicked`);
+    this.wipPopupService.open(this.isRight() ? WipPopupType.Settings : WipPopupType.AboutMii);
   }
 
   // Pointer helpers so pressed state never gets stuck

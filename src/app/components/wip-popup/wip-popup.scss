@@ -1,0 +1,95 @@
+@use "styles.scss" as *;
+
+.wip-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9500; // Above arrows (9000) but below intro (10000)
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.wip-popup {
+  background: linear-gradient(to bottom, #e8e8e8 0%, #d0d0d0 100%);
+  border: relativePx(6) solid var(--wiiBlue);
+  border-radius: relativePx(16);
+  padding: relativePx(32) relativePx(48);
+  width: relativePx(400);
+  max-width: 80dvw;
+  max-height: 80dvh;
+  box-shadow:
+    0 relativePx(8) relativePx(24) rgba(0, 0, 0, 0.3),
+    inset 0 relativePx(2) relativePx(4) rgba(255, 255, 255, 0.5);
+  text-align: center;
+  animation: popIn 0.25s ease-out;
+}
+
+.wip-title {
+  font-family: "RodinBokutohBold";
+  font-size: relativePx(36);
+  color: #333;
+  margin-bottom: relativePx(24);
+  padding-bottom: relativePx(16);
+  border-bottom: relativePx(2) solid #b4b4b4;
+}
+
+.wip-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: relativePx(16);
+  margin-bottom: relativePx(32);
+}
+
+.wip-icon {
+  font-size: relativePx(48);
+}
+
+.wip-text {
+  font-family: "RodinBokutohDemiBold";
+  font-size: relativePx(28);
+  color: #555;
+}
+
+.wip-close-button {
+  font-family: "RodinBokutohDemiBold";
+  font-size: relativePx(24);
+  background: linear-gradient(to bottom, #f5f5f5 0%, #ddd 100%);
+  border: relativePx(3) solid var(--wiiBlue);
+  border-radius: relativePx(8);
+  padding: relativePx(12) relativePx(40);
+  color: #333;
+  cursor: inherit;
+  transition: transform 0.1s ease-out;
+
+  &:hover {
+    background: linear-gradient(to bottom, #fff 0%, #e8e8e8 100%);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    background: linear-gradient(to bottom, #e0e0e0 0%, #ccc 100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

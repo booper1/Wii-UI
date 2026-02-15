@@ -4,7 +4,7 @@ export const CHANNELS: Channel[] = [
   {
     id: 'booper1_linkedin',
     title: 'My LinkedIn',
-    url: 'https://www.linkedin.com/in/cooperbaumgarth/',
+    url: 'https://www.linkedin.com/in/cooperskouris/',
     preview: {
       type: PreviewType.Svg,
       svgPath: 'assets/linkedinLogo.svg',

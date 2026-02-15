@@ -17,11 +17,12 @@ import { ZoomService } from '../../services/zoom.service';
 import { BottomShelfComponent } from '../bottom-shelf/bottom-shelf';
 import { SlideDeckComponent } from '../slide-deck/slide-deck';
 import { SlideComponent } from '../slide-deck/slide/slide';
+import { WipPopupComponent } from '../wip-popup/wip-popup';
 import { ZoomOverlayComponent } from '../zoom-overlay/zoom-overlay';
 
 @Component({
   selector: 'app-wii-ui',
-  imports: [SlideDeckComponent, BottomShelfComponent, SlideComponent, ZoomOverlayComponent],
+  imports: [SlideDeckComponent, BottomShelfComponent, SlideComponent, WipPopupComponent, ZoomOverlayComponent],
   templateUrl: './wii-ui.html',
   styleUrls: ['./wii-ui.scss'],
 })
